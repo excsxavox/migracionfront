@@ -29,3 +29,31 @@ Las llamadas HTTP desde este módulo SHALL asumirse **existentes** en backend aj
 - GIVEN un endpoint que en el legado muestra un mensaje específico ante `4xx/5xx`
 - WHEN el destino invoca el mismo endpoint en el mismo caso
 - THEN el usuario MUST ver el mismo mensaje esencial **o** una discrepancia MUST registrarse en `openspec/sync/discrepancies/`
+
+### Requirement: Listado con estados explícitos (destino actual)
+
+La vista de listado de cotizaciones en el destino SHALL mostrar estados de **carga**, **error** (con posibilidad de reintentar) y **vacío**, y SHALL no ocultar errores de red o HTTP sin mensaje al usuario.
+
+#### Scenario: Carga inicial
+
+- GIVEN el usuario navega a `/cotizaciones`
+- WHEN la petición de datos está en curso
+- THEN se muestra un indicador de carga accesible (`aria-live="polite"`)
+
+#### Scenario: Error de red o HTTP
+
+- GIVEN la petición al API falla
+- WHEN la vista deja de estar en carga
+- THEN se muestra un mensaje de error y un control para reintentar
+
+#### Scenario: Lista vacía
+
+- GIVEN el API responde con lista vacía
+- WHEN la vista deja de estar en carga
+- THEN se muestra un mensaje de vacío sin error
+
+#### Scenario: Datos mostrados
+
+- GIVEN el API responde con uno o más elementos
+- WHEN la vista deja de estar en carga
+- THEN se listan títulos (y estado si viene en el payload) de cada elemento

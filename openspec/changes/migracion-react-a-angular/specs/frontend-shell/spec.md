@@ -11,3 +11,13 @@ La especificación canónica de shell SHALL referenciar el layout y rutas del le
 - GIVEN el legado no clonable públicamente
 - WHEN se documenta el shell en destino
 - THEN los requisitos de paridad MUST limitarse a principios verificables o MUST enlazar discrepancia `LEGACY_REPO_UNAVAILABLE`
+
+### Requirement: Shell Angular inicial en código
+
+El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabecera, marca y navegación al listado de cotizaciones, coherente con la implementación actual hasta que el inventario del legado refine copy y enlaces.
+
+#### Scenario: Paridad documentada o pendiente
+
+- GIVEN el layout del legado está inventariado
+- WHEN se compara con el shell del destino
+- THEN las diferencias observables quedan en `design.md` como discrepancia intencional o se corrige el destino para paridad

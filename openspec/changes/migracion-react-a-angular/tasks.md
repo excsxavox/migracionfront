@@ -12,18 +12,18 @@
 ## 1. Baseline y OpenSpec
 
 - [ ] 1.1 Clonar `Designcotizacionesmodule` y documentar stack (React, router, estado, HTTP).
-- [ ] 1.2 Completar tabla de equivalencias en `design.md` con rutas y módulos reales.
+- [ ] 1.2 Completar tabla de equivalencias en `design.md` con rutas y módulos reales del legado (filas destino ya ancladas; origen pendiente de inventario).
 - [ ] 1.3 Refinar deltas bajo `changes/migracion-react-a-angular/specs/` (ADDED/MODIFIED) con requisitos por pantalla o subdominio cuando exista inventario.
 - [ ] 1.4 Ejecutar flujo `/opsx:sync` tras el primer clon exitoso del legado y vaciar o archivar `LEGACY_REPO_UNAVAILABLE` si ya no aplica.
 
 ## 2. Destino (Angular)
 
-- [ ] 2.1 Crear o importar proyecto Angular en la raíz o `apps/` según decisión de monorepo.
-- [ ] 2.2 Configurar entorno, proxy o `environment.ts` alineado a URLs usadas por el legado.
-- [ ] 2.3 Implementar routing y shell equivalente al layout del legado (`frontend-shell`).
-- [ ] 2.4 Implementar módulo de cotizaciones o equivalente según inventario (`cotizaciones-ui`).
+- [x] 2.1 Crear o importar proyecto Angular en la raíz o `apps/` según decisión de monorepo.
+- [x] 2.2 Configurar entorno, proxy o `environment.ts` alineado a URLs usadas por el legado (placeholder: `apiUrl`, `proxy.conf.json`; ajustar tras inventario).
+- [x] 2.3 Implementar routing y shell equivalente al layout del legado (`frontend-shell`) — placeholder accesible hasta paridad documentada.
+- [x] 2.4 Implementar módulo de cotizaciones o equivalente según inventario (`cotizaciones-ui`) — listado con estados loading/error/empty; paridad fina pendiente de baseline.
 
 ## 3. Verificación
 
-- [ ] 3.1 Lista de escenarios Given/When/Then cubiertos por pruebas o checklist manual.
+- [x] 3.1 Lista de escenarios Given/When/Then cubiertos por pruebas o checklist manual (véase checklist en `design.md`; pruebas unitarias en `AppComponent` y `CotizacionesListComponent`).
 - [ ] 3.2 Actualizar specs canónicos o archivar cambio cuando la migración base esté mergeada según flujo OpenSpec.

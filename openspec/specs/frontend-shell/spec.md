@@ -6,7 +6,7 @@ Describir el **comportamiento observable** del contenedor de aplicación en el d
 
 **Baseline legado:** estructura de rutas, layout principal y puntos de entrada de la SPA React tal como existan en el código del origen (inventario pendiente si el remoto no es accesible).
 
-**Resultado en destino:** equivalente en Angular (`RouterModule` / rutas standalone, componentes de layout) con la misma semántica de navegación salvo discrepancias documentadas.
+**Resultado en destino:** equivalente en Angular (rutas standalone, componentes de layout) con la misma semántica de navegación salvo discrepancias documentadas.
 
 ## Requirements
 
@@ -29,3 +29,19 @@ Errores de red, spinners de carga y mensajes de autorización visibles en el she
 - GIVEN un fallo de red al cargar datos del layout
 - WHEN el usuario está en cualquier ruta hija
 - THEN el sistema MUST mostrar un estado de error coherente con el contrato descrito en este spec o en `cotizaciones-ui` sin dejar la vista en blanco silenciosa
+
+### Requirement: Shell accesible y punto de entrada a cotizaciones
+
+Hasta completar la paridad fina con el legado, el destino SHALL exponer un layout con cabecera, marca y navegación al dominio de cotizaciones, accesible por teclado y con foco visible.
+
+#### Scenario: Raíz redirige a cotizaciones
+
+- GIVEN el usuario abre la raíz del sitio
+- WHEN la aplicación termina de cargar
+- THEN la URL observable es `/cotizaciones` o el contenido mostrado corresponde al listado de cotizaciones
+
+#### Scenario: Navegación por teclado
+
+- GIVEN el usuario usa solo teclado
+- WHEN recorre cabecera y enlaces de navegación
+- THEN los controles interactivos son enfocables y el foco es visible

@@ -8,9 +8,10 @@ Hasta completar un inventario sobre un **clon local** de `Designcotizacionesmodu
 
 | Legado (origen) | Destino (Angular) | Notas |
 |-----------------|---------------------|--------|
-| *Pendiente: raíz del app React y `package.json`* | *Pendiente: p. ej. `apps/…` o `src/app/`* | Completar tras clonar legado. |
-| *Pendiente: rutas SPA / nombres de pantallas* | *Pendiente: rutas `RouterModule` / componentes* | Misma semántica de navegación salvo desviación acordada. |
-| *Pendiente: módulos de feature (cotizaciones, etc.)* | *Pendiente: `NgModule` o rutas standalone* | 1:1 lógico donde haya paridad. |
+| *Pendiente: layout raíz y rutas del SPA React (tras inventario)* | `src/app/shell/layout/main-layout.component.ts`, `src/app/app.routes.ts` | Raíz redirige a `/cotizaciones`. Paridad de copy/enlaces cuando exista clon del legado. |
+| *Pendiente: pantalla o ruta de listado de cotizaciones en React* | `src/app/features/cotizaciones/pages/cotizaciones-list/` (ruta lazy bajo `/cotizaciones`) | Estados loading / error / empty explícitos. |
+| *Pendiente: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort` | `GET` relativo a `environment.apiUrl` + `/cotizaciones`. Normaliza array plano o `{ data: [] }`. Ajustar path y mapeo al contrastar con el legado. |
+| *Pendiente: variables de entorno del legado* | `src/environments/environment.ts`, `proxy.conf.json` | Sin secretos en cliente. Proxy de desarrollo apunta a `http://localhost:3000` por defecto (ajustar al backend real). |
 
 **Plan vs hecho:** la estructura SDD (dominios `lineamientos`, `frontend-shell`, `cotizaciones-ui`) y el comando `/opsx:sync` están **hechos** en el repo destino; las filas concretas de rutas/componentes siguen **plan — pendiente** por acceso al legado (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 
@@ -32,8 +33,15 @@ Ninguna registrada aún. Cualquier cambio respecto al legado SHALL listarse aqu�
 
 ## Enfoque técnico (alto nivel)
 
-- **Angular** como framework destino; versionado y layout de monorepo a fijar cuando exista `angular.json` o Nx/Turborepo en el destino.
+- **Angular 19** (standalone, rutas lazy por feature) en la raíz del repositorio; `angular.json` presente.
 - **Ingeniería inversa:** modelos de datos, llamadas HTTP y flujos de UI deducidos del legado; tests de contrato o e2e alineados a escenarios OpenSpec cuando exista harness.
+
+## Checklist de verificación (destino actual)
+
+- **Given** el usuario abre `/` **when** carga la app **then** se redirige a `/cotizaciones` y aparece el layout con navegación enfocable.
+- **Given** el usuario está en `/cotizaciones` **when** la petición HTTP falla **then** ve mensaje de error y puede pulsar «Reintentar».
+- **Given** el API devuelve lista vacía **when** termina la carga **then** aparece el estado vacío sin error.
+- **Given** el API devuelve elementos **when** termina la carga **then** se listan títulos (y estado si existe en el payload).
 
 ## Riesgos
 
