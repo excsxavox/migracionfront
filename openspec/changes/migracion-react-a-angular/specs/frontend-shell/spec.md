@@ -21,3 +21,13 @@ El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabec
 - GIVEN el layout del legado está inventariado
 - WHEN se compara con el shell del destino
 - THEN las diferencias observables quedan en `design.md` como discrepancia intencional o se corrige el destino para paridad
+
+### Requirement: Registro de revisión shell destino cuando el baseline legado no es accesible
+
+Mientras aplique `LEGACY_REPO_UNAVAILABLE`, el cambio SHALL documentar en `design.md` y en la fila **#1** de `migration-catalog.md` los criterios de shell verificables en destino (rutas raíz, layout padre, `router-outlet`, redirecciones, navegación, accesibilidad mínima del layout) **sin** afirmar equivalencia con rutas o componentes React hasta completar inventario (**Ola 1**).
+
+#### Scenario: Bloqueo de baseline sin equivalencia silenciosa
+
+- GIVEN el remoto del legado no es clonable o responde *not found*
+- WHEN se completa una revisión del shell en el código destino
+- THEN la documentación MUST citar `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md` y MUST limitar conclusiones a destino + catálogo **#1**

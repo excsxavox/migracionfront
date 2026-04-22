@@ -8,6 +8,8 @@ Describir el **comportamiento observable** del contenedor de aplicación en el d
 
 **Resultado en destino:** equivalente en Angular (rutas standalone, componentes de layout) con la misma semántica de navegación salvo discrepancias documentadas.
 
+Hasta resolver el bloqueo documentado en `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`, las revisiones de shell en el destino SHALL describirse en el cambio activo (`openspec/changes/migracion-react-a-angular/design.md`, `migration-catalog.md` fila **#1**) como **criterios destino verificables**, sin afirmar paridad de rutas o UI frente al legado.
+
 ## Requirements
 
 ### Requirement: Paridad de navegación observable
