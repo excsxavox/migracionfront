@@ -1,0 +1,12 @@
+---
+description: Uso de biblioteca de UI del equipo (Angular Material u otra acordada).
+globs: "**/*.{html,ts,scss}"
+alwaysApply: false
+---
+
+# Componentes de UI
+
+- SHALL usarse el **design system o biblioteca** acordada en el proyecto (p. ej. Angular Material) para controles estándar (formularios, tablas, diálogos); no reimplementar primitives salvo gap documentado.
+- Accesibilidad: contraste, foco y etiquetas alineados a `use-global-color-palette.mdc` y WCAG objetivo del equipo.
+- Componentes compartidos del repo SHALL vivir en ruta única (p. ej. `src/app/shared/` o librería interna) y exportarse de forma explícita.
+- Paridad visual con el legado no es obligatoria pixel a pixel; paridad **funcional y de información** SÍ, salvo decisión en `design.md`.

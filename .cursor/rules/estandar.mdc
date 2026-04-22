@@ -1,0 +1,13 @@
+---
+description: Estándares de código y estilo para el front Angular (destino migración).
+globs: "**/*.{ts,html,scss,css,json}"
+alwaysApply: true
+---
+
+# Estándar — Angular (destino)
+
+- TypeScript estricto cuando `strict` esté habilitado en `tsconfig`; evitar `any` salvo interop documentada.
+- Nombres en inglés para símbolos de código; textos de UI pueden seguir locale del producto.
+- Un fichero por símbolo exportable principal (componente, servicio) salvo convención del monorepo.
+- Formato y lint del proyecto (`eslint`, `prettier`) SHALL aplicarse antes de merge; no desactivar reglas salvo PR con justificación en `openspec/sync/discrepancies/`.
+- La trazabilidad con el legado React vive en OpenSpec (`openspec/specs/`, `openspec/changes/`); no duplicar tablas largas en comentarios de código.

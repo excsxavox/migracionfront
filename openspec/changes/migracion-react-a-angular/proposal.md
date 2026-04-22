@@ -11,6 +11,26 @@ Ejecutar la **migración del front** desde el stack **React del proyecto legado*
 | **Origen (legado, referencia)** | `https://github.com/Fer-Nexti/Designcotizacionesmodule` |
 | **Destino (este repo)** | `https://github.com/excsxavox/migracionfront` |
 
+## Equivalencias legado → destino
+
+Estado **2026-04-22:** el remoto del legado responde *repository not found* en comprobación pública; la tabla detallada (rutas, componentes) permanece **pendiente de inventario** en `design.md`. No interpretar ausencia de filas como paridad silenciosa.
+
+| Legado (origen) | Destino (Angular) | Estado |
+|-----------------|-------------------|--------|
+| *Pendiente: rutas SPA / shell React* | *Pendiente: rutas y layout Angular* | **Laguna de especificación** hasta clon del legado |
+| *Pendiente: módulo cotizaciones (pantallas)* | *Pendiente: feature routes + componentes* | **Laguna de especificación** |
+| APIs HTTP ya consumidas por el legado | Mismos endpoints desde servicios Angular | **Paridad** (asunción: backend existente fuera de este repo) |
+
+## Plan vs hecho (OpenSpec)
+
+| Artefacto | Plan | Hecho |
+|-----------|------|-------|
+| Dominios canónicos | `core`, `lineamientos`, `frontend-shell`, `cotizaciones-ui` | Creados bajo `openspec/specs/` |
+| `/opsx:sync` | Comando Cursor con pasos 1–11 | `.cursor/commands/opsx-sync.md` |
+| Reglas `.mdc` canónicas | Cinco ficheros alineados Angular | `.cursor/rules/*.mdc` |
+| Discrepancias | Registrar bloqueos de baseline | `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md` |
+| Tabla fina legado → destino | Completar con rutas reales | **Pendiente** (acceso Git al origen) |
+
 ## Scope
 
 **En alcance:**
