@@ -2,6 +2,8 @@
 
 Añadir aquí un fichero Markdown por hallazgo persistente cuando no se pueda resolver en el mismo commit.
 
+Los bloqueos de **baseline legado** (acceso Git, ramas, entornos) SHALL enlazar al cambio activo `openspec/changes/migracion-react-a-angular/` cuando aplique.
+
 ## Convención sugerida de nombre
 
 `YYYY-MM-DD-<slug>.md` (kebab-case).

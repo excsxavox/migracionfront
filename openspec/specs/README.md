@@ -19,3 +19,7 @@ Los dominios pueden ampliarse con nuevas carpetas bajo `openspec/specs/<dominio>
 - **Flujos de cotización:** `cotizaciones-ui/spec.md`  
 - **Convenciones y sync:** `lineamientos/spec.md`  
 - **Trazabilidad global legado → destino:** `core/spec.md`
+
+## Sync y discrepancias
+
+- [sync/discrepancies/](../sync/discrepancies/README.md) — bloqueos de baseline, divergencias código ↔ reglas ↔ specs y decisiones frente al legado.

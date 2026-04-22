@@ -1,11 +1,12 @@
 # LEGACY_REPO_UNAVAILABLE
 
+**Cambio relacionado:** `openspec/changes/migracion-react-a-angular/`  
 **Fecha:** 2026-04-22  
 **Severidad:** mayor (bloquea inventario fino hasta acceso Git)
 
 ## Hallazgo
 
-El remoto `https://github.com/Fer-Nexti/Designcotizacionesmodule` responde **repository not found** desde el entorno de comprobación (`git ls-remote`), por lo que no se puede completar aún la tabla de equivalencias a nivel de rutas y archivos React.
+El remoto `https://github.com/Fer-Nexti/Designcotizacionesmodule` responde **repository not found** desde el entorno de comprobación (`git ls-remote`), por lo que no se puede completar aún la tabla de equivalencias a nivel de rutas y archivos React (repositorio privado, renombrado o URL incorrecta).
 
 ## Specs afectados
 
