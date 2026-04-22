@@ -12,9 +12,23 @@ Hasta completar un inventario sobre un **clon local** de `Designcotizacionesmodu
 | *Pendiente: rutas SPA / nombres de pantallas* | *Pendiente: rutas `RouterModule` / componentes* | Misma semántica de navegación salvo desviación acordada. |
 | *Pendiente: módulos de feature (cotizaciones, etc.)* | *Pendiente: `NgModule` o rutas standalone* | 1:1 lógico donde haya paridad. |
 
+**Plan vs hecho:** la estructura SDD (dominios `lineamientos`, `frontend-shell`, `cotizaciones-ui`) y el comando `/opsx:sync` están **hechos** en el repo destino; las filas concretas de rutas/componentes siguen **plan — pendiente** por acceso al legado (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
+
 ### Discrepancias intencionales
 
 Ninguna registrada aún. Cualquier cambio respecto al legado SHALL listarse aquí con justificación.
+
+### Discrepancias no intencionales / bloqueos
+
+- **LEGACY_REPO_UNAVAILABLE:** remoto del legado no accesible públicamente; ver `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`.
+
+## Strangler y orden de sustitución (módulo a módulo)
+
+1. **Shell y routing** del legado → `frontend-shell` en Angular (layout, outlet, guards visibles).
+2. **Módulo cotizaciones** (o el primero confirmado en el árbol React) → ruta lazy `cotizaciones-ui` con paridad de flujos.
+3. **Módulos satélite** en el orden de dependencia detectada en el legado (menos acoplados primero), documentando cada paso en la tabla de equivalencias.
+
+**Feature flags:** SHOULD usarse solo para coexistencia temporal o despliegue progresivo; cada flag MUST tener dueño, criterio de retirada y mención en `proposal.md` o aquí.
 
 ## Enfoque técnico (alto nivel)
 

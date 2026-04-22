@@ -2,7 +2,7 @@
 
 ## Purpose
 
-El repositorio **destino** ([migracionfront](https://github.com/excsxavox/migracionfront)) existe para alojar la aplicación front resultante de la **migración desde React (legado) hacia Angular**, manteniendo alineación con el **contrato observable** del sistema anterior salvo desviaciones explícitamente documentadas en propuestas o `design.md` de cambios activos.
+El repositorio **destino** ([migracionfront](https://github.com/excsxavox/migracionfront)) existe para alojar la aplicación front resultante de la **migración desde React (legado) hacia Angular**, manteniendo alineación con el **contrato observable** del sistema anterior salvo desviaciones explícitamente documentadas en propuestas o `design.md` de cambios activos. Las convenciones de documentación y sincronización con reglas Cursor viven en [lineamientos/spec.md](../lineamientos/spec.md).
 
 **Referencia legado (baseline de comportamiento):** repositorio indicado por el flujo de migración — `https://github.com/Fer-Nexti/Designcotizacionesmodule` (inventario de rutas, módulos y pantallas debe contrastarse con un clon local del legado; no sustituir por suposición).
 

@@ -1,0 +1,12 @@
+---
+description: Paleta y tokens de color globales del producto.
+globs: "**/*.{scss,css,html}"
+alwaysApply: false
+---
+
+# Paleta global
+
+- Los colores de marca y estados (éxito, error, advertencia, información) SHALL definirse como **variables** (SCSS o CSS custom properties) en un único origen de tema; no hardcodear hex repetidos en componentes.
+- El tema SHALL ser coherente entre shell y módulos lazy cargados.
+- Cualquier desviación respecto al legado por nueva guía visual SHALL documentarse en `openspec/changes/migracion-react-a-angular/design.md` o en `openspec/sync/discrepancies/`.
+- Contraste mínimo SHOULD cumplir al menos AA para texto normal salvo excepción aprobada y registrada.

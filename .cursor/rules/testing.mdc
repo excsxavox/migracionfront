@@ -1,0 +1,13 @@
+---
+description: Pruebas para paridad observable en migración React → Angular.
+globs: "**/*.{spec.ts,test.ts,e2e.ts}"
+alwaysApply: false
+---
+
+# Testing
+
+- **Unit / integration:** cada requisito con escenario en OpenSpec SHOULD tener al menos un test que cubra el criterio observable (renderizado, validación, mensaje de error) cuando exista harness.
+- **E2E:** flujos críticos listados en la tabla de equivalencias SHOULD tener recorrido automatizado o checklist manual versionado en `tasks.md`.
+- Los tests MUST ser deterministas; mocks de HTTP alineados a contratos reales del legado documentados en specs.
+- Regresión frente al legado: priorizar escenarios **GIVEN/WHEN/THEN** de `openspec/specs/*/spec.md` al añadir cobertura.
+- Marcar **laguna de especificación** en spec antes de test “a ciegas” sin baseline.

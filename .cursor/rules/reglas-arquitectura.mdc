@@ -1,0 +1,13 @@
+---
+description: Arquitectura front Angular alineada a migración desde legado React.
+globs: "**/*.ts"
+alwaysApply: true
+---
+
+# Arquitectura — SPA Angular
+
+- Preferir **rutas con lazy loading** por dominio de negocio (p. ej. cotizaciones) alineadas a la tabla legado → destino en `openspec/changes/migracion-react-a-angular/design.md`.
+- **Smart vs presentational:** componentes de ruta orquestan datos; componentes hijos reciben inputs y emiten outputs.
+- **HTTP:** servicios inyectables por dominio; reutilizar shapes de DTO coherentes con lo que ya consume el legado salvo discrepancia documentada.
+- **Estado:** `signals` / `computed` o servicios con estado acotado; evitar estado global implícito salvo shell (usuario, tema, layout).
+- Patrón **strangler** aceptado: coexistencia temporal de rutas o features detrás de flags solo si está documentado en `design.md` y en specs.
