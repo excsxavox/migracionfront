@@ -25,6 +25,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* en c
 
 | Artefacto | Plan | Hecho |
 |-----------|------|-------|
+| `migration-catalog.md` | Filas por ruta/feature/componente legado + ola | [migration-catalog.md](./migration-catalog.md) (esqueleto; columnas legado pendientes de inventario) |
 | Dominios canónicos | `core`, `lineamientos`, `frontend-shell`, `cotizaciones-ui` | Creados bajo `openspec/specs/` |
 | `/opsx:sync` | Comando Cursor con pasos 1–11 | `.cursor/commands/opsx-sync.md` |
 | Reglas `.mdc` canónicas | Cinco ficheros alineados Angular | `.cursor/rules/*.mdc` |
