@@ -6,14 +6,22 @@ Hasta completar un inventario sobre un **clon local** de `Designcotizacionesmodu
 
 ## Equivalencias legado → destino (borrador)
 
-| Legado (origen) | Destino (Angular) | Notas |
-|-----------------|---------------------|--------|
-| *Pendiente: layout raíz y rutas del SPA React (tras inventario)* | `src/app/shell/layout/main-layout.component.ts`, `src/app/app.routes.ts` | Raíz redirige a `/cotizaciones`. Paridad de copy/enlaces cuando exista clon del legado. |
-| *Pendiente: pantalla o ruta de listado de cotizaciones en React* | `src/app/features/cotizaciones/pages/cotizaciones-list/` (ruta lazy bajo `/cotizaciones`) | Estados loading / error / empty explícitos. |
-| *Pendiente: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort` | `GET` relativo a `environment.apiUrl` + `/cotizaciones`. Normaliza array plano o `{ data: [] }`. Ajustar path y mapeo al contrastar con el legado. |
-| *Pendiente: variables de entorno del legado* | `src/environments/environment.ts`, `proxy.conf.json` | Sin secretos en cliente. Proxy de desarrollo apunta a `http://localhost:3000` por defecto (ajustar al backend real). |
+Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-catalog.md)).
 
-**Catálogo por filas (olas):** ver [migration-catalog.md](./migration-catalog.md) (IDs CAT-001…; ampliar al completar inventario del legado).
+| # | Legado (origen) | Destino (Angular) | Notas |
+|---|-----------------|-------------------|--------|
+| **#1** | *TBD: layout raíz y rutas del SPA React (tras inventario)* | `src/app/shell/layout/main-layout.component.ts`, `src/app/app.routes.ts` | Raíz redirige a `/cotizaciones`. Paridad de copy/enlaces cuando exista clon del legado. |
+| **#2** | *TBD: pantalla o ruta de listado de cotizaciones en React* | `src/app/features/cotizaciones/pages/cotizaciones-list/` (ruta lazy bajo `/cotizaciones`) | Estados loading / error / empty explícitos. |
+| **#3** | *TBD: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort` | `GET` relativo a `environment.apiUrl` + `/cotizaciones`. Normaliza array plano o `{ data: [] }`. Ajustar path y mapeo al contrastar con el legado. |
+| **#4** | *TBD: variables de entorno del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `cotizaciones-mock.interceptor.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` (ajustar al backend real). Mock opcional en dev: `useCotizacionesMock` + interceptor para `GET …/cotizaciones`; desactivar con API real. |
+| **#5** | *TBD: demás rutas del SPA legado* | *Por definir* bajo `src/app/features/…` | Añadir fila por pantalla al inventariar. |
+| **#6** | *TBD: manejo de fallos API en legado* | `mapHttpErrorToMessage` + UI de error en listado; `cotizacionesMockInterceptor` (dev, bandera `useCotizacionesMock`) | Mensajes controlados: no HTML del servidor como contenido principal; mock dev documentado para API ausente (**#4**). |
+
+**Catálogo maestro (DoD, dependencias, olas, riesgos):** [migration-catalog.md](./migration-catalog.md) — filas **#1–#6**; ampliar **#5** al completar inventario del legado.
+
+**Riesgo API (resumen):** el adaptador asume `GET` bajo `{apiUrl}/cotizaciones` hasta contrastar con el legado (**hipótesis**); si el backend devuelve HTML en errores, la política de mensajes (**#6**, `http-error.mapper` y spec canónico) SHALL evitar mostrar ese HTML crudo en la UI.
+
+**Riesgo diseño:** el destino no declara Material ni otro DS en dependencias; la paridad visual con el legado depende de inventario de tokens y componentes React (**inferencia:** sin ese inventario, **#1**, **#2** y **#5** tienen riesgo de deriva visual).
 
 **Plan vs hecho:** la estructura SDD (dominios `lineamientos`, `frontend-shell`, `cotizaciones-ui`) y el comando `/opsx:sync` están **hechos** en el repo destino; las filas concretas de rutas/componentes siguen **plan — pendiente** por acceso al legado (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 
@@ -38,10 +46,32 @@ Ninguna registrada aún. Cualquier cambio respecto al legado SHALL listarse aqu�
 - **Angular 19** (standalone, rutas lazy por feature) en la raíz del repositorio; `angular.json` presente.
 - **Ingeniería inversa:** modelos de datos, llamadas HTTP y flujos de UI deducidos del legado; tests de contrato o e2e alineados a escenarios OpenSpec cuando exista harness.
 
+## Mapeo diseño legado → destino
+
+Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). Cuando exista baseline React:
+
+- **Tokens / color:** contrastar con paleta del legado; si el destino adopta design system distinto, registrar **discrepancia intencional** en esta sección y en `proposal.md` (columna *Paridad diseño* del catálogo).
+- **Grid y densidad:** alinear breakpoints y espaciado a componentes legados equivalentes (**#1–2**).
+- **Componentes UI:** seguir `.cursor/rules/use-custom-ui-components.mdc` y `use-global-color-palette.mdc` al sustituir estilos inline del legado por patrones Angular reutilizables.
+
+## HTTP en desarrollo y ausencia de API (**#4**, **#6**)
+
+- **`environment.apiUrl`:** `/api` en desarrollo, enrutado por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto).
+- **`provideHttpClient(withInterceptors([cotizacionesMockInterceptor]))`** en `app.config.ts`: si `useCotizacionesMock` es verdadero y no es producción, el interceptor responde a `GET {apiUrl}/cotizaciones` con datos de demostración; en caso contrario la petición sigue al backend y los fallos se muestran vía `mapHttpErrorToMessage` (sin HTML crudo).
+- **Producción:** `useCotizacionesMock` es falso; el interceptor no sustituye respuestas.
+
+## Estrategia por ola (resumen)
+
+| Ola | Enfoque |
+|-----|-----------|
+| **1** | Rellenar columnas legado del catálogo **#1–6**; refinar esta tabla y deltas. |
+| **2** | Cerrar **#6** (mapper + mock dev opcional) y revisión visual **#1–2** frente al legado. |
+| **3** | Cubrir **#5** y merge de comportamiento a `openspec/specs/` cuando proceda. |
+
 ## Checklist de verificación (destino actual)
 
 - **Given** el usuario abre `/` **when** carga la app **then** se redirige a `/cotizaciones` y aparece el layout con navegación enfocable.
-- **Given** el usuario está en `/cotizaciones` **when** la petición HTTP falla **then** ve mensaje de error y puede pulsar «Reintentar».
+- **Given** el usuario está en `/cotizaciones` **when** la petición HTTP falla **then** ve mensaje de error (texto seguro, sin página HTML cruda) y puede pulsar «Reintentar».
 - **Given** el API devuelve lista vacía **when** termina la carga **then** aparece el estado vacío sin error.
 - **Given** el API devuelve elementos **when** termina la carga **then** se listan títulos (y estado si existe en el payload).
 

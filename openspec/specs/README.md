@@ -23,3 +23,8 @@ Los dominios pueden ampliarse con nuevas carpetas bajo `openspec/specs/<dominio>
 ## Sync y discrepancias
 
 - [sync/discrepancies/](../sync/discrepancies/README.md) — bloqueos de baseline, divergencias código ↔ reglas ↔ specs y decisiones frente al legado.
+
+## Cambio activo (migración React → Angular)
+
+- Carpeta del cambio: [`openspec/changes/migracion-react-a-angular/`](../changes/migracion-react-a-angular/) (`proposal.md`, `design.md`, `tasks.md`, deltas en `specs/<dominio>/spec.md`).
+- Catálogo por filas y olas: [migration-catalog.md](../changes/migracion-react-a-angular/migration-catalog.md) (IDs **CAT-001…**; columnas legado **pendientes de inventario** mientras aplique la discrepancia de baseline).

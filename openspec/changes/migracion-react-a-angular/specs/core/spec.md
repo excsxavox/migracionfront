@@ -4,7 +4,7 @@
 
 ### Requirement: Migración front con baseline legado
 
-El sistema de front en el repositorio destino SHALL implementarse como **migración desde React** hacia **Angular**, tomando como referencia el comportamiento observable del código en `https://github.com/Fer-Nexti/Designcotizacionesmodule`, sin redefinir el producto como greenfield.
+El sistema de front en el repositorio destino SHALL implementarse como **migración desde React** hacia **Angular**, tomando como referencia el comportamiento observable del código en `https://github.com/Fer-Nexti/Designcotizacionesmodule`, sin redefinir el producto como greenfield. La trazabilidad por bloque migrable SHALL mantenerse en [migration-catalog.md](../../migration-catalog.md) (filas **#1–#6** y siguientes).
 
 #### Scenario: Paridad documentada
 
