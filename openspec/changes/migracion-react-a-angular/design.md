@@ -13,6 +13,8 @@ Hasta completar un inventario sobre un **clon local** de `Designcotizacionesmodu
 | *Pendiente: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort` | `GET` relativo a `environment.apiUrl` + `/cotizaciones`. Normaliza array plano o `{ data: [] }`. Ajustar path y mapeo al contrastar con el legado. |
 | *Pendiente: variables de entorno del legado* | `src/environments/environment.ts`, `proxy.conf.json` | Sin secretos en cliente. Proxy de desarrollo apunta a `http://localhost:3000` por defecto (ajustar al backend real). |
 
+**Catálogo por filas (olas):** ver [migration-catalog.md](./migration-catalog.md) (IDs CAT-001…; ampliar al completar inventario del legado).
+
 **Plan vs hecho:** la estructura SDD (dominios `lineamientos`, `frontend-shell`, `cotizaciones-ui`) y el comando `/opsx:sync` están **hechos** en el repo destino; las filas concretas de rutas/componentes siguen **plan — pendiente** por acceso al legado (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 
 ### Discrepancias intencionales

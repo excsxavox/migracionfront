@@ -8,6 +8,7 @@
 - [x] 0.4 Crear `.cursor/rules/` canónicos (`estandar`, `reglas-arquitectura`, `testing`, `use-custom-ui-components`, `use-global-color-palette`).
 - [x] 0.5 Inicializar `openspec/sync/discrepancies/` y registrar bloqueo de baseline si el legado no es clonable.
 - [x] 0.6 Actualizar `proposal.md` (tabla equivalencias + plan vs hecho) y `openspec/specs/README.md`.
+- [x] 0.7 Añadir `migration-catalog.md` (catálogo por fila: legado, destino, ola, estado) enlazado desde `design.md`; ampliar filas al clonar el legado.
 
 ## 1. Baseline y OpenSpec
 
