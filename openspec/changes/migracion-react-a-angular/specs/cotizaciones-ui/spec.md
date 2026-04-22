@@ -4,7 +4,7 @@
 
 ### Requirement: Módulo de cotizaciones trazado al legado
 
-El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del módulo homónimo inferido del nombre del repo legado, con escenarios contrastables con pantallas del origen una vez inventariadas.
+El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del módulo homónimo inferido del nombre del repo legado, con escenarios contrastables con pantallas del origen una vez inventariadas. El listado principal del módulo SHALL trazarse a la fila **#2** de [migration-catalog.md](../../migration-catalog.md).
 
 #### Scenario: API fuera de este repo
 
@@ -14,10 +14,26 @@ El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del mó
 
 ### Requirement: Listado bajo ruta lazy y puerto HTTP
 
-El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren` / rutas del feature) y SHALL consumir datos vía un puerto (`CotizacionesPort`) implementado por adaptador HTTP, alineable al contrato real cuando se documente desde el legado.
+El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren` / rutas del feature; **#2**) y SHALL consumir datos vía un puerto (`CotizacionesPort`) implementado por adaptador HTTP (**#3**), alineable al contrato real cuando se documente desde el legado.
 
 #### Scenario: Contrato HTTP provisional
 
 - GIVEN el endpoint exacto del legado no está cerrado en el inventario
 - WHEN se implementa el adaptador
-- THEN la URL base y la ruta relativa (`/cotizaciones` sobre `apiUrl`) están centralizadas en configuración (`environment`, proxy) y son ajustables sin cambiar la vista
+- THEN la URL base y la ruta relativa (`/cotizaciones` sobre `apiUrl`) están centralizadas en configuración (`environment`, proxy; **#4**) y son ajustables sin cambiar la vista
+
+### Requirement: Errores de API sin respuesta cruda al usuario (**#6**)
+
+Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). Mientras no exista interceptor o mock acordado, el mensaje derivado del error SHALL ser suficiente para cumplir esta obligación; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6**.
+
+#### Scenario: Error 500 con cuerpo HTML
+
+- GIVEN el backend responde con error y cuerpo no JSON
+- WHEN la vista de listado deja de estar en carga
+- THEN el usuario ve un mensaje de error de la aplicación **o** texto seguro derivado del mapeo, sin página HTML completa del servidor embebida como contenido principal de la vista
+
+#### Scenario: API ausente en desarrollo
+
+- GIVEN no hay backend alcanzable y no hay mock activo
+- WHEN el usuario intenta cargar el listado
+- THEN aparece un estado de error coherente con **#6** (mensaje controlado) **o** existe documentación explícita de mock/interceptor pendiente en `tasks.md` / `design.md` como **laguna de especificación** temporal

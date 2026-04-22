@@ -4,7 +4,7 @@
 
 ### Requirement: Baseline legado explícito para shell
 
-La especificación canónica de shell SHALL referenciar el layout y rutas del legado `Designcotizacionesmodule` como baseline; mientras el remoto no sea accesible, SHALL etiquetarse **laguna de especificación** para rutas concretas hasta completar inventario local.
+La especificación canónica de shell SHALL referenciar el layout y rutas del legado `Designcotizacionesmodule` como baseline (catálogo **#1**); mientras el remoto no sea accesible, SHALL etiquetarse **laguna de especificación** para rutas concretas hasta completar inventario local.
 
 #### Scenario: Tabla de equivalencias incompleta
 
@@ -14,7 +14,7 @@ La especificación canónica de shell SHALL referenciar el layout y rutas del le
 
 ### Requirement: Shell Angular inicial en código
 
-El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabecera, marca y navegación al listado de cotizaciones, coherente con la implementación actual hasta que el inventario del legado refine copy y enlaces.
+El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabecera, marca y navegación al listado de cotizaciones (**#1**), coherente con la implementación actual hasta que el inventario del legado refine copy, enlaces y **paridad de diseño** documentada en el catálogo.
 
 #### Scenario: Paridad documentada o pendiente
 

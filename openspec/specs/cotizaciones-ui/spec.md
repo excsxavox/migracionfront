@@ -57,3 +57,13 @@ La vista de listado de cotizaciones en el destino SHALL mostrar estados de **car
 - GIVEN el API responde con uno o más elementos
 - WHEN la vista deja de estar en carga
 - THEN se listan títulos (y estado si viene en el payload) de cada elemento
+
+### Requirement: Errores de API sin presentación cruda al usuario
+
+Ante fallos de red o HTTP en el listado, el destino SHALL mostrar un mensaje producido por la aplicación (p. ej. vía mapeo centralizado de errores) y SHALL NOT usar como contenido principal de la vista el HTML de error del servidor ni una traza técnica sin contexto. Si el equipo adopta mocks o interceptores para desarrollo sin backend, el enfoque SHALL documentarse en el cambio activo de migración y en la fila de catálogo correspondiente a resiliencia de API.
+
+#### Scenario: Cuerpo de error no estructurado
+
+- GIVEN el servidor responde con cuerpo que no es JSON útil para la UI
+- WHEN se muestra el estado de error al usuario
+- THEN el mensaje es acotado y legible **o** se documenta **laguna** hasta implementar saneamiento adicional
