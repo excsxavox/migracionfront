@@ -19,7 +19,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 |-----------------|-------------------|------------|--------|
 | *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** (`shell`) | **Laguna** hasta inventario; **revisión destino 2026-04-22** en `design.md` § «Revisión shell destino» y fila **#1** de `migration-catalog.md` (sin afirmar equivalencia legado) |
 | *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#2** (`feature`) | **Destino con paridad fina pendiente** |
-| *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort`, `API_BASE_URL` | **#3** (`feature`) | **Provisional** hasta cerrar path/DTO |
+| *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort`, `API_BASE_URL`, `COTIZACIONES_LIST_RELATIVE_PATH`, `cotizacionesListRelativePath` en entorno | **#3** (`feature`) | **Provisional** hasta cerrar path/DTO |
 | *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` (HTTP e interceptors globales); implementación del mock en **#6** | **#4** (`feature`) | **Destino implementado**; paridad tokens vs legado pendiente inventario |
 | *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** (`feature`) | **No iniciado** |
 | *TBD: manejo de fallos API en legado* | `http-error.mapper`, estados error en listado; mock dev `useCotizacionesMock` + interceptor (documentado con **#4** en `design.md`) | **#6** (`feature`) | **Parcial en destino** — `tasks.md` 2.5 hecho; paridad fina y baseline legado pendientes (**Ola 1**) |

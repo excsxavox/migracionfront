@@ -27,8 +27,8 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 - [x] 2.2 **[#4]** `environment.ts` / `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/app/app.config.ts`, estilos globales mínimos (`src/styles.css`, `src/index.html`, `public/`).
 - [x] 2.3 **[#1]** Routing y shell: `app.routes.ts`, `MainLayoutComponent`, redirección `/` → `/cotizaciones`.
 - [x] 2.3a **[#1]** Revisión de paridad shell **solo destino** (rutas raíz, layout padre, `router-outlet`, navegación) frente a criterios `frontend-shell` y delta; trazabilidad en `design.md` § «Revisión shell destino» + fila **#1** de `migration-catalog.md`. Paridad frente al legado sigue bloqueada por `LEGACY_REPO_UNAVAILABLE` (Ola 1).
-- [x] 2.4 **[#2][#3][#4]** Ruta lazy `/cotizaciones` (**#2**/**#4**), listado con loading / error / empty / retry, adaptador HTTP y puerto (**#3**).
-- [x] 2.5 **[#2][#4][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` para `GET …/cotizaciones`; documentado en `design.md` y delta/spec canónico.
+- [x] 2.4 **[#2][#3][#4]** Ruta lazy `/cotizaciones`, listado con loading / error / empty / retry, adaptador HTTP y puerto (`CotizacionesPort`), path relativo configurable (`cotizacionesListRelativePath` + `COTIZACIONES_LIST_RELATIVE_PATH`), pruebas de contrato del adaptador.
+- [x] 2.5 **[#2][#4][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` alineado al mismo URL que el adaptador; documentado en `design.md` y delta/spec canónico.
 - [ ] 2.6 **[#1][#2][#4]** Paridad de diseño respecto al legado: revisión visual desktop + viewport estrecho (p. ej. ≤768px); anotar gaps o discrepancias intencionales en `design.md`.
 
 ## Ola 3 — Extensión y cierre (**#5**, cierre **#6**, merge specs)
