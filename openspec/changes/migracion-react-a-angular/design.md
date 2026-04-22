@@ -79,6 +79,21 @@ Cuando exista baseline React:
 - **Given** el API devuelve lista vacía **when** termina la carga **then** aparece el estado vacío sin error.
 - **Given** el API devuelve elementos **when** termina la carga **then** se listan títulos (y estado si existe en el payload).
 
+## Revisión shell **#1** (solo destino; baseline legado bloqueado)
+
+**Fecha:** 2026-04-22. **Fuentes:** `src/app/app.routes.ts`, `src/app/shell/layout/main-layout.component.ts`. **Legado:** no contrastable (`git ls-remote` → *repository not found*; discrepancia `LEGACY_REPO_UNAVAILABLE`). No se afirma paridad legado ↔ destino.
+
+| Criterio (destino / `frontend-shell`) | Hallazgo breve |
+|--------------------------------------|----------------|
+| Rutas raíz con layout padre | `path: ''` monta `MainLayoutComponent` con `children` (lazy cotizaciones + redirect). |
+| `router-outlet` | Presente en `<main id="main-content">` del layout. |
+| Redirección inicial | `path: ''` (full) → `cotizaciones`; URL observable `/cotizaciones`. |
+| Ruta comodín | `**` → `''` (vuelve al shell + redirect hijo). |
+| Navegación | `routerLink` a `/cotizaciones` (marca + nav «Inicio»); `routerLinkActive` con `exact: true` en nav. |
+| Accesibilidad mínima shell | Skip link al `#main-content`; `main` con `tabindex="-1"`; foco visible en estilos del componente. |
+
+**Pendiente tras inventario legado:** copy exacto, estructura de nav adicional, assets/tema, y cualquier ruta hija del shell React no mapeada aún (catálogo **#1** / **#5**).
+
 ## Riesgos
 
 - Repositorio legado privado o renombrado impide baseline hasta obtener acceso.
