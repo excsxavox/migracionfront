@@ -4,11 +4,13 @@
 **Origen (baseline):** `https://github.com/Fer-Nexti/Designcotizacionesmodule`  
 **Destino:** `https://github.com/excsxavox/migracionfront`
 
-Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La columna **Tipo** (`shell` \| `feature`) alimenta el **Foreach** del flujo de migración. Las columnas **Ruta(s) legado** y **Paths componentes legado** (incl. estilos globales, variables de tema, assets) SHALL completarse tras clon e inventario; mientras el legado no sea clonable, SHALL usarse el marcador **`LEGACY_PATH_PENDING`** (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
+Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La columna **Tipo** (`shell` \| `feature`) alimenta el **Foreach** del flujo de migración (véase **Lista plana para Foreach**: bootstrap **#4** antes del shell **#1**). Las columnas **Ruta(s) legado** y **Paths componentes legado** (incl. estilos globales, variables de tema, assets) SHALL completarse tras clon e inventario; mientras el legado no sea clonable, SHALL usarse el marcador **`LEGACY_PATH_PENDING`** (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 
 **Regla de oro:** la única fila **Tipo = `shell`** (**#1**) cubre el marco de aplicación (layout, router, nav); **#4** (bootstrap global: env, proxy, `index`, CSS) es **feature** pero SHALL ejecutarse antes de **#1** en la **Lista plana para Foreach** (véase más abajo). Sin shell + bootstrap documentados, la paridad «producto real» frente al legado no es contrastable.
 
-**Dato:** mientras el remoto del legado responda *repository not found* (`git ls-remote` / clon en este entorno), el estado refleja **laguna de baseline** en `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`.
+**Dato:** mientras el remoto del legado responda *repository not found* (`git ls-remote` / clon en este entorno), el estado refleja **laguna de baseline** en `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`. **Dato (verificación en este clone, 2026-04-22):** `git ls-remote https://github.com/Fer-Nexti/Designcotizacionesmodule.git` → *repository not found*; no hay árbol legado local en el workspace.
+
+**Hipótesis:** al desbloquear el acceso, las rutas React reales sustituirán los marcadores `BLOQUEADO: …` sin reinterpretar convenciones OpenSpec del repo.
 
 **Inferencia:** el destino Angular **no** declara Material ni otro design system en `package.json`; la **paridad visual** frente al legado depende de inventario de tokens y componentes React (**#1**, **#2**, **#4**, **#5**).
 
@@ -34,7 +36,7 @@ Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La colu
 
 ### Lista plana para Foreach (orden de ejecución)
 
-**Dato:** un ítem Foreach = un **#** del catálogo; dentro de cada **#**, uno o más paths del legado (separados por `; ` cuando compartan paso). La cola en texto plano está en [migration-files-queue.md](./migration-files-queue.md).
+**Dato:** un ítem Foreach = un **#** del catálogo; dentro de cada **#**, uno o más paths del legado (separados por `; ` cuando compartan paso). La cola en texto plano está en [migration-files-queue.md](./migration-files-queue.md). Sustituir `LEGACY_PATH_PENDING` por rutas relativas al repo legado en **Ola 1**.
 
 **Orden obligatorio** (bootstrap global del SPA antes que layout de aplicación; luego dependencias del dominio cotizaciones):
 
