@@ -32,5 +32,5 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 ## Ola 3 — Extensión y cierre (**#5**, cierre **#6**, merge specs)
 
 - [ ] 3.1 **[#5]** Por cada ruta/feature adicional inventariada en el legado: fila en catálogo, rutas destino, tareas y delta.
-- [ ] 3.2 **[#1–6]** Checklist de aceptación por ola completada (funcional + visual según catálogo); escenarios Given/When/Then en `design.md`; pruebas en `AppComponent` y `CotizacionesListComponent`.
+- [ ] 3.2 **[#1–6]** Checklist de aceptación por ola completada (funcional + visual según catálogo); escenarios Given/When/Then en `design.md`; pruebas unitarias enlazadas a spec en `design.md` (sección **QA — automatización**): rutas y shell (**#1**), listado (**#2**), adaptador (**#3**), mock (**#4**), mapper/adaptador errores (**#6**); `AppComponent` smoke opcional.
 - [ ] 3.3 Actualizar specs canónicos `openspec/specs/` o archivar este cambio según flujo OpenSpec de merge de deltas.

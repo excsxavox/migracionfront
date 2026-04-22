@@ -75,6 +75,35 @@ Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera cla
 - **Given** el API devuelve lista vacía **when** termina la carga **then** aparece el estado vacío sin error.
 - **Given** el API devuelve elementos **when** termina la carga **then** se listan títulos (y estado si existe en el payload).
 
+## Estado integración (PR / rama)
+
+- **Rama de trabajo:** `cursor/wf-7a02393bd8b543` en `https://github.com/excsxavox/migracionfront`.
+- **Pull request:** abrir o actualizar el PR desde esa rama hacia la rama base acordada por el equipo (p. ej. `main`) en GitHub; el agente en este entorno no tiene un enlace PR fiable si `gh` no lista PRs abiertos.
+- **Si el PR queda cerrado sin merge:** los commits permanecen en la rama remota; opciones: reabrir el PR, crear un PR nuevo desde la misma rama, o cherry-pick de los commits a otra rama según política del equipo.
+
+## QA — automatización, cobertura y trazabilidad
+
+Cada caso automatizado SHALL enlazar en comentario de spec con **Requirement / Scenario** de `openspec/specs/` (canónico) y con **#** del [migration-catalog.md](./migration-catalog.md) cuando aplique.
+
+| Ámbito | Fichero(s) de prueba | Requisito OpenSpec (observable) | Catálogo # |
+|--------|----------------------|----------------------------------|------------|
+| Rutas raíz y comodín | `src/app/app.routes.spec.ts` | `frontend-shell` — Shell… Scenario: Raíz redirige a cotizaciones | **#1** |
+| Layout shell (skip, cabecera, outlet) | `src/app/shell/layout/main-layout.component.spec.ts` | `frontend-shell` — Shell accesible… Scenario: Navegación por teclado (presencia de controles) | **#1** |
+| Estados listado (carga, datos, vacío, error+retry) | `src/app/features/cotizaciones/pages/cotizaciones-list/cotizaciones-list.component.spec.ts` | `cotizaciones-ui` — Listado con estados explícitos (todos los scenarios) | **#2**, **#6** |
+| Mapper errores HTTP | `src/app/infrastructure/http/http-error.mapper.spec.ts` | `cotizaciones-ui` — Errores de API sin presentación cruda… | **#6** |
+| Adaptador HTTP (GET, normalización, error HTML) | `src/app/infrastructure/adapters/cotizaciones.http-adapter.spec.ts` | `cotizaciones-ui` — Contratos HTTP… + Listado / errores | **#3**, **#6** |
+| Mock dev opcional | `src/app/infrastructure/interceptors/cotizaciones-mock.interceptor.spec.ts` | `cotizaciones-ui` — Errores… (mock documentado); `design.md` **#4** | **#4**, **#6** |
+
+**Cobertura deseada (objetivo):** priorizar **80 %+** de sentencias en `infrastructure/http`, `infrastructure/adapters`, `infrastructure/interceptors`, y en la página smart del listado; el shell y rutas con al menos los escenarios anteriores. Activar informe Karma con `ng test --code-coverage` cuando el equipo quiera umbral en CI.
+
+**Comandos:** `npm ci` (primera vez); `npx ng test --no-watch --browsers=ChromeHeadless`; `npx ng build`.
+
+**Manual (no sustituido por unitarios):** paridad visual **#1–2** y responsive frente al legado o referencias acordadas; contraste real con API/backend (path, envelope, códigos) cuando exista entorno; accesibilidad en navegador real (orden de foco, lector de pantalla) si el producto lo exige.
+
+**E2E / integración:** no hay harness e2e en el repo; cuando exista baseline legado, añadir Playwright o Cypress alineado a los mismos **Scenario:** (misma tabla de trazabilidad).
+
+**Lagunas de especificación:** sin inventario del legado, los escenarios de **paridad** con React permanecen no comprobables automáticamente; mantener **TBD** en catálogo y discrepancia `LEGACY_REPO_UNAVAILABLE` hasta clon verificable.
+
 ## Riesgos
 
 - Repositorio legado privado o renombrado impide baseline hasta obtener acceso.
