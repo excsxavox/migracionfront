@@ -26,8 +26,8 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 - [x] 2.1 **[#1]** Proyecto Angular en raíz (`angular.json`, `package.json`).
 - [x] 2.2 **[#4]** `environment.ts` / `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/app/app.config.ts`, estilos globales mínimos (`src/styles.css`, `src/index.html`, `public/`).
 - [x] 2.3 **[#1]** Routing y shell: `app.routes.ts`, `MainLayoutComponent`, redirección `/` → `/cotizaciones`.
-- [x] 2.4 **[#2][#3]** Ruta lazy `/cotizaciones`, listado con loading / error / empty / retry, adaptador HTTP y puerto.
-- [x] 2.5 **[#4][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` para `GET …/cotizaciones`; documentado en `design.md` y delta/spec canónico.
+- [x] 2.4 **[#2][#3][#4]** Ruta lazy `/cotizaciones` (**#2**/**#4**), listado con loading / error / empty / retry, adaptador HTTP y puerto (**#3**).
+- [x] 2.5 **[#2][#4][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` para `GET …/cotizaciones`; documentado en `design.md` y delta/spec canónico.
 - [ ] 2.6 **[#1][#2][#4]** Paridad de diseño respecto al legado: revisión visual desktop + viewport estrecho (p. ej. ≤768px); anotar gaps o discrepancias intencionales en `design.md`.
 
 ## Ola 3 — Extensión y cierre (**#5**, cierre **#6**, merge specs)

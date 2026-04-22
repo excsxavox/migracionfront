@@ -6,9 +6,11 @@
 
 Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La columna **Tipo** (`shell` \| `feature`) alimenta el **Foreach** del flujo de migración. Las columnas **Ruta(s) legado** y **Paths componentes legado** (incl. estilos globales, variables de tema, assets) SHALL completarse tras clon e inventario; mientras el legado no sea clonable, SHALL usarse el marcador **`LEGACY_PATH_PENDING`** (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 
+**Regla de oro:** la única fila **Tipo = `shell`** (**#1**) cubre el marco de aplicación (layout, router, nav); **#4** (bootstrap global: env, proxy, `index`, CSS) es **feature** pero SHALL ejecutarse antes de **#1** en la **Lista plana para Foreach** (véase más abajo). Sin shell + bootstrap documentados, la paridad «producto real» frente al legado no es contrastable.
+
 **Dato:** mientras el remoto del legado responda *repository not found* (`git ls-remote` / clon en este entorno), el estado refleja **laguna de baseline** en `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`.
 
-**Inferencia:** el destino Angular **no** declara Material ni otro design system en `package.json`; la **paridad visual** frente al legado depende de inventario de tokens y componentes React (**#1**, **#2**, **#5**).
+**Inferencia:** el destino Angular **no** declara Material ni otro design system en `package.json`; la **paridad visual** frente al legado depende de inventario de tokens y componentes React (**#1**, **#2**, **#4**, **#5**).
 
 **Resumen:** **6** filas en **4** olas (0 = SDD, 1 = inventario legado, 2 = implementación destino conocida, 3 = extensión y cierre). En la tabla, **Tipo** = `shell` solo en la fila **#1** (marco de aplicación: layout, router, nav); **#2–#6** son `feature` (incluye **#4** infra global). **Hipótesis de alineación con el flujo «shell/layout primero»:** la **Lista plana para Foreach** ordena **#4** antes de **#1** para migrar primero bootstrap global del SPA (entorno, `index`, CSS, proxy) y después el layout de aplicación; el motor Foreach SHALL usar esa lista, no un orden arbitrario por número de fila.
 
@@ -27,7 +29,7 @@ Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La colu
 |-----|----------|---------|---------------------------|
 | **0** | Estructura OpenSpec, comando `/opsx:sync`, discrepancias | (metadato SDD) | Artefactos enlazados y coherentes. |
 | **1** | Inventario legado, equivalencias y deltas refinados | **1–6** | Columnas legado y APIs cerradas; mapeo preliminar token/componente donde aplique. |
-| **2** | Implementación destino alineada al catálogo para alcance conocido | **1–4**, **6** (mapper + mock dev opcional) | Rutas, listado, HTTP y env usables; revisión visual **#1–2** + lista **#2** vs legado (desktop + viewport estrecho). |
+| **2** | Implementación destino alineada al catálogo para alcance conocido | **1–4**, **6** (mapper + mock dev opcional) | Shell, entorno, HTTP, listado usables; revisión visual **#1**, **#2**, **#4** vs legado (desktop + viewport estrecho). |
 | **3** | Nuevas features del legado, cierre de paridad y merge spec | **5**, resto **6** | **#5** cubierto o fuera de alcance explícito; **#6** cerrado (mock/interceptor o backend doc.); merge a `openspec/specs/` cuando proceda. |
 
 ### Lista plana para Foreach (orden de ejecución)
@@ -49,6 +51,6 @@ Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La colu
 
 Las tareas en `tasks.md` SHALL referenciar el **#** de fila de esta tabla. Los requisitos en deltas bajo `changes/migracion-react-a-angular/specs/` SHOULD citar el **#** cuando el comportamiento sea propio de esa fila. Sustituir **`LEGACY_PATH_PENDING`** por rutas relativas al repo `Designcotizacionesmodule` cuando exista clon accesible (tarea **1.2**). El **Tipo** en tabla SHALL mantener **exactamente una** fila `shell` (**#1**); el orden Foreach real es el de esta sección, no el orden numérico de la tabla.
 
-### Referencias rápidas (IDs históricos)
+### Referencias históricas (IDs antiguos)
 
-**CAT-001…CAT-005** (primer borrador): CAT-001 → **#1**, CAT-002 → **#2**, CAT-003 → **#3**, CAT-004 → **#4**, CAT-005 → expansiones futuras alineadas a **#5** cuando exista inventario.
+**2026-04-22:** se añadió la columna **Tipo** (una sola fila `shell`: **#1**; **#2–#6** = `feature`) y la **Lista plana para Foreach** (**#4** → **#1** → **#3** → **#2** → **#6** → **#5**) para ejecutar bootstrap global antes del layout de aplicación. Los identificadores **CAT-001…CAT-005** del primer borrador quedan **obsoletos**; usar solo **#** de esta tabla.

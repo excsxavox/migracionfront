@@ -10,7 +10,7 @@ Mientras `LEGACY_REPO_UNAVAILABLE` aplique, la primera columna SHALL ser **`LEGA
 
 1. `LEGACY_PATH_PENDING` — feature — destino previsto **#4** `src/environments/`; `proxy.conf.json`; `src/styles.css`; `src/index.html`; `angular.json`; `public/`; registro interceptors en `src/app/app.config.ts`
 2. `LEGACY_PATH_PENDING` — shell — destino previsto **#1** `src/app/app.routes.ts`; `src/app/shell/layout/main-layout.component.ts`
-3. `LEGACY_PATH_PENDING` — feature — destino previsto **#3** `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts`; `src/app/core/ports/cotizaciones.port.ts`; `src/app/app.config.ts`
+3. `LEGACY_PATH_PENDING` — feature — destino previsto **#3** `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts`; `src/app/core/ports/cotizaciones.port.ts`; `src/app/core/tokens/api-base-url.token.ts`; registro del puerto / `API_BASE_URL` en `src/app/app.config.ts` (bootstrap **#4**)
 4. `LEGACY_PATH_PENDING` — feature — destino previsto **#2** `src/app/features/cotizaciones/cotizaciones.routes.ts`; `src/app/features/cotizaciones/pages/cotizaciones-list/`
 5. `LEGACY_PATH_PENDING` — feature — destino previsto **#6** `src/app/infrastructure/http/http-error.mapper.ts`; estados error en `src/app/features/cotizaciones/pages/cotizaciones-list/`; `src/app/infrastructure/interceptors/cotizaciones-mock.interceptor.ts`
 6. `LEGACY_PATH_PENDING` — feature — destino previsto **#5** *por inventario* bajo `src/app/features/…` (una línea o grupo por pantalla tras catálogo)

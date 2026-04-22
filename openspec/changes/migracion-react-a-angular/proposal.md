@@ -17,12 +17,12 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 
 | Legado (origen) | Destino (Angular) | Catálogo # | Estado |
 |-----------------|-------------------|------------|--------|
-| *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** | **Laguna** hasta inventario |
-| *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#2** | **Destino con paridad fina pendiente** |
-| *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** | **Provisional** hasta cerrar path/DTO |
-| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` (HTTP e interceptors globales); implementación del mock en **#6** | **#4** | **Destino implementado**; paridad tokens vs legado pendiente inventario |
-| *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** | **No iniciado** |
-| *TBD: manejo de fallos API en legado* | `http-error.mapper`, estados error en listado; mock dev `useCotizacionesMock` + interceptor (documentado con **#4** en `design.md`) | **#6** | **Parcial en destino** — `tasks.md` 2.5 hecho; paridad fina y baseline legado pendientes (**Ola 1**) |
+| *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** (`shell`) | **Laguna** hasta inventario |
+| *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#2** (`feature`) | **Destino con paridad fina pendiente** |
+| *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort`, `API_BASE_URL` | **#3** (`feature`) | **Provisional** hasta cerrar path/DTO |
+| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` (HTTP e interceptors globales); implementación del mock en **#6** | **#4** (`feature`) | **Destino implementado**; paridad tokens vs legado pendiente inventario |
+| *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** (`feature`) | **No iniciado** |
+| *TBD: manejo de fallos API en legado* | `http-error.mapper`, estados error en listado; mock dev `useCotizacionesMock` + interceptor (documentado con **#4** en `design.md`) | **#6** (`feature`) | **Parcial en destino** — `tasks.md` 2.5 hecho; paridad fina y baseline legado pendientes (**Ola 1**) |
 | APIs HTTP ya consumidas por el legado | Mismos endpoints desde Angular | **#2–3** | **Paridad** asumida salvo brecha documentada |
 
 ## Plan vs hecho (OpenSpec)
@@ -35,6 +35,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 | Reglas `.mdc` canónicas | Cinco ficheros alineados Angular | `.cursor/rules/*.mdc` |
 | Discrepancias | Registrar bloqueos de baseline | `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md` |
 | Tabla fina legado → destino | Completar con rutas reales | **Pendiente** (acceso Git al origen) |
+| Catálogo: columna **Tipo** + orden **shell** primero | Regla de oro del flujo (Foreach / paridad marco) | **Hecho** — ver nota de renumeración en [migration-catalog.md](./migration-catalog.md) |
 
 ## Catálogo y olas (resumen)
 
@@ -44,13 +45,13 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 - **Criterios de éxito por ola:**
   - **Ola 0:** dominios canónicos, deltas, `/opsx:sync`, discrepancia de baseline si el legado no es clonable.
   - **Ola 1:** catálogo con rutas y paths del legado rellenos; equivalencias en `design.md` alineadas a **#**; deltas con escenarios contrastables.
-  - **Ola 2:** destino usable para **#1–4**; **#6** sin UI de error cruda (mensaje controlado o mock según `design.md`); revisión visual **#1–2** documentada.
+  - **Ola 2:** destino usable para **#1–4**; **#6** sin UI de error cruda (mensaje controlado o mock según `design.md`); revisión visual **#1**, **#2**, **#4** documentada (shell, tema global, lista).
   - **Ola 3:** **#5** cubierto o explícitamente fuera de alcance; DoD del catálogo cerrado por fila; merge o archivo del cambio según flujo del equipo.
 
 ## Riesgos
 
 - **Regresión de paridad:** sin inventario del legado, el destino puede divergir sin detección; mitigación: **Ola 1** y `/opsx:sync`.
-- **Brecha API:** backend inexistente o `5xx` sin manejo → fallos visibles o HTML crudo; mitigación: fila **#6**, `tasks.md` 2.5, discrepancias si el contrato difiere del legado.
+- **Brecha API:** backend inexistente o `5xx` sin manejo → fallos visibles o HTML crudo; mitigación: fila **#6**, `tasks.md` 2.5 (ref. **#2**, **#4**, **#6**), discrepancias si el contrato difiere del legado.
 
 ## Scope
 

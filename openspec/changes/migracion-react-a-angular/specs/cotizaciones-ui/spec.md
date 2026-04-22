@@ -38,7 +38,7 @@ Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir e
 - WHEN el usuario intenta cargar el listado
 - THEN aparece un estado de error coherente con **#6** (mensaje controlado)
 
-#### Scenario: Mock activo en desarrollo (**#4**)
+#### Scenario: Mock activo en desarrollo (**#6**, bandera **#4**)
 
 - GIVEN `environment.useCotizacionesMock` es verdadero y el build no es de producción
 - WHEN la aplicación solicita el listado
