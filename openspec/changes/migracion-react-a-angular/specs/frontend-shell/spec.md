@@ -32,6 +32,12 @@ Mientras aplique `LEGACY_REPO_UNAVAILABLE`, el cambio SHALL documentar en `desig
 - WHEN se completa una revisión del shell en el código destino
 - THEN la documentación MUST citar `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md` y MUST limitar conclusiones a destino + catálogo **#1**
 
+#### Scenario: Revisión sin baseline
+
+- GIVEN `LEGACY_REPO_UNAVAILABLE` u otra discrepancia bloquea el inventario del legado
+- WHEN se documenta el shell del destino
+- THEN `design.md` incluye hallazgos contrastables con `openspec/specs/frontend-shell/spec.md` (tabla de criterios destino) y el catálogo **#1** indica que la equivalencia legado permanece TBD
+
 ### Requirement: Documento HTML y estilos globales alineados al shell (**#4**)
 
 El bootstrap del SPA (catálogo **#4**) SHALL incluir `src/index.html` con metadatos mínimos del documento (título, `lang` del `html` acorde al locale del producto) y SHALL cargar `src/styles.css` con tokens CSS globales (p. ej. `--app-color-*`, `--app-font-sans`) que el shell (**#1**) y las vistas MAY reutilizar para mantener contraste y tipografía coherentes hasta completar inventario del legado.

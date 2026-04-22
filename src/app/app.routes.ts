@@ -6,6 +6,7 @@ export const routes: Routes = [
   {
     path: '',
     component: MainLayoutComponent,
+    title: 'Cotizaciones',
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'cotizaciones' },
       {
