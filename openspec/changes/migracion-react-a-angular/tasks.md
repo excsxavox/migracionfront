@@ -26,7 +26,7 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 - [x] 2.2 **[#4]** `environment.ts` / `environment.prod.ts`, `proxy.conf.json` y estilos globales mínimos (`src/styles.css`, `src/index.html`, `public/`).
 - [x] 2.3 **[#1]** Routing y shell: `app.routes.ts`, `MainLayoutComponent`, redirección `/` → `/cotizaciones`.
 - [x] 2.4 **[#2][#3]** Ruta lazy `/cotizaciones`, listado con loading / error / empty / retry, adaptador HTTP y puerto.
-- [ ] 2.5 **[#6]** Decidir y documentar en `design.md` estrategia si API falta: interceptor mock, fixture o solo mensajes; implementar lo acordado (evitar respuesta 500/HTML crudo en UI). Requisito canónico en `openspec/specs/cotizaciones-ui/spec.md`.
+- [x] 2.5 **[#4][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` para `GET …/cotizaciones`; documentado en `design.md` y delta/spec canónico.
 - [ ] 2.6 **[#1][#2][#4]** Paridad de diseño respecto al legado: revisión visual desktop + viewport estrecho (p. ej. ≤768px); anotar gaps o discrepancias intencionales en `design.md`.
 
 ## Ola 3 — Extensión y cierre (**#5**, cierre **#6**, merge specs)

@@ -24,7 +24,7 @@ El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren
 
 ### Requirement: Errores de API sin respuesta cruda al usuario (**#6**)
 
-Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir el requisito canónico «Errores de API sin presentación cruda al usuario» en `openspec/specs/cotizaciones-ui/spec.md`. La aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). Mientras no exista interceptor o mock acordado, el mensaje derivado del error SHALL ser suficiente para cumplir esta obligación; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6**.
+Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir el requisito canónico «Errores de API sin presentación cruda al usuario» en `openspec/specs/cotizaciones-ui/spec.md`. La aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). El saneamiento vía `mapHttpErrorToMessage` SHALL ser suficiente para cumplir esta obligación cuando el cuerpo sea HTML o no estructurado; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6**.
 
 #### Scenario: Error 500 con cuerpo HTML
 
@@ -34,6 +34,12 @@ Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir e
 
 #### Scenario: API ausente en desarrollo
 
-- GIVEN no hay backend alcanzable y no hay mock activo
+- GIVEN no hay backend alcanzable y `useCotizacionesMock` es falso
 - WHEN el usuario intenta cargar el listado
-- THEN aparece un estado de error coherente con **#6** (mensaje controlado) **o** existe documentación explícita de mock/interceptor pendiente en `tasks.md` / `design.md` como **laguna de especificación** temporal
+- THEN aparece un estado de error coherente con **#6** (mensaje controlado)
+
+#### Scenario: Mock activo en desarrollo (**#4**)
+
+- GIVEN `environment.useCotizacionesMock` es verdadero y el build no es de producción
+- WHEN la aplicación solicita el listado
+- THEN el usuario ve al menos un ítem de demostración sin error de red

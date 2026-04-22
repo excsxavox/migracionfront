@@ -4,5 +4,6 @@ export const environment = {
    * En producción, configurar en CI/CD o sustituir por despliegue real.
    * No incluir secretos en el bundle del cliente.
    */
-  apiUrl: '/api'
+  apiUrl: '/api',
+  useCotizacionesMock: false
 };
