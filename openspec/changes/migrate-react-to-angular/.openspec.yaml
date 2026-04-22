@@ -1,0 +1,6 @@
+id: migrate-react-to-angular
+title: Migrate React front to Angular (hexagonal)
+status: active
+github:
+  destination: https://github.com/excsxavox/migracionfront.git
+  legacy_readonly: https://github.com/Fer-Nexti/Designcotizacionesmodule
