@@ -1,0 +1,25 @@
+<h1 class="page-title">Listado de cotizaciones</h1>
+<p class="page-lead">
+  Vista provisional hasta cerrar equivalencias con el sistema anterior (inventario del repositorio legado).
+</p>
+
+<div *ngIf="loading()" class="state state--loading" role="status" aria-live="polite">
+  <span class="spinner" aria-hidden="true"></span>
+  Cargando…
+</div>
+
+<div *ngIf="!loading() && errorMessage()" class="state state--error" role="alert" aria-live="assertive">
+  <p>{{ errorMessage() }}</p>
+  <button type="button" class="btn" (click)="retry()">Reintentar</button>
+</div>
+
+<div *ngIf="!loading() && !errorMessage() && items().length === 0" class="state state--empty" role="status">
+  <p>No hay cotizaciones para mostrar.</p>
+</div>
+
+<ul *ngIf="!loading() && !errorMessage() && items().length > 0" class="list">
+  <li *ngFor="let c of items()" class="list__item">
+    <span class="list__title">{{ c.titulo }}</span>
+    <span *ngIf="c.estado" class="list__meta">{{ c.estado }}</span>
+  </li>
+</ul>
