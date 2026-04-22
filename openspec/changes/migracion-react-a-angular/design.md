@@ -78,7 +78,7 @@ Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera cla
 ## Estado integración (PR / rama)
 
 - **Rama de trabajo:** `cursor/wf-7a02393bd8b543` en `https://github.com/excsxavox/migracionfront`.
-- **Pull request:** abrir o actualizar el PR desde esa rama hacia la rama base acordada por el equipo (p. ej. `main`) en GitHub; el agente en este entorno no tiene un enlace PR fiable si `gh` no lista PRs abiertos.
+- **Pull request (QA / tests):** https://github.com/excsxavox/migracionfront/pull/9 (draft). Actualizar el mismo PR si se añaden más commits en esta rama.
 - **Si el PR queda cerrado sin merge:** los commits permanecen en la rama remota; opciones: reabrir el PR, crear un PR nuevo desde la misma rama, o cherry-pick de los commits a otra rama según política del equipo.
 
 ## QA — automatización, cobertura y trazabilidad
