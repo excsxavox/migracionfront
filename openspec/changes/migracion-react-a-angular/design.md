@@ -17,7 +17,11 @@ Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-
 | **#5** | *TBD: demás rutas del SPA legado* | *Por definir* bajo `src/app/features/…` | Añadir fila por pantalla al inventariar. |
 | **#6** | *TBD: manejo de fallos API en legado* | `mapHttpErrorToMessage` + UI de error en listado; mocks/interceptor **pendiente de decisión** | Objetivo: mensajes controlados en la app; si la API falta en desarrollo, documentar mock o fixture sin exponer stack ni HTML de error del servidor al usuario. |
 
-**Catálogo maestro (DoD, dependencias, olas):** [migration-catalog.md](./migration-catalog.md) — filas **#1–#6**; ampliar **#5** al completar inventario del legado.
+**Catálogo maestro (DoD, dependencias, olas, riesgos):** [migration-catalog.md](./migration-catalog.md) — filas **#1–#6**; ampliar **#5** al completar inventario del legado.
+
+**Riesgo API (resumen):** el adaptador asume `GET` bajo `{apiUrl}/cotizaciones` hasta contrastar con el legado (**hipótesis**); si el backend devuelve HTML en errores, la política de mensajes (**#6**, `http-error.mapper` y spec canónico) SHALL evitar mostrar ese HTML crudo en la UI.
+
+**Riesgo diseño:** el destino no declara Material ni otro DS en dependencias; la paridad visual con el legado depende de inventario de tokens y componentes React (**inferencia:** sin ese inventario, **#1**, **#2** y **#5** tienen riesgo de deriva visual).
 
 **Plan vs hecho:** la estructura SDD (dominios `lineamientos`, `frontend-shell`, `cotizaciones-ui`) y el comando `/opsx:sync` están **hechos** en el repo destino; las filas concretas de rutas/componentes siguen **plan — pendiente** por acceso al legado (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 

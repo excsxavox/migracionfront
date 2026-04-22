@@ -24,7 +24,7 @@ El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren
 
 ### Requirement: Errores de API sin respuesta cruda al usuario (**#6**)
 
-Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). Mientras no exista interceptor o mock acordado, el mensaje derivado del error SHALL ser suficiente para cumplir esta obligación; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6**.
+Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir el requisito canónico «Errores de API sin presentación cruda al usuario» en `openspec/specs/cotizaciones-ui/spec.md`. La aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). Mientras no exista interceptor o mock acordado, el mensaje derivado del error SHALL ser suficiente para cumplir esta obligación; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6**.
 
 #### Scenario: Error 500 con cuerpo HTML
 

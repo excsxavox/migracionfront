@@ -20,7 +20,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 | *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** | **Laguna** hasta inventario |
 | *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#2** | **Destino con paridad fina pendiente** |
 | *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** | **Provisional** hasta cerrar path/DTO |
-| *TBD: env legado* | `environment*.ts`, `proxy.conf.json` | **#4** | **Placeholder** |
+| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `src/styles.css`, `src/index.html` | **#4** | **Placeholder** |
 | *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** | **No iniciado** |
 | Resiliencia errores API (baseline tras inventario) | Mapper de errores + estrategia mock/documentada | **#6** | **Gap:** decisión e implementación pendientes (`tasks.md` 2.5) |
 | APIs HTTP ya consumidas por el legado | Mismos endpoints desde Angular | **#2–3** | **Paridad** asumida salvo brecha documentada |
@@ -29,7 +29,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 
 | Artefacto | Plan | Hecho |
 |-----------|------|-------|
-| `migration-catalog.md` | Tabla completa: **#**, nombre, rutas legado, paths legado, APIs, depende de, destino, paridad diseño, estado, DoD funcional + visual, olas | [migration-catalog.md](./migration-catalog.md) — **6** filas; columnas legado **TBD** (clone 404) |
+| `migration-catalog.md` | Tabla completa: **#**, nombre, rutas legado, paths legado (incl. tema/estilos globales), APIs, depende de, destino, paridad diseño, riesgos API/diseño, estado, DoD funcional + visual, olas | [migration-catalog.md](./migration-catalog.md) — **6** filas (**#1–#6**); columnas legado **TBD** hasta inventario (clone 404) |
 | Dominios canónicos | `core`, `lineamientos`, `frontend-shell`, `cotizaciones-ui` | Creados bajo `openspec/specs/` |
 | `/opsx:sync` | Comando Cursor con pasos 1–11 | `.cursor/commands/opsx-sync.md` |
 | Reglas `.mdc` canónicas | Cinco ficheros alineados Angular | `.cursor/rules/*.mdc` |

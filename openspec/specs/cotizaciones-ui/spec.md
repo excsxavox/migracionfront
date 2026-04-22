@@ -60,10 +60,16 @@ La vista de listado de cotizaciones en el destino SHALL mostrar estados de **car
 
 ### Requirement: Errores de API sin presentación cruda al usuario
 
-Ante fallos de red o HTTP en el listado, el destino SHALL mostrar un mensaje producido por la aplicación (p. ej. vía mapeo centralizado de errores) y SHALL NOT usar como contenido principal de la vista el HTML de error del servidor ni una traza técnica sin contexto. Si el equipo adopta mocks o interceptores para desarrollo sin backend, el enfoque SHALL documentarse en el cambio activo de migración y en la fila de catálogo correspondiente a resiliencia de API.
+Ante fallos de red o HTTP en el listado, el destino SHALL mostrar un mensaje breve y legible producido por la aplicación (p. ej. vía mapeo centralizado de errores) y SHALL NOT usar como contenido principal de la vista el HTML completo del servidor, una página de error embebida ni una traza técnica sin contexto. Si el equipo adopta mocks o interceptores para desarrollo sin backend, el enfoque SHALL documentarse en el cambio activo de migración y en la fila **#6** de `openspec/changes/migracion-react-a-angular/migration-catalog.md`.
 
 #### Scenario: Cuerpo de error no estructurado
 
-- GIVEN el servidor responde con cuerpo que no es JSON útil para la UI
+- GIVEN el servidor responde con cuerpo HTML o texto no estructurado que no es JSON útil para la UI
 - WHEN se muestra el estado de error al usuario
-- THEN el mensaje es acotado y legible **o** se documenta **laguna** hasta implementar saneamiento adicional
+- THEN el mensaje es acotado y legible (p. ej. derivado de código o razón HTTP) **o** se documenta **laguna** hasta implementar saneamiento adicional
+
+#### Scenario: Trazabilidad con catálogo
+
+- GIVEN la fila **#6** del catálogo de migración
+- WHEN se cierra la paridad con el legado
+- THEN el comportamiento observable de errores queda alineado al baseline o registrado como discrepancia intencional en `design.md`
