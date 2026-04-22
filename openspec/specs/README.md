@@ -27,4 +27,4 @@ Los dominios pueden ampliarse con nuevas carpetas bajo `openspec/specs/<dominio>
 ## Cambio activo (migración React → Angular)
 
 - Carpeta del cambio: [`openspec/changes/migracion-react-a-angular/`](../changes/migracion-react-a-angular/) (`proposal.md`, `design.md`, `tasks.md`, deltas en `specs/<dominio>/spec.md`).
-- Catálogo por filas (**#**), columna **Tipo** (`shell` / `feature`), olas y lista plana **Foreach**: [migration-catalog.md](../changes/migracion-react-a-angular/migration-catalog.md). Columnas legado **pendientes de inventario** mientras aplique la discrepancia de baseline.
+- Catálogo por filas (**#1–#6**), columna **Tipo** (`shell` / `feature`), olas y lista plana **Foreach**: [migration-catalog.md](../changes/migracion-react-a-angular/migration-catalog.md). Columnas legado **BLOQUEADO** o pendientes hasta inventario mientras aplique la discrepancia de baseline. Cola Foreach opcional (destinos previstos hasta sustituir por paths legado): [migration-files-queue.md](../changes/migracion-react-a-angular/migration-files-queue.md).
