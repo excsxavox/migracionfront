@@ -35,7 +35,7 @@ Comprobar y **gap-fill** coherente con el código y con `openspec/specs/lineamie
 1. **Fetch baseline legado:** clonar o actualizar `Designcotizacionesmodule`; si el remoto no es accesible, registrar discrepancia `LEGACY_REPO_UNAVAILABLE` y usar inventario parcial (capturas, docs internas, último tag conocido).
 2. **Inventario origen:** rutas SPA, layout, módulos de feature, llamadas HTTP desde UI, estados de carga y error **observables**.
 3. **Inventario destino:** misma dimensión sobre el árbol Angular (`angular.json`, `src/app`, rutas lazy).
-4. **Actualizar tabla de equivalencias** en `openspec/changes/migracion-react-a-angular/design.md` y la sección correspondiente en `proposal.md` (ruta/pantalla legado → equivalente destino; estado: paridad / cambio / fuera de alcance).
+4. **Actualizar tabla de equivalencias** en `openspec/changes/migracion-react-a-angular/design.md` y la sección correspondiente en `proposal.md` (ruta/pantalla legado → equivalente destino; estado: paridad / cambio / fuera de alcance). Mantener `openspec/changes/migracion-react-a-angular/migration-catalog.md` alineado: columnas **Tipo** (`shell` / `feature`), **#** estables y lista plana **Foreach** (shell primero).
 5. **Reconciliar** `openspec/specs/frontend-shell/spec.md` y `openspec/specs/cotizaciones-ui/spec.md` con lo hallado; marcar **lagunas de especificación** donde el comportamiento no sea aún testeable o contrastable.
 6. **Leer** `openspec/specs/lineamientos/spec.md` y ajustar solo lo necesario para reflejar convenciones reales del repo.
 7. **Auditar** las cinco reglas `.mdc`: eliminar contradicciones entre ellas y con el stack Angular; añadir reglas faltantes mínimas sin duplicar el spec.
