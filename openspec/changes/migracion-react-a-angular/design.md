@@ -33,6 +33,20 @@ Ninguna registrada aún. Cualquier cambio respecto al legado SHALL listarse aqu�
 
 - **LEGACY_REPO_UNAVAILABLE:** remoto del legado no accesible públicamente; ver `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`.
 
+### Revisión shell destino (**#1**, solo criterios destino)
+
+Mientras el baseline React no sea contrastable, la revisión se limita a `openspec/specs/frontend-shell/spec.md` (shell accesible, raíz → cotizaciones) y a la implementación en `app.routes.ts` + `MainLayoutComponent`. **No se afirma equivalencia** con el legado.
+
+| Criterio destino (observable) | Hallazgo |
+|-------------------------------|----------|
+| Raíz `/` redirige al flujo cotizaciones | Cumple: `redirectTo: 'cotizaciones'` bajo layout `''`; URL final `/cotizaciones`. |
+| Layout padre + `router-outlet` para rutas hijas | Cumple: `MainLayoutComponent` envuelve hijos; `<router-outlet />` en `<main id="main-content">`. |
+| Ruta comodín no deja pantalla huérfana | Cumple: `**` → `''` (reentra al layout y redirección a cotizaciones). |
+| Cabecera, marca y enlace al dominio cotizaciones | Cumple: cabecera con marca y nav a `/cotizaciones`; marca e «Inicio» marcan activo en ruta cotizaciones (`routerLinkActive`). |
+| Accesibilidad: skip link, foco visible, regiones semánticas | Cumple: skip link a `#main-content`; `role="banner"`; `aria-label` en nav; estilos `:focus-visible` / skip-link enfocable. |
+| Título de documento coherente con el producto | Ajustado: `index.html` `lang="es"`, `<title>Cotizaciones</title>`; rutas con `title` para pestaña del navegador. |
+| Paridad rutas/copy/layout vs legado | **No contrastable** hasta inventario (catálogo **#1** columnas legado TBD; discrepancia `LEGACY_REPO_UNAVAILABLE`). |
+
 ## Strangler y orden de sustitución (módulo a módulo)
 
 1. **Shell y routing** del legado → `frontend-shell` en Angular (layout, outlet, guards visibles) — catálogo **#1**.

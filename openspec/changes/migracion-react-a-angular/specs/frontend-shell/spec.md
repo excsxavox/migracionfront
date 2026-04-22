@@ -31,3 +31,9 @@ Mientras aplique `LEGACY_REPO_UNAVAILABLE`, el cambio SHALL documentar en `desig
 - GIVEN el remoto del legado no es clonable o responde *not found*
 - WHEN se completa una revisión del shell en el código destino
 - THEN la documentación MUST citar `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md` y MUST limitar conclusiones a destino + catálogo **#1**
+
+#### Scenario: Revisión sin baseline
+
+- GIVEN `LEGACY_REPO_UNAVAILABLE` u otra discrepancia bloquea el inventario del legado
+- WHEN se documenta el shell del destino
+- THEN `design.md` incluye hallazgos contrastables con `openspec/specs/frontend-shell/spec.md` (tabla de criterios destino) y el catálogo **#1** indica que la equivalencia legado permanece TBD

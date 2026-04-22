@@ -9,7 +9,13 @@ import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
     <a class="skip-link" href="#main-content">Saltar al contenido</a>
     <header class="app-header" role="banner">
       <div class="app-header__inner">
-        <a routerLink="/cotizaciones" class="app-brand">Cotizaciones</a>
+        <a
+          routerLink="/cotizaciones"
+          class="app-brand"
+          routerLinkActive="is-active"
+          [routerLinkActiveOptions]="{ exact: false }"
+          >Cotizaciones</a
+        >
         <nav class="app-nav" aria-label="Principal">
           <a
             routerLink="/cotizaciones"

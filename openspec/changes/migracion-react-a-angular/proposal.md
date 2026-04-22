@@ -17,7 +17,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 
 | Legado (origen) | Destino (Angular) | Catálogo # | Estado |
 |-----------------|-------------------|------------|--------|
-| *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** (`shell`) | **Laguna** hasta inventario; **revisión destino 2026-04-22** en `design.md` / `migration-catalog.md` (sin afirmar equivalencia legado) |
+| *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** (`shell`) | **Laguna** hasta inventario; **revisión destino 2026-04-22** en `design.md` § «Revisión shell destino» y fila **#1** de `migration-catalog.md` (sin afirmar equivalencia legado) |
 | *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `src/styles.css`, `src/index.html` | **#2** (`shell`) | **Implementado en destino**; paridad tokens vs legado pendiente |
 | *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** (`feature`) | **Provisional** hasta cerrar path/DTO |
 | *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#4** (`feature`) | **Destino con paridad fina pendiente** |
