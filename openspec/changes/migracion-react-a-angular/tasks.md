@@ -25,5 +25,5 @@
 
 ## 3. Verificación
 
-- [x] 3.1 Lista de escenarios Given/When/Then cubiertos por pruebas o checklist manual (véase checklist en `design.md`; pruebas unitarias en `AppComponent` y `CotizacionesListComponent`).
+- [x] 3.1 Lista de escenarios Given/When/Then cubiertos por pruebas o checklist manual (véase checklist y sección **QA — pruebas automatizadas** en `design.md`; specs `*.spec.ts` bajo `src/app/` con comentarios de trazabilidad OpenSpec).
 - [ ] 3.2 Actualizar specs canónicos o archivar cambio cuando la migración base esté mergeada según flujo OpenSpec.

@@ -1,3 +1,7 @@
+/**
+ * Trazabilidad OpenSpec:
+ * - `openspec/specs/frontend-shell/spec.md` — contenedor raíz con outlet (bootstrap de la SPA destino)
+ */
 import { TestBed } from '@angular/core/testing';
 import { provideRouter } from '@angular/router';
 
@@ -13,13 +17,12 @@ describe('AppComponent', () => {
 
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app).toBeTruthy();
+    expect(fixture.componentInstance).toBeTruthy();
   });
 
-  it(`should have the 'migracionfront' title`, () => {
+  it('should render a router outlet', () => {
     const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.componentInstance;
-    expect(app.title).toEqual('migracionfront');
+    fixture.detectChanges();
+    expect(fixture.nativeElement.querySelector('router-outlet')).toBeTruthy();
   });
 });
