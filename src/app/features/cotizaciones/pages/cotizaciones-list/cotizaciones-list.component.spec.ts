@@ -7,7 +7,8 @@ import { CotizacionesListComponent } from './cotizaciones-list.component';
 
 /**
  * Trazabilidad OpenSpec:
- * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos
+ * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos (Scenario: Carga inicial, Error de red o HTTP, Lista vacía, Datos mostrados)
+ * - openspec/changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md — Listado bajo ruta lazy (**#2**)
  * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado)
  */
 describe('CotizacionesListComponent', () => {
@@ -31,12 +32,30 @@ describe('CotizacionesListComponent', () => {
     expect(el.textContent).toContain('borrador');
   });
 
-  it('should show error and retry', () => {
+  it('should show error, alert role, and retry', () => {
     setup({ listar: () => throwError(() => new Error('fallo')) });
     const el: HTMLElement = fixture.nativeElement;
     expect(el.textContent).toContain('fallo');
+    const alert = el.querySelector('[role="alert"]');
+    expect(alert).toBeTruthy();
     const btn = el.querySelector('button');
-    expect(btn).toBeTruthy();
+    expect(btn?.textContent?.trim()).toBe('Reintentar');
+  });
+
+  it('should call listar again when user clicks Reintentar after error', () => {
+    let calls = 0;
+    setup({
+      listar: () => {
+        calls += 1;
+        return calls === 1 ? throwError(() => new Error('fallo')) : of(sample);
+      }
+    });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('fallo');
+    el.querySelector('button')?.click();
+    fixture.detectChanges();
+    expect(calls).toBe(2);
+    expect(el.textContent).toContain('Uno');
   });
 
   it('should show loading while port has not emitted (cotizaciones-ui)', () => {
