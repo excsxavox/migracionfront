@@ -48,7 +48,9 @@ Ninguna registrada aún. Cualquier cambio respecto al legado SHALL listarse aqu�
 
 ## Mapeo diseño legado → destino
 
-Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). Cuando exista baseline React:
+Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). **Actualización shell (#1, sin baseline clonable):** `MainLayoutComponent` usa `main-layout.component.html` + `main-layout.component.scss` (cabecera sticky, marca con línea de contexto no enlazada, navegación a cotizaciones, `main` con outlet, pie `contentinfo` mínimo); la ruta hija `cotizaciones` declara `title: 'Cotizaciones'` para el título del documento. Paridad de copy y estructura frente al legado queda sujeta a Ola 1.
+
+Cuando exista baseline React:
 
 - **Tokens / color:** contrastar con paleta del legado; si el destino adopta design system distinto, registrar **discrepancia intencional** en esta sección y en `proposal.md` (columna *Paridad diseño* del catálogo).
 - **Grid y densidad:** alinear breakpoints y espaciado a componentes legados equivalentes (**#1–2**).

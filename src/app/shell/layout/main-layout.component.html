@@ -1,0 +1,25 @@
+<a class="skip-link" href="#main-content">Saltar al contenido</a>
+<header class="app-header" role="banner">
+  <div class="app-header__inner">
+    <div class="app-header__brand-block">
+      <a routerLink="/cotizaciones" class="app-brand">Cotizaciones</a>
+      <p class="app-tagline">Gestión de cotizaciones</p>
+    </div>
+    <nav class="app-nav" aria-label="Principal">
+      <a
+        routerLink="/cotizaciones"
+        routerLinkActive="is-active"
+        [routerLinkActiveOptions]="{ exact: true }"
+        >Inicio</a
+      >
+    </nav>
+  </div>
+</header>
+<main id="main-content" class="app-main" tabindex="-1">
+  <router-outlet />
+</main>
+<footer class="app-footer" role="contentinfo">
+  <div class="app-footer__inner">
+    <span class="app-footer__note">Aplicación de cotizaciones</span>
+  </div>
+</footer>
