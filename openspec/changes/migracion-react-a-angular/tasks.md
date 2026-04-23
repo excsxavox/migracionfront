@@ -34,4 +34,11 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 
 - [ ] 3.1 **[#5]** Por cada ruta/feature adicional inventariada en el legado: fila en catálogo, rutas destino, tareas y delta.
 - [ ] 3.2 **[#1–6]** Checklist de aceptación por ola completada (funcional + visual según catálogo); escenarios Given/When/Then en deltas `changes/migracion-react-a-angular/specs/<dominio>/spec.md` y checklist de verificación en `design.md`; pruebas en `AppComponent` y `CotizacionesListComponent` según `.cursor/rules/testing.mdc`.
+- [x] 3.2a **[#1][#2][#6]** QA: matriz requisito ↔ test y comandos en `design.md` (sección **QA**); trazabilidad en comentarios de `main-layout.component.spec.ts`, `app.routes.integration.spec.ts`, `cotizaciones-list.component.spec.ts`, `http-error.mapper.spec.ts`.
+
+## QA — comandos y regresión rápida
+
+- **Unit / integración ligera:** `npm run test` o `npx ng test --no-watch --browsers=ChromeHeadless`
+- **Build:** `npm run build`
+- **Manual antes de cerrar migración:** revisión visual **2.6** (legado vs destino) cuando exista baseline; hasta entonces solo checklist de shell/listado/error documentado en `design.md` § QA.
 - [ ] 3.3 Actualizar specs canónicos `openspec/specs/` o archivar este cambio según flujo OpenSpec de merge de deltas.
