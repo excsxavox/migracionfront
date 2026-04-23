@@ -1,3 +1,7 @@
+/**
+ * Bootstrap de la aplicación (**#4**): HTTP, router, tokens de `environment`,
+ * interceptors globales (p. ej. mock de cotizaciones en dev; implementación en **#6**).
+ */
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
 import { provideRouter } from '@angular/router';

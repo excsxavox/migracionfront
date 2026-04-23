@@ -2,6 +2,11 @@ import { HttpErrorResponse } from '@angular/common/http';
 
 import { mapHttpErrorToMessage } from './http-error.mapper';
 
+/**
+ * Trazabilidad OpenSpec:
+ * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Errores de API sin presentación cruda al usuario
+ * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#6**
+ */
 describe('mapHttpErrorToMessage', () => {
   it('returns friendly message for HTML error body', () => {
     const html = '<!DOCTYPE html><html><body>Error 500</body></html>';
