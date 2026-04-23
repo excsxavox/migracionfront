@@ -79,3 +79,13 @@ Ante fallos de red o HTTP en el listado, el destino SHALL mostrar un mensaje bre
 - GIVEN la fila **#6** del catálogo de migración
 - WHEN se cierra la paridad con el legado
 - THEN el comportamiento observable de errores queda alineado al baseline o registrado como discrepancia intencional en `design.md`
+
+### Requirement: Rutas y pantallas adicionales del dominio (**#5**)
+
+Las pantallas o flujos del dominio de cotizaciones (u homólogo en el legado) que **no** estén cubiertos por el listado principal documentado en el cambio activo de migración como fila **#2** SHALL seguir el mismo criterio de paridad: inventario en catálogo (**#5**), cola Foreach, tareas y deltas del cambio activo antes de implementación bajo `src/app/features/…`. Cualquier enlace nuevo en el shell global SHALL coordinarse con `frontend-shell` (**#1**).
+
+#### Scenario: Una pantalla Foreach
+
+- GIVEN una pantalla legado adicional inventariada
+- WHEN se documenta en OpenSpec
+- THEN existe trazabilidad **#5** con paths legado y destino y escenarios contrastables en el delta `cotizaciones-ui` del cambio o su sucesor mergeable

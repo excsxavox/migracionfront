@@ -43,3 +43,25 @@ Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir e
 - GIVEN `environment.useCotizacionesMock` es verdadero y el build no es de producción
 - WHEN la aplicación solicita el listado
 - THEN el usuario ve al menos un ítem de demostración sin error de red
+
+### Requirement: Pantallas y rutas adicionales del módulo (**#5**)
+
+Cada pantalla o flujo de usuario del **mismo dominio de producto** que el listado **#2** y que exista en el legado pero no esté cubierto por la fila **#2** del [catálogo](../../migration-catalog.md) SHALL inventariarse en **Ola 1** y SHALL migrarse o quedar explícitamente fuera de alcance con justificación en `design.md` o discrepancias. El destino SHALL documentar equivalencias legado → destino (rutas UI, carpetas bajo `src/app/features/…`) y SHALL implementar rutas lazy y componentes alineados al contrato observable del legado cuando estén en alcance.
+
+#### Scenario: Inventario antes de implementar
+
+- GIVEN el clon del legado es accesible
+- WHEN se detecta una ruta React o pantalla no mapeada en **#2**
+- THEN existe una fila de catálogo (**#5** extendida o nueva fila numerada acordada por el equipo) con paths legado y destino, una entrada en `migration-files-queue.md`, y subchecklist **3.1** en `tasks.md` actualizada
+
+#### Scenario: Paridad o discrepancia
+
+- GIVEN una pantalla adicional documentada en **#5**
+- WHEN el usuario completa el flujo equivalente en el destino
+- THEN el comportamiento observable coincide con el legado **o** la desviación está registrada como discrepancia intencional en `design.md`
+
+#### Scenario: Navegación global
+
+- GIVEN una nueva ruta destino requiere enlace desde el shell
+- WHEN se implementa **#5**
+- THEN los cambios en cabecera o nav quedan trazados en delta o spec de `frontend-shell` (**#1**) además de `cotizaciones-ui` cuando aplique
