@@ -9,7 +9,7 @@ import { CotizacionesListComponent } from './cotizaciones-list.component';
  * Trazabilidad OpenSpec:
  * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos (Scenario: Carga inicial, Error de red o HTTP, Lista vacía, Datos mostrados)
  * - openspec/changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md — Listado bajo ruta lazy (**#2**)
- * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado)
+ * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado), **#6** (mensaje de error saneado)
  */
 describe('CotizacionesListComponent', () => {
   let fixture: ComponentFixture<CotizacionesListComponent>;
@@ -56,6 +56,22 @@ describe('CotizacionesListComponent', () => {
     fixture.detectChanges();
     expect(calls).toBe(2);
     expect(el.textContent).toContain('Uno');
+  });
+
+  it('should map unknown errors to a controlled message (#6)', () => {
+    setup({ listar: () => throwError(() => 'string-throw') });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('Ha ocurrido un error inesperado');
+    expect(el.textContent).not.toContain('string-throw');
+  });
+
+  it('should not surface raw HTML from error message (#6)', () => {
+    setup({
+      listar: () => throwError(() => new Error('<!DOCTYPE html><html><body>500</body></html>'))
+    });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('página de error');
+    expect(el.textContent).not.toContain('<html');
   });
 
   it('should show loading while port has not emitted (cotizaciones-ui)', () => {

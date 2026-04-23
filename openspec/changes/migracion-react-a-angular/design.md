@@ -127,6 +127,16 @@ Cuando exista baseline React:
 
 **Pendiente tras inventario legado:** rutas y ficheros React equivalentes en la tabla de equivalencias; densidad, tipografía, columnas y copy del listado frente al legado (**tasks.md** 2.6).
 
+## Revisión errores HTTP y mock **#6** (solo destino; baseline legado bloqueado)
+
+**Fecha:** 2026-04-23. **Fuentes destino:** `http-error.mapper.ts` + `http-error.mapper.spec.ts`; `cotizaciones-mock.interceptor.ts` (misma composición de URL que adaptador **#3**); `cotizaciones-list.component.ts` (handler `error` con `mapHttpErrorToMessage` para cualquier fallo del observable); pruebas en `cotizaciones-list.component.spec.ts` (errores no-`Error` y `Error` con cuerpo tipo HTML document). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`).
+
+| Criterio (destino / **#6**) | Hallazgo breve |
+|----------------------------|----------------|
+| Sin HTML crudo en UI ante fallo | Adaptador envuelve `HttpErrorResponse` en `Error(mapHttpErrorToMessage(err))`; la vista aplica de nuevo `mapHttpErrorToMessage` en el subscribe (defensa si el puerto emite otro tipo de fallo). |
+| Mock dev | `useCotizacionesMock` + interceptor solo fuera de producción; URL alineada a `environment.apiUrl` + `cotizacionesListRelativePath`. |
+| Pendiente Ola 1 | Mensajes y política de reintentos vs comportamiento exacto del legado React. |
+
 ## Riesgos
 
 - Repositorio legado privado o renombrado impide baseline hasta obtener acceso.
@@ -146,7 +156,7 @@ Cuando exista baseline React:
 | `frontend-shell` (delta) — HTML `lang`, tokens `--app-*`, `:focus-visible`, carpeta `public/` | **#4** | `npm run verify:bootstrap` → `scripts/verify-bootstrap.mjs` |
 | `frontend-shell` — shell accesible, regiones, navegación a cotizaciones | **#1** | `main-layout.component.spec.ts` |
 | `frontend-shell` — raíz redirige a `/cotizaciones`, wildcard coherente | **#1** | `app.routes.integration.spec.ts` |
-| `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos | **#2** | `cotizaciones-list.component.spec.ts` |
+| `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos; error saneado (**#6**) | **#2**, **#6** | `cotizaciones-list.component.spec.ts` |
 | `cotizaciones-ui` — ruta lazy `/cotizaciones` + stack HTTP real + mock dev (datos visibles) | **#2**, **#4**, **#6** | `cotizaciones.routes.integration.spec.ts` |
 | `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
 | `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts` |
