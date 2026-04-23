@@ -11,7 +11,7 @@ Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-
 | # | Legado (origen) | Destino (Angular) | Notas |
 |---|-----------------|-------------------|--------|
 | **#1** | *TBD: layout raíz y rutas del SPA React (tras inventario)* | `src/app/shell/layout/main-layout.component.ts`, `src/app/app.routes.ts` | Raíz redirige a `/cotizaciones`. Paridad de copy/enlaces cuando exista clon del legado. |
-| **#2** | *TBD: pantalla y rutas de listado de cotizaciones en el legado* | `src/app/features/cotizaciones/cotizaciones.routes.ts`; `src/app/features/cotizaciones/pages/cotizaciones-list/` (`.ts`, `.html`, `.css`) | Ruta lazy bajo `/cotizaciones`; estados carga / error con reintentar / vacío / datos; depende de **#1**, **#3**, **#4**. Paridad visual y copy vs legado en Ola 1 (catálogo maestro [migration-catalog.md](./migration-catalog.md)). |
+| **#2** | *TBD: pantalla y rutas de listado de cotizaciones en el legado* | `src/app/features/cotizaciones/cotizaciones.routes.ts`; `src/app/features/cotizaciones/pages/cotizaciones-list/` (`.ts`, `.html`, `.css`) | Ruta lazy bajo `/cotizaciones`; `title` en ruta hija del feature; estados carga / error con reintentar / vacío / datos; estilos con tokens globales `var(--app-*)`; depende de **#1**, **#3**, **#4**. Paridad visual y copy vs legado en Ola 1 (catálogo maestro [migration-catalog.md](./migration-catalog.md)). |
 | **#3** | *TBD: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort`; tokens `API_BASE_URL`, `COTIZACIONES_LIST_RELATIVE_PATH`; `environment*.ts` (`cotizacionesListRelativePath`) | `GET` como `{apiUrl}{cotizacionesListRelativePath}` (por defecto `/cotizaciones`). Normaliza array plano o envolturas comunes. Errores hacia `mapHttpErrorToMessage` (**#6**). |
 | **#4** | *TBD: variables de entorno, proxy y estilos globales del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` con `pathRewrite` de `/api` a raíz del backend (ajustar al backend real). Mock opcional en dev (**#6**): `useCotizacionesMock` + `cotizacionesMockInterceptor` registrados vía `provideHttpClient` en `app.config.ts`; desactivar con API real. |
 | **#5** | *TBD: demás rutas del SPA legado* | *Por definir* bajo `src/app/features/…` | Añadir fila por pantalla al inventariar. |
@@ -49,10 +49,14 @@ Mientras el baseline React no sea contrastable, la revisión se limita a `opensp
 
 ## Strangler y orden de sustitución (módulo a módulo)
 
-1. **Shell y routing** del legado → `frontend-shell` en Angular (layout, outlet, guards visibles) — catálogo **#1**.
-2. **Entorno, proxy y tema global** — catálogo **#4** (base para paridad visual y llamadas HTTP).
-3. **Módulo cotizaciones** (o el primero confirmado en el árbol React) → ruta lazy `cotizaciones-ui` con paridad de flujos — **#2** (lista), **#3** (HTTP), **#6** (errores/mock).
-4. **Módulos satélite** en el orden de dependencia detectada en el legado (menos acoplados primero), documentando cada paso en la tabla de equivalencias — **#5**.
+Alineado a la **Lista plana para Foreach** en [migration-catalog.md](./migration-catalog.md) (**#4** → **#1** → **#3** → **#2** → **#6** → **#5**):
+
+1. **Bootstrap global** (entorno, proxy, estilos, `app.config`) — catálogo **#4**.
+2. **Shell y routing** del legado → `frontend-shell` en Angular (layout, outlet, guards visibles) — catálogo **#1**.
+3. **Cliente HTTP cotizaciones** — catálogo **#3**.
+4. **Pantalla listado** y estilos de módulo — catálogo **#2**.
+5. **Errores y mock dev** — catálogo **#6** (mapper + interceptor + estados en vista).
+6. **Módulos satélite** — catálogo **#5**.
 
 **Feature flags:** SHOULD usarse solo para coexistencia temporal o despliegue progresivo; cada flag MUST tener dueño, criterio de retirada y mención en `proposal.md` o aquí.
 
@@ -71,7 +75,7 @@ Cuando exista baseline React:
 - **Grid y densidad:** alinear breakpoints y espaciado a componentes legados equivalentes (**#1**, **#4**).
 - **Componentes UI:** seguir `.cursor/rules/use-custom-ui-components.mdc` y `use-global-color-palette.mdc` al sustituir estilos inline del legado por patrones Angular reutilizables.
 
-## HTTP en desarrollo y ausencia de API (**#4**, **#6**)
+## HTTP en desarrollo y ausencia de API (**#3**, **#4**, **#6**)
 
 - **`environment.apiUrl`** y **`environment.cotizacionesListRelativePath`:** el adaptador (**#3**) construye `GET` como `apiUrl` + path relativo (por defecto `/cotizaciones`; valores en **#4**). En `ng serve`, `/api` pasa por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto), con reescritura para que `/api/...` llegue al backend sin el prefijo `/api` salvo que el despliegue use otro contrato (documentar discrepancia).
 - **`provideHttpClient(withInterceptors([cotizacionesMockInterceptor]))`** en `app.config.ts` (**#4**): si `useCotizacionesMock` es verdadero y no es producción, el interceptor responde al mismo URL que el adaptador con datos de demostración; en caso contrario la petición sigue al backend y los fallos se muestran vía `mapHttpErrorToMessage` (**#6**, sin HTML crudo).
@@ -109,15 +113,19 @@ Cuando exista baseline React:
 
 ## Revisión listado cotizaciones **#2** (solo destino; baseline legado bloqueado)
 
-**Fecha:** 2026-04-23. **Fuentes destino:** `src/app/features/cotizaciones/cotizaciones.routes.ts` (ruta vacía con `loadComponent` → `CotizacionesListComponent`); `src/app/features/cotizaciones/pages/cotizaciones-list/` (plantilla, estilos, lógica de carga / error / vacío / reintentar vía `COTIZACIONES_PORT`). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`); no se afirma paridad legado ↔ destino.
+**Fecha:** 2026-04-23. **Fuentes destino:** `src/app/features/cotizaciones/cotizaciones.routes.ts` (ruta vacía con `loadComponent` → `CotizacionesListComponent`, `title` en ruta hija); `src/app/features/cotizaciones/pages/cotizaciones-list/` (plantilla, estilos, lógica de carga / error / vacío / reintentar vía `COTIZACIONES_PORT`). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`); no se afirma paridad legado ↔ destino.
 
 | Criterio (destino / `cotizaciones-ui`) | Hallazgo breve |
 |---------------------------------------|----------------|
-| Ruta lazy del feature | `cotizacionesRoutes` expone `path: ''` con carga perezosa del listado; montaje bajo `/cotizaciones` desde rutas raíz (shell **#1**). |
-| Estados observables | Carga, error con mensaje y «Reintentar», vacío explícito, lista con título (y estado si el VM lo incluye). |
+| Ruta lazy del feature | `cotizacionesRoutes` expone `path: ''` con carga perezosa del listado; montaje bajo `/cotizaciones` desde rutas raíz (`loadChildren`, shell **#1**). |
+| Título de documento | Ruta hija del feature con `title: 'Listado de cotizaciones'`. |
+| Estados observables | Carga, error con mensaje y «Reintentar», vacío explícito, lista con título (y estado si el VM lo incluye); control flow `@if` / `@for` con `track c.id`. |
 | Dependencias de catálogo | Consume **#3** (puerto); configuración base **#4**; mensajes de error alineados a **#6** (sin HTML crudo como contenido principal). |
+| Accesibilidad mínima | `section` + `aria-labelledby`; loading `aria-live="polite"`; error `role="alert"`; botón con `aria-describedby` al mensaje. |
+| Estilos y responsive | Tokens `var(--app-*)` en CSS del componente; ítems en columna en viewport ≤48rem; spinner respeta `prefers-reduced-motion`. |
+| Rendimiento UI | `ChangeDetectionStrategy.OnPush` en el componente de lista. |
 
-**Pendiente tras inventario legado:** rutas y ficheros React equivalentes en la tabla de equivalencias; densidad, tipografía y copy del listado frente al legado (**tasks.md** 2.6).
+**Pendiente tras inventario legado:** rutas y ficheros React equivalentes en la tabla de equivalencias; densidad, tipografía, columnas y copy del listado frente al legado (**tasks.md** 2.6).
 
 ## Riesgos
 

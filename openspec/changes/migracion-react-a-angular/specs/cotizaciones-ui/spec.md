@@ -14,7 +14,7 @@ El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del mó
 
 ### Requirement: Listado bajo ruta lazy y puerto HTTP
 
-El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren` / rutas del feature; **#2** con registro lazy en **#1** / shell) y SHALL consumir datos vía un puerto (`CotizacionesPort`) implementado por adaptador HTTP (**#3**), alineable al contrato real cuando se documente desde el legado.
+El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren` / rutas del feature; **#2** con registro lazy en shell **#1**) y SHALL consumir datos vía un puerto (`CotizacionesPort`) implementado por adaptador HTTP (**#3**), alineable al contrato real cuando se documente desde el legado.
 
 #### Scenario: Contrato HTTP provisional (**#3**)
 
