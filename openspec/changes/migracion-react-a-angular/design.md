@@ -161,6 +161,7 @@ Cuando exista baseline React:
 | `cotizaciones-ui` — ruta lazy `/cotizaciones` + stack HTTP real + mock dev (datos visibles) | **#2**, **#4**, **#6** | `cotizaciones.routes.integration.spec.ts` |
 | `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
 | `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts`, `cotizaciones-list.component.spec.ts` (mapeo defensivo en vista) |
+| `cotizaciones-ui` — mock dev: solo GET listado, bandera y producción | **#6**, **#4** | `cotizaciones-mock.interceptor.spec.ts` |
 
 **Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para bootstrap (**#4**), shell (**#1**), listado (**#2**), adaptador HTTP (**#3**) y saneo de errores (**#6**). En CI, ejecutar `npm run verify:bootstrap` además de `ng test` para cubrir ficheros estáticos que Karma no lee del disco. Tras Ola 1, refinar pruebas de contrato HTTP al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
 
@@ -172,11 +173,13 @@ Cuando exista baseline React:
 
 **Criterios de aceptación comprobables (#3):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `cotizaciones.http-adapter.spec.ts` en verde (URL base + path relativo, normalización de envolturas, error ante forma inesperada); (2) el interceptor mock (**#6**) y la vista de listado (**#2**) usan la misma composición de URL que el adaptador (regresión: cambiar `cotizacionesListRelativePath` sin romper mock ni `GET` real).
 
+**Criterios de aceptación comprobables (#6):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `http-error.mapper.spec.ts` y los casos de error en `cotizaciones-list.component.spec.ts` en verde (mensaje acotado, sin HTML crudo, throws no estándar); (2) la misma ejecución ejecuta `cotizaciones-mock.interceptor.spec.ts` en verde (mock solo con `useCotizacionesMock` y no producción; delegación al backend si mock desactivado, en producción, en POST, o en URL no listado); (3) `cotizaciones.routes.integration.spec.ts` sigue mostrando textos de demostración con mock activo en la ruta lazy.
+
 **Hallazgos bloqueantes vs mejoras:** bloqueante para “paridad migración completa”: inventario legado y cierre de **2.6**/**3.2**. No bloqueante: refinar tokens o añadir e2e cuando exista harness.
 
 ## Estado integración
 
-- **Pull request:** actualizar al PR abierto desde la rama de trabajo (véase último push en `origin/cursor/wf-2d3be0b19b3e4c`).  
+- **Pull request (referencia):** https://github.com/excsxavox/migracionfront/pull/25 — comprobar en GitHub si figura *Open*, *Merged* o *Closed*; la rama de trabajo sigue siendo la fuente de commits hasta merge.
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.
