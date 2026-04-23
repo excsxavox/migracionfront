@@ -134,7 +134,7 @@ Cuando exista baseline React:
 
 ## QA — pruebas, cobertura y criterios comprobables
 
-**Stack bajo prueba en destino:** Angular 19 (Karma + Jasmine); no hay suite e2e en el repo. El baseline de paridad sigue sijeto a inventario del legado React (`Designcotizacionesmodule`); mientras aplique `LEGACY_REPO_UNAVAILABLE`, la verificación automatizada cubre **comportamiento observable documentado** en `openspec/specs/` y deltas, no paridad literal legado vs Angular.
+**Stack bajo prueba en destino:** Angular 19 (Karma + Jasmine); no hay suite e2e en el repo. El baseline de paridad sigue sujeto a inventario del legado React (`Designcotizacionesmodule`); mientras aplique `LEGACY_REPO_UNAVAILABLE`, la verificación automatizada cubre **comportamiento observable documentado** en `openspec/specs/` y deltas, no paridad literal legado vs Angular.
 
 **Dónde viven los tests:** `src/**/*.spec.ts` (convención Angular). Comando: `npm run test` (equiv. `ng test`); en CI/sandbox sin display: `npx ng test --no-watch --browsers=ChromeHeadless`.
 
@@ -147,6 +147,7 @@ Cuando exista baseline React:
 | `frontend-shell` — shell accesible, regiones, navegación a cotizaciones | **#1** | `main-layout.component.spec.ts` |
 | `frontend-shell` — raíz redirige a `/cotizaciones`, wildcard coherente | **#1** | `app.routes.integration.spec.ts` |
 | `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos | **#2** | `cotizaciones-list.component.spec.ts` |
+| `cotizaciones-ui` — ruta lazy `/cotizaciones` + stack HTTP real + mock dev (datos visibles) | **#2**, **#4**, **#6** | `cotizaciones.routes.integration.spec.ts` |
 | `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
 | `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts` |
 
@@ -155,6 +156,8 @@ Cuando exista baseline React:
 **Manual (no automatizable sin baseline o sin e2e):** tarea **2.6** — comparación visual desktop y ≤768px legado vs destino; orden y copy exactos del menú legado; capturas en `design.md` o discrepancias. Sin clon del legado, registrar como **laguna** y no afirmar paridad visual.
 
 **Criterios de aceptación comprobables (#4):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` incluye la suite `bootstrap (#4)` en verde; (2) `npm run verify:bootstrap` termina con código 0; (3) `npm run build` compila sin errores. **Regresión:** si se cambia `pathRewrite` del proxy o `apiUrl`, los tests **#4** y la documentación en `design.md` § HTTP SHALL actualizarse en el mismo cambio.
+
+**Criterios de aceptación comprobables (#2):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `cotizaciones-list.component.spec.ts` en verde (carga `aria-live="polite"`, error con `role="alert"` y botón «Reintentar», vacío, datos, segundo `listar` al reintentar); (2) la misma ejecución ejecuta `cotizaciones.routes.integration.spec.ts` en verde (navegación a `/cotizaciones` con `appConfig` + mock activo muestra textos de demostración del interceptor); (3) hasta Ola 1, no se exige paridad de copy/layout frente al legado (solo criterios destino + spec).
 
 **Criterios de aceptación comprobables (#3):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `cotizaciones.http-adapter.spec.ts` en verde (URL base + path relativo, normalización de envolturas, error ante forma inesperada); (2) el interceptor mock (**#6**) y la vista de listado (**#2**) usan la misma composición de URL que el adaptador (regresión: cambiar `cotizacionesListRelativePath` sin romper mock ni `GET` real).
 
