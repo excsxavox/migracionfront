@@ -9,6 +9,7 @@ import { provideRouter } from '@angular/router';
 import { environment } from '../environments/environment';
 import { COTIZACIONES_PORT } from './core/ports/cotizaciones.port';
 import { API_BASE_URL } from './core/tokens/api-base-url.token';
+import { COTIZACIONES_LIST_RELATIVE_PATH } from './core/tokens/cotizaciones-list-path.token';
 import { CotizacionesHttpAdapter } from './infrastructure/adapters/cotizaciones.http-adapter';
 import { cotizacionesMockInterceptor } from './infrastructure/interceptors/cotizaciones-mock.interceptor';
 import { routes } from './app.routes';
@@ -19,6 +20,10 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(withInterceptors([cotizacionesMockInterceptor])),
     { provide: API_BASE_URL, useValue: environment.apiUrl },
+    {
+      provide: COTIZACIONES_LIST_RELATIVE_PATH,
+      useValue: environment.cotizacionesListRelativePath
+    },
     { provide: COTIZACIONES_PORT, useClass: CotizacionesHttpAdapter }
   ]
 };

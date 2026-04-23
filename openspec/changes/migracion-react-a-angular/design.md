@@ -19,7 +19,7 @@ Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-
 
 **Catálogo maestro (DoD, dependencias, olas, riesgos):** [migration-catalog.md](./migration-catalog.md) — filas **#1–#6**; ampliar **#5** al completar inventario del legado.
 
-**Riesgo API (resumen):** el adaptador asume `GET` bajo `{apiUrl}/cotizaciones` hasta contrastar con el legado (**hipótesis**); si el backend devuelve HTML en errores, la política de mensajes (**#6**, `http-error.mapper` y spec canónico) SHALL evitar mostrar ese HTML crudo en la UI.
+**Riesgo API (resumen):** el adaptador asume `GET` bajo `{apiUrl}{cotizacionesListRelativePath}` (por defecto `/cotizaciones`) hasta contrastar con el legado (**hipótesis**); si el backend devuelve HTML en errores, la política de mensajes (**#6**, `http-error.mapper` y spec canónico) SHALL evitar mostrar ese HTML crudo en la UI.
 
 **Riesgo diseño:** el destino no declara Material ni otro DS en dependencias; la paridad visual con el legado depende de inventario de tokens y componentes React (**inferencia:** sin ese inventario, **#1**, **#2**, **#4** y **#5** tienen riesgo de deriva visual).
 
@@ -63,7 +63,7 @@ Mientras el baseline React no sea contrastable, la revisión se limita a `opensp
 
 ## Mapeo diseño legado → destino
 
-Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). **Actualización shell (#1, sin baseline clonable):** `MainLayoutComponent` usa `main-layout.component.html` + `main-layout.component.scss` (cabecera sticky, marca con línea de contexto no enlazada, navegación a cotizaciones, `main` con outlet, pie `contentinfo` mínimo); la ruta hija `cotizaciones` declara `title: 'Cotizaciones'` para el título del documento. Paridad de copy y estructura frente al legado queda sujeta a Ola 1.
+Hasta el inventario (**#1**, **#4**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). **Actualización shell (#1, sin baseline clonable):** `MainLayoutComponent` usa `main-layout.component.html` + `main-layout.component.scss` (cabecera sticky, marca con línea de contexto no enlazada, navegación a cotizaciones, `main` con outlet, pie `contentinfo` mínimo); la ruta hija `cotizaciones` declara `title: 'Cotizaciones'` para el título del documento. Paridad de copy y estructura frente al legado queda sujeta a Ola 1.
 
 Cuando exista baseline React:
 
@@ -73,8 +73,8 @@ Cuando exista baseline React:
 
 ## HTTP en desarrollo y ausencia de API (**#2**, **#6**)
 
-- **`environment.apiUrl`:** `/api` en desarrollo, enrutado por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto), con reescritura de ruta para que las peticiones a `/api/cotizaciones` lleguen al backend como `/cotizaciones` salvo que el despliegue real use otro prefijo (documentar discrepancia).
-- **`provideHttpClient(withInterceptors([cotizacionesMockInterceptor]))`** en `app.config.ts`: si `useCotizacionesMock` es verdadero y no es producción, el interceptor responde a `GET {apiUrl}/cotizaciones` con datos de demostración; en caso contrario la petición sigue al backend y los fallos se muestran vía `mapHttpErrorToMessage` (sin HTML crudo).
+- **`environment.apiUrl`** y **`environment.cotizacionesListRelativePath`:** el adaptador (**#3**) construye `GET` como `apiUrl` + path relativo (por defecto `/cotizaciones`). En `ng serve`, `/api` pasa por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto), con reescritura para que `/api/...` llegue al backend sin el prefijo `/api` salvo que el despliegue use otro contrato (documentar discrepancia).
+- **`provideHttpClient(withInterceptors([cotizacionesMockInterceptor]))`** en `app.config.ts` (**#4**): si `useCotizacionesMock` es verdadero y no es producción, el interceptor responde al mismo URL que el adaptador con datos de demostración; en caso contrario la petición sigue al backend y los fallos se muestran vía `mapHttpErrorToMessage` (**#6**, sin HTML crudo).
 - **Producción:** `useCotizacionesMock` es falso; el interceptor no sustituye respuestas.
 
 ## Estrategia por ola (resumen)
@@ -82,7 +82,7 @@ Cuando exista baseline React:
 | Ola | Enfoque |
 |-----|---------|
 | **1** | Rellenar columnas legado del catálogo **#1–6**; refinar esta tabla y deltas. |
-| **2** | **#6** mapper + mock dev opcional **implementados en destino**; falta **revisión frente al legado** y cierre fino; revisión visual **#1–2** frente al legado (**tasks.md** 2.6). |
+| **2** | **#3** adaptador + puerto; **#6** mapper + mock dev opcional **implementados en destino**; falta **revisión frente al legado** y cierre fino; revisión visual **#1**, **#2**, **#4** frente al legado (**tasks.md** 2.6). |
 | **3** | Cubrir **#5** y merge de comportamiento a `openspec/specs/` cuando proceda. |
 
 ## Checklist de verificación (destino actual)
@@ -122,20 +122,25 @@ Cuando exista baseline React:
 
 | Requisito OpenSpec (resumen) | Catálogo | Fichero(s) de prueba |
 |-----------------------------|----------|----------------------|
+| `frontend-shell` (delta) — coherencia bootstrap: entornos, proxy, `angular.json`, `API_BASE_URL` | **#4** | `src/bootstrap.spec.ts` |
+| `frontend-shell` (delta) — HTML `lang`, tokens `--app-*`, `:focus-visible`, carpeta `public/` | **#4** | `npm run verify:bootstrap` → `scripts/verify-bootstrap.mjs` |
 | `frontend-shell` — shell accesible, regiones, navegación a cotizaciones | **#1** | `main-layout.component.spec.ts` |
 | `frontend-shell` — raíz redirige a `/cotizaciones`, wildcard coherente | **#1** | `app.routes.integration.spec.ts` |
 | `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos | **#2** | `cotizaciones-list.component.spec.ts` |
+| `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
 | `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts` |
 
-**Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para shell (**#1**), listado (**#2**) y saneo de errores (**#6**). Tras Ola 1, añadir pruebas de contrato HTTP alineadas al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
+**Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para bootstrap (**#4**), shell (**#1**), listado (**#2**), adaptador HTTP (**#3**) y saneo de errores (**#6**). En CI, ejecutar `npm run verify:bootstrap` además de `ng test` para cubrir ficheros estáticos que Karma no lee del disco. Tras Ola 1, refinar pruebas de contrato HTTP al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
 
 **Manual (no automatizable sin baseline o sin e2e):** tarea **2.6** — comparación visual desktop y ≤768px legado vs destino; orden y copy exactos del menú legado; capturas en `design.md` o discrepancias. Sin clon del legado, registrar como **laguna** y no afirmar paridad visual.
+
+**Criterios de aceptación comprobables (#4):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` incluye la suite `bootstrap (#4)` en verde; (2) `npm run verify:bootstrap` termina con código 0; (3) `npm run build` compila sin errores. **Regresión:** si se cambia `pathRewrite` del proxy o `apiUrl`, los tests **#4** y la documentación en `design.md` § HTTP SHALL actualizarse en el mismo cambio.
 
 **Hallazgos bloqueantes vs mejoras:** bloqueante para “paridad migración completa”: inventario legado y cierre de **2.6**/**3.2**. No bloqueante: refinar tokens o añadir e2e cuando exista harness.
 
 ## Estado integración
 
-- **Pull request:** https://github.com/excsxavox/migracionfront/pull/17  
+- **Pull request:** https://github.com/excsxavox/migracionfront/pull/20  
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.

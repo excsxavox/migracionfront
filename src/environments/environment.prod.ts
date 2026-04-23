@@ -8,5 +8,6 @@ export const environment = {
    * No incluir secretos ni tokens en el cliente.
    */
   apiUrl: '/api',
+  cotizacionesListRelativePath: '/cotizaciones',
   useCotizacionesMock: false
 };

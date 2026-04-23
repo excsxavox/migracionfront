@@ -9,9 +9,11 @@ export const environment = {
    * (p. ej. `/api` → backend en `http://localhost:3000` con pathRewrite según proxy).
    */
   apiUrl: '/api',
+  /** Path del listado relativo a `apiUrl` (ajustar tras inventario legado). */
+  cotizacionesListRelativePath: '/cotizaciones',
   /**
    * Si es true y no es producción, el interceptor registrado en `app.config.ts` responde a
-   * GET `{apiUrl}/cotizaciones` con datos de demostración. Desactivar al usar API real.
+   * GET `{apiUrl}{cotizacionesListRelativePath}` con datos de demostración. Desactivar al usar API real.
    */
   useCotizacionesMock: true
 };
