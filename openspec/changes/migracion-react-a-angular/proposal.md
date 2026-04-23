@@ -22,14 +22,14 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 | *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** | **Provisional** hasta cerrar path/DTO |
 | *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `src/styles.css`, `src/index.html` | **#4** | **Placeholder** |
 | *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** | **No iniciado** |
-| Resiliencia errores API (baseline tras inventario) | Mapper de errores + estrategia mock/documentada | **#6** | **Gap:** decisión e implementación pendientes (`tasks.md` 2.5) |
+| *TBD: manejo de fallos API en legado* | `http-error.mapper`, estados error en listado; mock dev `useCotizacionesMock` + interceptor (documentado con **#4** en `design.md`) | **#6** | **Parcial en destino** — paridad fina y baseline legado pendientes (inventario **Ola 1**); ver `tasks.md` 2.5 |
 | APIs HTTP ya consumidas por el legado | Mismos endpoints desde Angular | **#2–3** | **Paridad** asumida salvo brecha documentada |
 
 ## Plan vs hecho (OpenSpec)
 
 | Artefacto | Plan | Hecho |
 |-----------|------|-------|
-| `migration-catalog.md` | Tabla completa: **#**, nombre, rutas legado, paths legado (incl. tema/estilos globales), APIs, depende de, destino, paridad diseño, riesgos API/diseño, estado, DoD funcional + visual, olas | [migration-catalog.md](./migration-catalog.md) — **6** filas (**#1–#6**); columnas legado **TBD** hasta inventario (clone 404) |
+| `migration-catalog.md` | Tabla completa: **#**, **Tipo** (`shell` \| `feature`), nombre, rutas legado, paths legado (incl. tema/estilos globales), APIs, depende de, destino, paridad diseño, riesgos API/diseño, estado, DoD funcional + visual, olas; **lista plana** para Foreach (shell → features) | [migration-catalog.md](./migration-catalog.md) — **6** filas; **#1** = única fila `shell`; lista plana con placeholders **TBD**; columnas legado **TBD** hasta inventario (clone 404) |
 | Dominios canónicos | `core`, `lineamientos`, `frontend-shell`, `cotizaciones-ui` | Creados bajo `openspec/specs/` |
 | `/opsx:sync` | Comando Cursor con pasos 1–11 | `.cursor/commands/opsx-sync.md` |
 | Reglas `.mdc` canónicas | Cinco ficheros alineados Angular | `.cursor/rules/*.mdc` |
@@ -38,7 +38,8 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 
 ## Catálogo y olas (resumen)
 
-- **Filas en catálogo:** 6 (**#1–#6**), descritas en [migration-catalog.md](./migration-catalog.md).
+- **Filas en catálogo:** 6 (**#1–#6**), descritas en [migration-catalog.md](./migration-catalog.md). **Tipo:** exactamente una fila **shell** (**#1**); **#2–#6** son **feature** (incluye infra cliente y resiliencia).
+- **Foreach:** lista plana ordenada (**shell primero**, luego features por dependencia) en la sección *Lista plana para Foreach* del catálogo; cada agente puede tomar un **#** por iteración.
 - **Olas:** 0 (SDD), 1 (inventario legado + deltas), 2 (implementación destino y paridad sobre **#1–4** y **#6**), 3 (extensiones **#5** y cierre / merge a canónicos).
 - **Criterios de éxito por ola:**
   - **Ola 0:** dominios canónicos, deltas, `/opsx:sync`, discrepancia de baseline si el legado no es clonable.

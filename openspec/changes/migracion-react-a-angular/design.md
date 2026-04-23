@@ -65,7 +65,7 @@ Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera cla
 | Ola | Enfoque |
 |-----|-----------|
 | **1** | Rellenar columnas legado del catálogo **#1–6**; refinar esta tabla y deltas. |
-| **2** | Cerrar **#6** (mapper + mock dev opcional) y revisión visual **#1–2** frente al legado. |
+| **2** | **#6** mapper + mock dev opcional **implementados en destino**; falta **revisión frente al legado** y cierre fino; revisión visual **#1–2** frente al legado (**tasks.md** 2.6). |
 | **3** | Cubrir **#5** y merge de comportamiento a `openspec/specs/` cuando proceda. |
 
 ## Checklist de verificación (destino actual)
