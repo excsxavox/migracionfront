@@ -48,7 +48,9 @@ Ninguna registrada aún. Cualquier cambio respecto al legado SHALL listarse aqu�
 
 ## Mapeo diseño legado → destino
 
-Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). Cuando exista baseline React:
+Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera clara, `max-width` 960px, tipografía del sistema, foco visible). **Actualización shell (#1, sin baseline clonable):** `MainLayoutComponent` usa `main-layout.component.html` + `main-layout.component.scss` (cabecera sticky, marca con línea de contexto no enlazada, navegación a cotizaciones, `main` con outlet, pie `contentinfo` mínimo); la ruta hija `cotizaciones` declara `title: 'Cotizaciones'` para el título del documento. Paridad de copy y estructura frente al legado queda sujeta a Ola 1.
+
+Cuando exista baseline React:
 
 - **Tokens / color:** contrastar con paleta del legado; si el destino adopta design system distinto, registrar **discrepancia intencional** en esta sección y en `proposal.md` (columna *Paridad diseño* del catálogo).
 - **Grid y densidad:** alinear breakpoints y espaciado a componentes legados equivalentes (**#1–2**).
@@ -65,7 +67,7 @@ Hasta el inventario (**#1**, **#2**), el destino usa layout propio (cabecera cla
 | Ola | Enfoque |
 |-----|-----------|
 | **1** | Rellenar columnas legado del catálogo **#1–6**; refinar esta tabla y deltas. |
-| **2** | Cerrar **#6** (mapper + mock dev opcional) y revisión visual **#1–2** frente al legado. |
+| **2** | **#6** mapper + mock dev opcional **implementados en destino**; falta **revisión frente al legado** y cierre fino; revisión visual **#1–2** frente al legado (**tasks.md** 2.6). |
 | **3** | Cubrir **#5** y merge de comportamiento a `openspec/specs/` cuando proceda. |
 
 ## Checklist de verificación (destino actual)

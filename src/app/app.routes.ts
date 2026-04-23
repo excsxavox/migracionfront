@@ -10,6 +10,7 @@ export const routes: Routes = [
       { path: '', pathMatch: 'full', redirectTo: 'cotizaciones' },
       {
         path: 'cotizaciones',
+        title: 'Cotizaciones',
         loadChildren: () =>
           import('./features/cotizaciones/cotizaciones.routes').then((m) => m.cotizacionesRoutes)
       }
