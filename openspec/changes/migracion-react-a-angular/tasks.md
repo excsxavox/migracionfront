@@ -27,7 +27,7 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 - [x] 2.2 **[#4]** `environment.ts` / `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/app/app.config.ts`, estilos globales mínimos (`src/styles.css`, `src/index.html`, `public/`).
 - [x] 2.3 **[#1]** Routing y shell: `app.routes.ts`, `MainLayoutComponent`, redirección `/` → `/cotizaciones`.
 - [x] 2.3a **[#1]** Revisión de paridad shell **solo destino** (rutas raíz, layout padre, `router-outlet`, navegación) frente a criterios `frontend-shell` y delta; trazabilidad en `design.md` § «Revisión shell destino» + fila **#1** de `migration-catalog.md`. Paridad frente al legado sigue bloqueada por `LEGACY_REPO_UNAVAILABLE` (Ola 1).
-- [x] 2.4 **[#3][#4]** Ruta lazy `/cotizaciones`, listado con loading / error / empty / retry, adaptador HTTP y puerto.
+- [x] 2.4 **[#2][#3][#4]** Ruta lazy `/cotizaciones` (**#2** `cotizaciones.routes.ts` + `pages/cotizaciones-list/`), listado con loading / error / empty / retry, adaptador HTTP (**#3**) y puerto; carga lazy acorde a bootstrap (**#4**). Revisión destino listado **#2** en `design.md` § «Revisión listado cotizaciones **#2**» (2026-04-23: tokens `--app-*`, `@for`+`track`, `title` en ruta hija, a11y, OnPush).
 - [x] 2.5 **[#2][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` para `GET …/cotizaciones`; documentado en `design.md` y delta/spec canónico.
 - [ ] 2.6 **[#1][#2][#4]** Paridad de diseño respecto al legado: revisión visual desktop + viewport estrecho (p. ej. ≤768px); anotar gaps o discrepancias intencionales en `design.md`.
 
@@ -35,7 +35,7 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 
 - [ ] 3.1 **[#5]** Por cada ruta/feature adicional inventariada en el legado: fila en catálogo, rutas destino, tareas y delta.
 - [ ] 3.2 **[#1–6]** Checklist de aceptación por ola completada (funcional + visual según catálogo); escenarios Given/When/Then en deltas `changes/migracion-react-a-angular/specs/<dominio>/spec.md` y checklist de verificación en `design.md`; pruebas en `AppComponent` y `CotizacionesListComponent` según `.cursor/rules/testing.mdc`.
-- [x] 3.2a **[#1][#2][#3][#4][#6]** QA: matriz requisito ↔ test y comandos en `design.md` (sección **QA**); trazabilidad en `src/bootstrap.spec.ts`, `scripts/verify-bootstrap.mjs`, y comentarios en `main-layout.component.spec.ts`, `app.routes.integration.spec.ts`, `cotizaciones-list.component.spec.ts`, `cotizaciones.http-adapter.spec.ts`, `http-error.mapper.spec.ts`.
+- [x] 3.2a **[#1][#2][#3][#4][#6]** QA: matriz requisito ↔ test y comandos en `design.md` (sección **QA**); trazabilidad en `src/bootstrap.spec.ts`, `scripts/verify-bootstrap.mjs`, y comentarios en `main-layout.component.spec.ts`, `app.routes.integration.spec.ts`, `cotizaciones-list.component.spec.ts`, `cotizaciones.http-adapter.spec.ts` (delta `cotizaciones-ui` — escenario contrato provisional **#3**), `http-error.mapper.spec.ts`.
 
 ## QA — comandos y regresión rápida
 

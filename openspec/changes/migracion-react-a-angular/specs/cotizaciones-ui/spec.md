@@ -4,7 +4,7 @@
 
 ### Requirement: Módulo de cotizaciones trazado al legado
 
-El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del módulo homónimo inferido del nombre del repo legado, con escenarios contrastables con pantallas del origen una vez inventariadas. El listado principal del módulo SHALL trazarse a la fila **#4** de [migration-catalog.md](../../migration-catalog.md).
+El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del módulo homónimo inferido del nombre del repo legado, con escenarios contrastables con pantallas del origen una vez inventariadas. El listado principal del módulo SHALL trazarse a la fila **#2** de [migration-catalog.md](../../migration-catalog.md).
 
 #### Scenario: API fuera de este repo
 
@@ -14,17 +14,17 @@ El dominio `cotizaciones-ui` SHALL modelar únicamente comportamiento UI del mó
 
 ### Requirement: Listado bajo ruta lazy y puerto HTTP
 
-El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren` / rutas del feature; **#4**) y SHALL consumir datos vía un puerto (`CotizacionesPort`) implementado por adaptador HTTP (**#3**), alineable al contrato real cuando se documente desde el legado.
+El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren` / rutas del feature; **#2** con registro lazy en shell **#1**) y SHALL consumir datos vía un puerto (`CotizacionesPort`) implementado por adaptador HTTP (**#3**), alineable al contrato real cuando se documente desde el legado.
 
-#### Scenario: Contrato HTTP provisional
+#### Scenario: Contrato HTTP provisional (**#3**)
 
 - GIVEN el endpoint exacto del legado no está cerrado en el inventario
 - WHEN se implementa el adaptador
-- THEN la URL base y la ruta relativa (`/cotizaciones` sobre `apiUrl`) están centralizadas en configuración (`environment`, proxy; **#2**) y son ajustables sin cambiar la vista
+- THEN la URL base y la ruta relativa (`cotizacionesListRelativePath` sobre `apiUrl`; por defecto `/cotizaciones`) están centralizadas en configuración (**#4**: `environment`, proxy, tokens inyectados) y son ajustables sin cambiar la vista (**#2**)
 
 ### Requirement: Errores de API sin respuesta cruda al usuario (**#6**)
 
-Ante fallos HTTP o de red en el listado (**#4**), la aplicación SHALL cumplir el requisito canónico «Errores de API sin presentación cruda al usuario» en `openspec/specs/cotizaciones-ui/spec.md`. La aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). El saneamiento vía `mapHttpErrorToMessage` SHALL ser suficiente para cumplir esta obligación cuando el cuerpo sea HTML o no estructurado; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6**.
+Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir el requisito canónico «Errores de API sin presentación cruda al usuario» en `openspec/specs/cotizaciones-ui/spec.md`. La aplicación SHALL mostrar un mensaje legible para el usuario y SHALL NOT mostrar cuerpos de error del servidor sin procesar (p. ej. HTML de traza o **500** como único contenido visible). El saneamiento vía `mapHttpErrorToMessage` SHALL ser suficiente para cumplir esta obligación cuando el cuerpo sea HTML o no estructurado; la adopción de mocks para desarrollo offline SHALL documentarse en `design.md` y en el catálogo **#6** (registro en **#4**).
 
 #### Scenario: Error 500 con cuerpo HTML
 
@@ -38,7 +38,7 @@ Ante fallos HTTP o de red en el listado (**#4**), la aplicación SHALL cumplir e
 - WHEN el usuario intenta cargar el listado
 - THEN aparece un estado de error coherente con **#6** (mensaje controlado)
 
-#### Scenario: Mock activo en desarrollo (**#2**)
+#### Scenario: Mock activo en desarrollo (**#4** / **#6**)
 
 - GIVEN `environment.useCotizacionesMock` es verdadero y el build no es de producción
 - WHEN la aplicación solicita el listado

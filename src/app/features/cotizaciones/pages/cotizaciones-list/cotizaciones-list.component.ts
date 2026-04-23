@@ -1,5 +1,4 @@
-import { NgFor, NgIf } from '@angular/common';
-import { Component, OnInit, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@angular/core';
 
 import { CotizacionVm } from '../../../../core/models/cotizacion.vm';
 import { COTIZACIONES_PORT } from '../../../../core/ports/cotizaciones.port';
@@ -7,9 +6,10 @@ import { COTIZACIONES_PORT } from '../../../../core/ports/cotizaciones.port';
 @Component({
   selector: 'app-cotizaciones-list',
   standalone: true,
-  imports: [NgIf, NgFor],
+  imports: [],
   templateUrl: './cotizaciones-list.component.html',
-  styleUrl: './cotizaciones-list.component.css'
+  styleUrl: './cotizaciones-list.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CotizacionesListComponent implements OnInit {
   private readonly cotizaciones = inject(COTIZACIONES_PORT);

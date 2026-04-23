@@ -8,7 +8,8 @@ import { COTIZACIONES_LIST_RELATIVE_PATH } from '../../core/tokens/cotizaciones-
 /**
  * Trazabilidad OpenSpec:
  * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#3**
- * - openspec/specs/cotizaciones-ui/spec.md — contratos HTTP / listado
+ * - openspec/changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md — «Listado bajo ruta lazy y puerto HTTP» / Scenario: Contrato HTTP provisional (**#3**)
+ * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Contratos HTTP asumidos existentes
  */
 describe('CotizacionesHttpAdapter', () => {
   let adapter: CotizacionesHttpAdapter;
@@ -66,6 +67,15 @@ describe('CotizacionesHttpAdapter', () => {
       done();
     });
     httpMock.expectOne('/api/cotizaciones').flush({ results: [{ titulo: 'C' }] });
+  });
+
+  it('normalizes { items: [] } at root', (done) => {
+    adapter.listar().subscribe((list) => {
+      expect(list.length).toBe(1);
+      expect(list[0].titulo).toBe('E');
+      done();
+    });
+    httpMock.expectOne('/api/cotizaciones').flush({ items: [{ titulo: 'E' }] });
   });
 
   it('normalizes { data: { items: [] } }', (done) => {
