@@ -3,14 +3,24 @@ import { of } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
+function joinBaseAndPath(base: string, relativePath: string): string {
+  const trimmedBase = base.replace(/\/$/, '');
+  const trimmedPath = relativePath.replace(/^\//, '');
+  return `${trimmedBase}/${trimmedPath}`;
+}
+
 function matchesCotizacionesList(url: string): boolean {
-  const base = environment.apiUrl.replace(/\/$/, '');
+  const expected = joinBaseAndPath(
+    environment.apiUrl,
+    environment.cotizacionesListRelativePath
+  ).replace(/\/$/, '');
   const normalized = url.replace(/\/$/, '');
-  return normalized === `${base}/cotizaciones` || normalized.endsWith('/cotizaciones');
+  const rel = environment.cotizacionesListRelativePath.replace(/^\//, '').replace(/\/$/, '');
+  return normalized === expected || normalized.endsWith(`/${rel}`);
 }
 
 /**
- * Dev-only: responde a GET …/cotizaciones con datos de demostración cuando no hay backend.
+ * Dev-only: responde a GET `{apiUrl}{cotizacionesListRelativePath}` con datos de demostración cuando no hay backend.
  * Activar con `environment.useCotizacionesMock` (sin secretos).
  */
 export const cotizacionesMockInterceptor: HttpInterceptorFn = (req, next) => {
