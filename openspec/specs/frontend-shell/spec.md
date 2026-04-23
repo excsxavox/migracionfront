@@ -47,3 +47,9 @@ Hasta completar la paridad fina con el legado, el destino SHALL exponer un layou
 - GIVEN el usuario usa solo teclado
 - WHEN recorre cabecera y enlaces de navegación
 - THEN los controles interactivos son enfocables y el foco es visible
+
+#### Scenario: Enlace a pantalla satélite del módulo cotizaciones (**#5**)
+
+- GIVEN el catálogo de migración documenta una ruta satélite bajo `/cotizaciones` (fila **#5**, p. ej. **5a** `/cotizaciones/acerca`)
+- WHEN el usuario usa la navegación principal del shell
+- THEN existe un control enfocable hacia esa ruta con etiqueta clara para el usuario final y el estado activo refleja la ruta actual

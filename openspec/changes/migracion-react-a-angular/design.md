@@ -14,7 +14,7 @@ Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-
 | **#2** | *TBD: pantalla y rutas de listado de cotizaciones en el legado* | `src/app/features/cotizaciones/cotizaciones.routes.ts`; `src/app/features/cotizaciones/pages/cotizaciones-list/` (`.ts`, `.html`, `.css`) | Ruta lazy bajo `/cotizaciones`; `title` en ruta hija del feature; estados carga / error con reintentar / vacío / datos; estilos con tokens globales `var(--app-*)`; depende de **#1**, **#3**, **#4**. Paridad visual y copy vs legado en Ola 1 (catálogo maestro [migration-catalog.md](./migration-catalog.md)). |
 | **#3** | *TBD: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort`; tokens `API_BASE_URL`, `COTIZACIONES_LIST_RELATIVE_PATH`; `environment*.ts` (`cotizacionesListRelativePath`) | `GET` como `{apiUrl}{cotizacionesListRelativePath}` (por defecto `/cotizaciones`). Normaliza array plano o envolturas comunes. Errores hacia `mapHttpErrorToMessage` (**#6**). |
 | **#4** | *TBD: variables de entorno, proxy y estilos globales del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` con `pathRewrite` de `/api` a raíz del backend (ajustar al backend real). Mock opcional en dev (**#6**): `useCotizacionesMock` + `cotizacionesMockInterceptor` registrados vía `provideHttpClient` en `app.config.ts`; desactivar con API real. |
-| **#5** | *TBD: demás rutas del SPA legado* | *Por definir* bajo `src/app/features/…` | Añadir fila por pantalla al inventariar. |
+| **#5** | *TBD: rutas/pantallas del SPA legado no cubiertas por el listado **#2*** | **5a (2026-04-23, sin baseline legado):** `/cotizaciones/acerca` → `cotizaciones.routes.ts` + `pages/cotizaciones-readme/`; nav «Acerca» en `MainLayoutComponent`. *Resto:* bajo `src/app/features/…` (convención: `src/app/features/<dominio>/` + rutas lazy + `pages/…` por pantalla) | **Último paso** de la [Lista plana para Foreach](./migration-catalog.md) (**#4**→**#1**→**#3**→**#2**→**#6**→**#5**). Cada pantalla adicional: fila en [migration-catalog.md](./migration-catalog.md), línea en [migration-files-queue.md](./migration-files-queue.md), subchecklist **3.1a–f** en [tasks.md](./tasks.md), delta `cotizaciones-ui` / `frontend-shell` si aplica. **5a** es marcador de producto hasta Ola 1. Sin clon legado no hay baseline verificable (`LEGACY_REPO_UNAVAILABLE`). |
 | **#6** | *TBD: manejo de fallos API en legado* | `mapHttpErrorToMessage` + UI de error en listado; `cotizacionesMockInterceptor` (dev, bandera `useCotizacionesMock`) | Mensajes controlados: no HTML del servidor como contenido principal; mock dev documentado para API ausente (**#4** + **#6**). |
 
 **Catálogo maestro (DoD, dependencias, olas, riesgos):** [migration-catalog.md](./migration-catalog.md) — filas **#1–#6**; ampliar **#5** al completar inventario del legado.
@@ -57,6 +57,8 @@ Alineado a la **Lista plana para Foreach** en [migration-catalog.md](./migration
 4. **Pantalla listado** y estilos de módulo — catálogo **#2**.
 5. **Errores y mock dev** — catálogo **#6** (mapper + interceptor + estados en vista).
 6. **Módulos satélite** — catálogo **#5**.
+
+**#5 (rutas adicionales):** no forma parte de la lista plana hasta haber cerrado **#4**, **#1**, **#3**, **#2** y **#6** para el alcance ya conocido. Cada ejecución Foreach sobre **#5** SHALL tratar **una** pantalla o módulo SPA del legado inventariado en **Ola 1** (rutas React, paths de componentes, APIs) y SHALL dejar trazabilidad en catálogo, cola plana, `tasks.md` (Ola 3, **3.1**) y deltas antes de implementar bajo `src/app/features/…`.
 
 **Feature flags:** SHOULD usarse solo para coexistencia temporal o despliegue progresivo; cada flag MUST tener dueño, criterio de retirada y mención en `proposal.md` o aquí.
 
@@ -111,6 +113,8 @@ Cuando exista baseline React:
 
 **Pendiente tras inventario legado:** copy exacto, estructura de nav adicional, assets/tema, y cualquier ruta hija del shell React no mapeada aún (catálogo **#1** / **#5**).
 
+**Actualización nav (#1) + satélite (#5, 2026-04-23):** el shell expone enlace «Acerca» a `/cotizaciones/acerca` (pantalla informativa lazy del feature cotizaciones). Paridad frente al legado sigue **TBD** (`LEGACY_REPO_UNAVAILABLE`).
+
 ## Revisión listado cotizaciones **#2** (solo destino; baseline legado bloqueado)
 
 **Fecha:** 2026-04-23. **Fuentes destino:** `src/app/features/cotizaciones/cotizaciones.routes.ts` (ruta vacía con `loadComponent` → `CotizacionesListComponent`, `title` en ruta hija); `src/app/features/cotizaciones/pages/cotizaciones-list/` (plantilla, estilos, lógica de carga / error / vacío / reintentar vía `COTIZACIONES_PORT`). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`); no se afirma paridad legado ↔ destino.
@@ -161,6 +165,7 @@ Cuando exista baseline React:
 | `cotizaciones-ui` — ruta lazy `/cotizaciones` + stack HTTP real + mock dev (datos visibles) | **#2**, **#4**, **#6** | `cotizaciones.routes.integration.spec.ts` |
 | `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
 | `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts`, `cotizaciones-list.component.spec.ts` (mapeo defensivo en vista) |
+| `cotizaciones-ui` — mock dev: solo GET listado, bandera y producción | **#6**, **#4** | `cotizaciones-mock.interceptor.spec.ts` |
 
 **Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para bootstrap (**#4**), shell (**#1**), listado (**#2**), adaptador HTTP (**#3**) y saneo de errores (**#6**). En CI, ejecutar `npm run verify:bootstrap` además de `ng test` para cubrir ficheros estáticos que Karma no lee del disco. Tras Ola 1, refinar pruebas de contrato HTTP al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
 
@@ -172,11 +177,13 @@ Cuando exista baseline React:
 
 **Criterios de aceptación comprobables (#3):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `cotizaciones.http-adapter.spec.ts` en verde (URL base + path relativo, normalización de envolturas, error ante forma inesperada); (2) el interceptor mock (**#6**) y la vista de listado (**#2**) usan la misma composición de URL que el adaptador (regresión: cambiar `cotizacionesListRelativePath` sin romper mock ni `GET` real).
 
+**Criterios de aceptación comprobables (#6):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `http-error.mapper.spec.ts` y los casos de error en `cotizaciones-list.component.spec.ts` en verde (mensaje acotado, sin HTML crudo, throws no estándar); (2) la misma ejecución ejecuta `cotizaciones-mock.interceptor.spec.ts` en verde (mock solo con `useCotizacionesMock` y no producción; delegación al backend si mock desactivado, en producción, en POST, o en URL no listado); (3) `cotizaciones.routes.integration.spec.ts` sigue mostrando textos de demostración con mock activo en la ruta lazy.
+
 **Hallazgos bloqueantes vs mejoras:** bloqueante para “paridad migración completa”: inventario legado y cierre de **2.6**/**3.2**. No bloqueante: refinar tokens o añadir e2e cuando exista harness.
 
 ## Estado integración
 
-- **Pull request:** actualizar al PR abierto desde la rama de trabajo (véase último push en `origin/cursor/wf-2d3be0b19b3e4c`).  
+- **Pull request (última entrega QA #6 en esta rama):** https://github.com/excsxavox/migracionfront/pull/26 — comprobar en GitHub si figura *Open*, *Merged* o *Closed*; PR anterior de la misma rama: https://github.com/excsxavox/migracionfront/pull/25. La rama de trabajo sigue siendo la fuente de commits hasta merge.
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.

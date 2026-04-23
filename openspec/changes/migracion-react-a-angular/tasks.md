@@ -33,13 +33,20 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 
 ## Ola 3 — Extensión y cierre (**#5**, cierre **#6**, merge specs)
 
-- [ ] 3.1 **[#5]** Por cada ruta/feature adicional inventariada en el legado: fila en catálogo, rutas destino, tareas y delta.
+- [ ] 3.1 **[#5]** Extensiones del SPA más allá del listado **#2** (una unidad Foreach por pantalla o módulo adicional una vez inventariado en **Ola 1**):
+  - [ ] 3.1a **[#5]** Inventario legado: enumerar rutas/pantallas React no cubiertas por la fila **#2** (nombres de ruta, componentes, APIs).
+  - [ ] 3.1b **[#5]** Por cada ítem: añadir o actualizar fila en [migration-catalog.md](./migration-catalog.md) (paths legado → paths destino bajo `src/app/features/…`, APIs, DoD).
+  - [ ] 3.1c **[#5]** Añadir línea(es) en [migration-files-queue.md](./migration-files-queue.md) (misma semántica Foreach; orden global sigue siendo **#4→#1→#3→#2→#6→#5**; dentro de **#5**, ordenar por dependencias entre pantallas).
+  - [ ] 3.1d **[#5]** Tabla de equivalencias en `design.md` y resumen en `proposal.md` (enlace al **#** de catálogo por pantalla).
+  - [ ] 3.1e **[#5]** Delta en `changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md` (y `frontend-shell` si afecta nav/layout global) con escenarios Given/When/Then alineados al legado.
+  - [ ] 3.1f **[#5]** Implementación destino: rutas lazy, componentes y estilos bajo `src/app/features/…`; registro en `app.routes.ts` o rutas padre acordadas (**#1**).
+- [x] 3.1g **[#5]** Sub-ítem **5a** (2026-04-23, sin baseline legado): ruta lazy `/cotizaciones/acerca`, `CotizacionesReadmeComponent`, enlace shell «Acerca»; catálogo (fila **#5**), cola ítem 6, `design.md`/`proposal.md`, deltas y specs canónicos alineados al marcador **5a**.
 - [ ] 3.2 **[#1–6]** Checklist de aceptación por ola completada (funcional + visual según catálogo); escenarios Given/When/Then en deltas `changes/migracion-react-a-angular/specs/<dominio>/spec.md` y checklist de verificación en `design.md`; pruebas en `AppComponent` y `CotizacionesListComponent` según `.cursor/rules/testing.mdc`.
-- [x] 3.2a **[#1][#2][#3][#4][#6]** QA: matriz requisito ↔ test y comandos en `design.md` (sección **QA**); trazabilidad en `src/bootstrap.spec.ts`, `scripts/verify-bootstrap.mjs`, y comentarios en `main-layout.component.spec.ts`, `app.routes.integration.spec.ts`, `cotizaciones-list.component.spec.ts`, `cotizaciones.routes.integration.spec.ts` (lazy **#2** + mock **#4**/**#6**), `cotizaciones.http-adapter.spec.ts` (delta `cotizaciones-ui` — escenario contrato provisional **#3**), `http-error.mapper.spec.ts`.
+- [x] 3.2a **[#1][#2][#3][#4][#6]** QA: matriz requisito ↔ test y comandos en `design.md` (sección **QA**); trazabilidad en `src/bootstrap.spec.ts`, `scripts/verify-bootstrap.mjs`, y comentarios en `main-layout.component.spec.ts`, `app.routes.integration.spec.ts`, `cotizaciones-list.component.spec.ts`, `cotizaciones.routes.integration.spec.ts` (lazy **#2** + mock **#4**/**#6**), `cotizaciones.http-adapter.spec.ts` (delta `cotizaciones-ui` — escenario contrato provisional **#3**), `http-error.mapper.spec.ts`, `cotizaciones-mock.interceptor.spec.ts` (**#6** reglas del interceptor).
 
 ## QA — comandos y regresión rápida
 
-- **Unit / integración ligera:** `npm run test` o `npx ng test --no-watch --browsers=ChromeHeadless` (incluye `src/bootstrap.spec.ts` trazado a **#4** en delta `frontend-shell`)
+- **Unit / integración ligera:** `npm run test` o `npx ng test --no-watch --browsers=ChromeHeadless` (incluye `src/bootstrap.spec.ts` trazado a **#4** en delta `frontend-shell`; `cotizaciones-mock.interceptor.spec.ts` para reglas del mock **#6**)
 - **Bootstrap estático (#4):** `npm run verify:bootstrap` (`scripts/verify-bootstrap.mjs` — `index.html`, `styles.css`, `public/`)
 - **Build:** `npm run build`
 - **Manual antes de cerrar migración:** revisión visual **2.6** (legado vs destino) cuando exista baseline; hasta entonces solo checklist de shell/listado/error documentado en `design.md` § QA.
