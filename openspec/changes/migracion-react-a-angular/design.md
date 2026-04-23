@@ -13,7 +13,7 @@ Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-
 | **#1** | *TBD: layout raíz y rutas del SPA React (tras inventario)* | `src/app/shell/layout/main-layout.component.ts`, `src/app/app.routes.ts` | Raíz redirige a `/cotizaciones`. Paridad de copy/enlaces cuando exista clon del legado. |
 | **#2** | *TBD: pantalla o ruta de listado de cotizaciones en React* | `src/app/features/cotizaciones/pages/cotizaciones-list/` (ruta lazy bajo `/cotizaciones`) | Estados loading / error / empty explícitos. |
 | **#3** | *TBD: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort` | `GET` relativo a `environment.apiUrl` + `/cotizaciones`. Normaliza array plano o `{ data: [] }`. Ajustar path y mapeo al contrastar con el legado. |
-| **#4** | *TBD: variables de entorno del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` (ajustar al backend real). Mock opcional en dev (**#6**): `useCotizacionesMock` + `cotizacionesMockInterceptor` registrados vía `provideHttpClient` en `app.config.ts`; desactivar con API real. |
+| **#4** | *TBD: variables de entorno del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` con `pathRewrite` de `/api` a raíz del backend (ajustar al backend real). Mock opcional en dev (**#6**): `useCotizacionesMock` + `cotizacionesMockInterceptor` registrados vía `provideHttpClient` en `app.config.ts`; desactivar con API real. |
 | **#5** | *TBD: demás rutas del SPA legado* | *Por definir* bajo `src/app/features/…` | Añadir fila por pantalla al inventariar. |
 | **#6** | *TBD: manejo de fallos API en legado* | `mapHttpErrorToMessage` + UI de error en listado; `cotizacionesMockInterceptor` (dev, bandera `useCotizacionesMock`) | Mensajes controlados: no HTML del servidor como contenido principal; mock dev documentado para API ausente (**#4**). |
 
@@ -58,7 +58,7 @@ Cuando exista baseline React:
 
 ## HTTP en desarrollo y ausencia de API (**#4**, **#6**)
 
-- **`environment.apiUrl`:** `/api` en desarrollo, enrutado por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto).
+- **`environment.apiUrl`:** `/api` en desarrollo, enrutado por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto), con reescritura de ruta para que las peticiones a `/api/cotizaciones` lleguen al backend como `/cotizaciones` salvo que el despliegue real use otro prefijo (documentar discrepancia).
 - **`provideHttpClient(withInterceptors([cotizacionesMockInterceptor]))`** en `app.config.ts`: si `useCotizacionesMock` es verdadero y no es producción, el interceptor responde a `GET {apiUrl}/cotizaciones` con datos de demostración; en caso contrario la petición sigue al backend y los fallos se muestran vía `mapHttpErrorToMessage` (sin HTML crudo).
 - **Producción:** `useCotizacionesMock` es falso; el interceptor no sustituye respuestas.
 

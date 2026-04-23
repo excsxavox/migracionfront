@@ -20,7 +20,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 | *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** | **Laguna** hasta inventario |
 | *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#2** | **Destino con paridad fina pendiente** |
 | *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** | **Provisional** hasta cerrar path/DTO |
-| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts`; implementación del mock en **#6** | **#4** | **Destino implementado**; paridad tokens vs legado pendiente inventario |
+| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` (HTTP e interceptors globales); implementación del mock en **#6** | **#4** | **Destino implementado**; paridad tokens vs legado pendiente inventario |
 | *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** | **No iniciado** |
 | *TBD: manejo de fallos API en legado* | `http-error.mapper`, estados error en listado; mock dev `useCotizacionesMock` + interceptor (documentado con **#4** en `design.md`) | **#6** | **Parcial en destino** — `tasks.md` 2.5 hecho; paridad fina y baseline legado pendientes (**Ola 1**) |
 | APIs HTTP ya consumidas por el legado | Mismos endpoints desde Angular | **#2–3** | **Paridad** asumida salvo brecha documentada |

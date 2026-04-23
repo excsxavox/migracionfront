@@ -21,3 +21,19 @@ El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabec
 - GIVEN el layout del legado está inventariado
 - WHEN se compara con el shell del destino
 - THEN las diferencias observables quedan en `design.md` como discrepancia intencional o se corrige el destino para paridad
+
+### Requirement: Documento HTML y estilos globales alineados al shell (**#4**)
+
+El bootstrap del SPA (catálogo **#4**) SHALL incluir `src/index.html` con metadatos mínimos del documento (título, `lang` del `html` acorde al locale del producto) y SHALL cargar `src/styles.css` con tokens CSS globales (p. ej. `--app-color-*`, `--app-font-sans`) que el shell (**#1**) y las vistas MAY reutilizar para mantener contraste y tipografía coherentes hasta completar inventario del legado.
+
+#### Scenario: Idioma del documento
+
+- GIVEN el usuario abre la aplicación
+- WHEN el documento se renderiza
+- THEN el elemento raíz `html` declara un `lang` explícito coherente con el idioma principal del producto
+
+#### Scenario: Tokens globales disponibles
+
+- GIVEN los estilos globales están cargados
+- WHEN un componente del shell o de una vista usa variables `--app-*` definidas en `src/styles.css`
+- THEN los valores son consistentes en toda la SPA salvo override documentado en `design.md`
