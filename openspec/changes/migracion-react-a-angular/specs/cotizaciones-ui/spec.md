@@ -46,7 +46,7 @@ Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir e
 
 ### Requirement: Pantallas y rutas adicionales del módulo (**#5**)
 
-Cada pantalla o flujo de usuario del **mismo dominio de producto** que el listado **#2** y que exista en el legado pero no esté cubierto por la fila **#2** del [catálogo](../../migration-catalog.md) SHALL inventariarse en **Ola 1** y SHALL migrarse o quedar explícitamente fuera de alcance con justificación en `design.md` o discrepancias. El destino SHALL documentar equivalencias legado → destino (rutas UI, carpetas bajo `src/app/features/…`) y SHALL implementar rutas lazy y componentes alineados al contrato observable del legado cuando estén en alcance.
+Cada pantalla o flujo de usuario del **mismo dominio de producto** que el listado **#2** y que exista en el legado pero no esté cubierto por la fila **#2** del [catálogo](../../migration-catalog.md) SHALL inventariarse en **Ola 1** y SHALL migrarse o quedar explícitamente fuera de alcance con justificación en `design.md` o discrepancias. El destino SHALL documentar equivalencias legado → destino (rutas UI, carpetas bajo `src/app/features/…`) y SHALL implementar rutas lazy y componentes alineados al contrato observable del legado cuando estén en alcance. El feature de cotizaciones MAY declarar rutas hijas bajo el prefijo `/cotizaciones` (p. ej. **5a** `/cotizaciones/acerca`) con `title` en rutas Angular y componente bajo `src/app/features/cotizaciones/pages/…`; el copy visible SHALL ser de producto (sin metadatos de ingeniería ni rutas de especificación en la UI).
 
 #### Scenario: Inventario antes de implementar
 
@@ -65,3 +65,15 @@ Cada pantalla o flujo de usuario del **mismo dominio de producto** que el listad
 - GIVEN una nueva ruta destino requiere enlace desde el shell
 - WHEN se implementa **#5**
 - THEN los cambios en cabecera o nav quedan trazados en delta o spec de `frontend-shell` (**#1**) además de `cotizaciones-ui` cuando aplique
+
+#### Scenario: Carga diferida de pantalla **5a** (destino actual)
+
+- GIVEN el usuario abre `/cotizaciones/acerca`
+- WHEN Angular resuelve la ruta hija
+- THEN el componente de la pantalla **5a** se carga de forma diferida (`loadComponent`) sin bloquear la carga inicial del shell (**#1**)
+
+#### Scenario: Coherencia con listado (**5a**)
+
+- GIVEN el usuario está en `/cotizaciones/acerca`
+- WHEN navega al listado principal
+- THEN la aplicación MUST permitir volver a `/cotizaciones` sin error de enrutamiento

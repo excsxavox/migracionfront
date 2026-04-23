@@ -14,13 +14,19 @@ La especificación canónica de shell SHALL referenciar el layout y rutas del le
 
 ### Requirement: Shell Angular inicial en código
 
-El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabecera, marca y navegación al listado de cotizaciones (**#1**), coherente con la implementación actual hasta que el inventario del legado refine copy, enlaces y **paridad de diseño** documentada en el catálogo.
+El destino SHALL incluir un componente de layout bajo `src/app/shell/` con cabecera, marca y navegación al listado de cotizaciones (**#1**), coherente con la implementación actual hasta que el inventario del legado refine copy, enlaces y **paridad de diseño** documentada en el catálogo. Cuando exista al menos una ruta satélite del módulo documentada en catálogo **#5** con enlace en el shell, el layout SHALL exponer un control de navegación enfocable hacia esa ruta con etiqueta clara para el usuario final.
 
 #### Scenario: Paridad documentada o pendiente
 
 - GIVEN el layout del legado está inventariado
 - WHEN se compara con el shell del destino
 - THEN las diferencias observables quedan en `design.md` como discrepancia intencional o se corrige el destino para paridad
+
+#### Scenario: Navegación a ruta satélite **#5** (**5a**)
+
+- GIVEN el catálogo **#5** documenta la pantalla **5a** con URL destino `/cotizaciones/acerca`
+- WHEN el usuario usa la navegación principal del shell
+- THEN existe un enlace enfocable hacia `/cotizaciones/acerca` con texto que identifica la pantalla (p. ej. «Acerca») y el estado activo es coherente con `routerLinkActive`
 
 ### Requirement: Registro de revisión shell destino cuando el baseline legado no es accesible
 

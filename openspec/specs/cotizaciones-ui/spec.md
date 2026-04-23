@@ -82,10 +82,22 @@ Ante fallos de red o HTTP en el listado, el destino SHALL mostrar un mensaje bre
 
 ### Requirement: Rutas y pantallas adicionales del dominio (**#5**)
 
-Las pantallas o flujos del dominio de cotizaciones (u homólogo en el legado) que **no** estén cubiertos por el listado principal documentado en el cambio activo de migración como fila **#2** SHALL seguir el mismo criterio de paridad: inventario en catálogo (**#5**), cola Foreach, tareas y deltas del cambio activo antes de implementación bajo `src/app/features/…`. Cualquier enlace nuevo en el shell global SHALL coordinarse con `frontend-shell` (**#1**).
+Las pantallas o flujos del dominio de cotizaciones (u homólogo en el legado) que **no** estén cubiertos por el listado principal documentado en el cambio activo de migración como fila **#2** SHALL seguir el mismo criterio de paridad: inventario en catálogo (**#5**), cola Foreach, tareas y deltas del cambio activo antes de implementación bajo `src/app/features/…`. Cualquier enlace nuevo en el shell global SHALL coordinarse con `frontend-shell` (**#1**). Además del listado principal, el destino MAY exponer rutas hijas bajo el prefijo `/cotizaciones` (p. ej. información); cada ruta satélite SHOULD cargarse de forma diferida y, si el producto la ofrece, SHALL ser alcanzable desde la navegación principal del shell.
 
 #### Scenario: Una pantalla Foreach
 
 - GIVEN una pantalla legado adicional inventariada
 - WHEN se documenta en OpenSpec
 - THEN existe trazabilidad **#5** con paths legado y destino y escenarios contrastables en el delta `cotizaciones-ui` del cambio o su sucesor mergeable
+
+#### Scenario: Pantalla informativa satélite (destino actual **5a**)
+
+- GIVEN el usuario navega a `/cotizaciones/acerca`
+- WHEN la vista termina de cargar
+- THEN se muestra contenido estructurado con encabezado principal y al menos una sección de alcance o ayuda, sin depender de llamadas HTTP obligatorias para esta pantalla
+
+#### Scenario: Trazabilidad con catálogo **#5**
+
+- GIVEN la fila **#5** del catálogo de migración
+- WHEN se añade o modifica una ruta satélite en el destino
+- THEN el path destino y el propósito observable quedan reflejados en `migration-catalog.md` y en la tabla de equivalencias del cambio activo hasta completar inventario del legado
