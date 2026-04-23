@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit, inject, signal } from '@ang
 
 import { CotizacionVm } from '../../../../core/models/cotizacion.vm';
 import { COTIZACIONES_PORT } from '../../../../core/ports/cotizaciones.port';
+import { mapHttpErrorToMessage } from '../../../../infrastructure/http/http-error.mapper';
 
 @Component({
   selector: 'app-cotizaciones-list',
@@ -35,8 +36,7 @@ export class CotizacionesListComponent implements OnInit {
         this.loading.set(false);
       },
       error: (err: unknown) => {
-        const message = err instanceof Error ? err.message : 'Error desconocido.';
-        this.errorMessage.set(message);
+        this.errorMessage.set(mapHttpErrorToMessage(err));
         this.loading.set(false);
       }
     });

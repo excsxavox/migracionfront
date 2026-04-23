@@ -7,8 +7,9 @@ import { CotizacionesListComponent } from './cotizaciones-list.component';
 
 /**
  * Trazabilidad OpenSpec:
- * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos
- * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado)
+ * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos; Errores de API sin presentación cruda
+ * - openspec/changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md — Listado bajo ruta lazy (**#2**); errores sin respuesta cruda (**#6**)
+ * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado), **#6** (mensaje de error saneado / mapeo en vista)
  */
 describe('CotizacionesListComponent', () => {
   let fixture: ComponentFixture<CotizacionesListComponent>;
@@ -31,12 +32,46 @@ describe('CotizacionesListComponent', () => {
     expect(el.textContent).toContain('borrador');
   });
 
-  it('should show error and retry', () => {
+  it('should show error, alert role, and retry', () => {
     setup({ listar: () => throwError(() => new Error('fallo')) });
     const el: HTMLElement = fixture.nativeElement;
     expect(el.textContent).toContain('fallo');
+    const alert = el.querySelector('[role="alert"]');
+    expect(alert).toBeTruthy();
     const btn = el.querySelector('button');
-    expect(btn).toBeTruthy();
+    expect(btn?.textContent?.trim()).toBe('Reintentar');
+  });
+
+  it('should call listar again when user clicks Reintentar after error', () => {
+    let calls = 0;
+    setup({
+      listar: () => {
+        calls += 1;
+        return calls === 1 ? throwError(() => new Error('fallo')) : of(sample);
+      }
+    });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('fallo');
+    el.querySelector('button')?.click();
+    fixture.detectChanges();
+    expect(calls).toBe(2);
+    expect(el.textContent).toContain('Uno');
+  });
+
+  it('should map unknown errors to a controlled message (#6)', () => {
+    setup({ listar: () => throwError(() => 'string-throw') });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('Ha ocurrido un error inesperado');
+    expect(el.textContent).not.toContain('string-throw');
+  });
+
+  it('should not surface raw HTML from error message (#6)', () => {
+    setup({
+      listar: () => throwError(() => new Error('<!DOCTYPE html><html><body>500</body></html>'))
+    });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('página de error');
+    expect(el.textContent).not.toContain('<html');
   });
 
   it('should show loading while port has not emitted (cotizaciones-ui)', () => {

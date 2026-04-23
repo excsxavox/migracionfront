@@ -127,6 +127,17 @@ Cuando exista baseline React:
 
 **Pendiente tras inventario legado:** rutas y ficheros React equivalentes en la tabla de equivalencias; densidad, tipografía, columnas y copy del listado frente al legado (**tasks.md** 2.6).
 
+## Revisión errores HTTP y mock **#6** (solo destino; baseline legado bloqueado)
+
+**Fecha:** 2026-04-23. **Fuentes destino:** `src/app/infrastructure/http/http-error.mapper.ts` + `http-error.mapper.spec.ts`; `src/app/infrastructure/interceptors/cotizaciones-mock.interceptor.ts` (misma composición de URL que adaptador **#3**); `src/app/features/cotizaciones/pages/cotizaciones-list/cotizaciones-list.component.ts` (handler `error` con `mapHttpErrorToMessage` para cualquier fallo del observable); pruebas en `cotizaciones-list.component.spec.ts` (errores no-`Error`, `Error` con cuerpo tipo documento HTML, `role="alert"` y segundo `listar` al reintentar). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`).
+
+| Criterio (destino / `cotizaciones-ui` + catálogo **#6**) | Hallazgo breve |
+|--------------------------------------------------------|----------------|
+| Sin HTML crudo en UI ante fallo | Adaptador envuelve `HttpErrorResponse` en `Error(mapHttpErrorToMessage(err))`; la vista aplica de nuevo `mapHttpErrorToMessage` en el `subscribe` (defensa si el puerto emite otro tipo de fallo o mensaje inseguro). |
+| Mensajes acotados | `mapHttpErrorToMessage` recorta y detecta documentos HTML; casos adicionales en `http-error.mapper.spec.ts`. |
+| Mock dev | `useCotizacionesMock` + interceptor solo fuera de producción; URL alineada a `environment.apiUrl` + `cotizacionesListRelativePath`; cuerpo demo documentado en catálogo **#6** / **#4**. |
+| Paridad mensajes vs legado | **No contrastable** hasta inventario Ola 1 (política de reintentos y copy exactos del legado React). |
+
 ## Riesgos
 
 - Repositorio legado privado o renombrado impide baseline hasta obtener acceso.
@@ -134,7 +145,7 @@ Cuando exista baseline React:
 
 ## QA — pruebas, cobertura y criterios comprobables
 
-**Stack bajo prueba en destino:** Angular 19 (Karma + Jasmine); no hay suite e2e en el repo. El baseline de paridad sigue sijeto a inventario del legado React (`Designcotizacionesmodule`); mientras aplique `LEGACY_REPO_UNAVAILABLE`, la verificación automatizada cubre **comportamiento observable documentado** en `openspec/specs/` y deltas, no paridad literal legado vs Angular.
+**Stack bajo prueba en destino:** Angular 19 (Karma + Jasmine); no hay suite e2e en el repo. El baseline de paridad sigue sujeto a inventario del legado React (`Designcotizacionesmodule`); mientras aplique `LEGACY_REPO_UNAVAILABLE`, la verificación automatizada cubre **comportamiento observable documentado** en `openspec/specs/` y deltas, no paridad literal legado vs Angular.
 
 **Dónde viven los tests:** `src/**/*.spec.ts` (convención Angular). Comando: `npm run test` (equiv. `ng test`); en CI/sandbox sin display: `npx ng test --no-watch --browsers=ChromeHeadless`.
 
@@ -146,9 +157,10 @@ Cuando exista baseline React:
 | `frontend-shell` (delta) — HTML `lang`, tokens `--app-*`, `:focus-visible`, carpeta `public/` | **#4** | `npm run verify:bootstrap` → `scripts/verify-bootstrap.mjs` |
 | `frontend-shell` — shell accesible, regiones, navegación a cotizaciones | **#1** | `main-layout.component.spec.ts` |
 | `frontend-shell` — raíz redirige a `/cotizaciones`, wildcard coherente | **#1** | `app.routes.integration.spec.ts` |
-| `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos | **#2** | `cotizaciones-list.component.spec.ts` |
+| `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos; error saneado (**#6**) | **#2**, **#6** | `cotizaciones-list.component.spec.ts` |
+| `cotizaciones-ui` — ruta lazy `/cotizaciones` + stack HTTP real + mock dev (datos visibles) | **#2**, **#4**, **#6** | `cotizaciones.routes.integration.spec.ts` |
 | `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
-| `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts` |
+| `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts`, `cotizaciones-list.component.spec.ts` (mapeo defensivo en vista) |
 
 **Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para bootstrap (**#4**), shell (**#1**), listado (**#2**), adaptador HTTP (**#3**) y saneo de errores (**#6**). En CI, ejecutar `npm run verify:bootstrap` además de `ng test` para cubrir ficheros estáticos que Karma no lee del disco. Tras Ola 1, refinar pruebas de contrato HTTP al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
 
@@ -156,13 +168,15 @@ Cuando exista baseline React:
 
 **Criterios de aceptación comprobables (#4):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` incluye la suite `bootstrap (#4)` en verde; (2) `npm run verify:bootstrap` termina con código 0; (3) `npm run build` compila sin errores. **Regresión:** si se cambia `pathRewrite` del proxy o `apiUrl`, los tests **#4** y la documentación en `design.md` § HTTP SHALL actualizarse en el mismo cambio.
 
+**Criterios de aceptación comprobables (#2):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `cotizaciones-list.component.spec.ts` en verde (carga `aria-live="polite"`, error con `role="alert"` y botón «Reintentar», vacío, datos, segundo `listar` al reintentar); (2) la misma ejecución ejecuta `cotizaciones.routes.integration.spec.ts` en verde (navegación a `/cotizaciones` con `appConfig` + mock activo muestra textos de demostración del interceptor); (3) hasta Ola 1, no se exige paridad de copy/layout frente al legado (solo criterios destino + spec).
+
 **Criterios de aceptación comprobables (#3):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` ejecuta `cotizaciones.http-adapter.spec.ts` en verde (URL base + path relativo, normalización de envolturas, error ante forma inesperada); (2) el interceptor mock (**#6**) y la vista de listado (**#2**) usan la misma composición de URL que el adaptador (regresión: cambiar `cotizacionesListRelativePath` sin romper mock ni `GET` real).
 
 **Hallazgos bloqueantes vs mejoras:** bloqueante para “paridad migración completa”: inventario legado y cierre de **2.6**/**3.2**. No bloqueante: refinar tokens o añadir e2e cuando exista harness.
 
 ## Estado integración
 
-- **Pull request:** https://github.com/excsxavox/migracionfront/pull/23  
+- **Pull request:** actualizar al PR abierto desde la rama de trabajo (véase último push en `origin/cursor/wf-2d3be0b19b3e4c`).  
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.
