@@ -1,0 +1,54 @@
+.readme {
+  max-width: 42rem;
+}
+
+.readme__header {
+  margin-bottom: 1.5rem;
+}
+
+.readme__title {
+  margin: 0 0 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--app-color-text);
+  line-height: 1.25;
+}
+
+.readme__lede {
+  margin: 0;
+  font-size: 1rem;
+  color: var(--app-color-text-muted);
+  line-height: 1.55;
+}
+
+.readme__section {
+  margin-bottom: 1.5rem;
+}
+
+.readme__subtitle {
+  margin: 0 0 0.5rem;
+  font-size: 1.0625rem;
+  font-weight: 600;
+  color: var(--app-color-text);
+}
+
+.readme__list {
+  margin: 0;
+  padding-left: 1.25rem;
+  color: var(--app-color-text);
+  line-height: 1.6;
+}
+
+.readme__list li + li {
+  margin-top: 0.35rem;
+}
+
+.readme__note {
+  margin: 0;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  color: var(--app-color-text-muted);
+  background: var(--app-color-surface);
+  border: 1px solid var(--app-color-border);
+  border-radius: var(--app-radius-md);
+}

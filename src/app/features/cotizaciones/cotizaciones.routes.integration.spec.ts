@@ -31,4 +31,18 @@ describe('cotizaciones lazy route (integration)', () => {
     expect(el.textContent).toContain('Cotización de demostración (mock)');
     expect(el.textContent).toContain('Otra cotización de demostración (mock)');
   });
+
+  it('loads satellite readme at /cotizaciones/acerca (#5)', async () => {
+    const fixture = TestBed.createComponent(AppComponent);
+    fixture.detectChanges();
+    const router = TestBed.inject(Router);
+    await router.navigateByUrl('/cotizaciones/acerca');
+    fixture.detectChanges();
+    await fixture.whenStable();
+    fixture.detectChanges();
+
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('Acerca del módulo');
+    expect(el.textContent).toContain('Qué puedes hacer');
+  });
 });

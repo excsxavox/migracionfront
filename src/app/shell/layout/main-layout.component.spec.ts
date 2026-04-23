@@ -22,7 +22,8 @@ const shellTestRoutes: Routes = [
     component: MainLayoutComponent,
     children: [
       { path: '', pathMatch: 'full', redirectTo: 'cotizaciones' },
-      { path: 'cotizaciones', component: ShellTestChildComponent }
+      { path: 'cotizaciones', component: ShellTestChildComponent },
+      { path: 'cotizaciones/acerca', component: ShellTestChildComponent }
     ]
   }
 ];
@@ -60,6 +61,13 @@ describe('MainLayoutComponent', () => {
     expect(nav).toBeTruthy();
     const home = nav?.querySelector<HTMLAnchorElement>('a[routerLink="/cotizaciones"]');
     expect(home?.textContent?.trim()).toContain('Inicio');
+  });
+
+  it('has nav link to cotizaciones satellite readme (#1 / #5)', () => {
+    const el: HTMLElement = fixture.nativeElement;
+    const nav = el.querySelector('nav[aria-label="Principal"]');
+    const about = nav?.querySelector<HTMLAnchorElement>('a[routerLink="/cotizaciones/acerca"]');
+    expect(about?.textContent?.trim()).toContain('Acerca');
   });
 
   it('has semantic footer (frontend-shell / #1)', () => {
