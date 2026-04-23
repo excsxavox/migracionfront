@@ -1,10 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { Observable, of, throwError } from 'rxjs';
+import { NEVER, Observable, of, throwError } from 'rxjs';
 
 import { CotizacionVm } from '../../../../core/models/cotizacion.vm';
 import { COTIZACIONES_PORT } from '../../../../core/ports/cotizaciones.port';
 import { CotizacionesListComponent } from './cotizaciones-list.component';
 
+/**
+ * Trazabilidad OpenSpec:
+ * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos
+ * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado)
+ */
 describe('CotizacionesListComponent', () => {
   let fixture: ComponentFixture<CotizacionesListComponent>;
 
@@ -32,5 +37,19 @@ describe('CotizacionesListComponent', () => {
     expect(el.textContent).toContain('fallo');
     const btn = el.querySelector('button');
     expect(btn).toBeTruthy();
+  });
+
+  it('should show loading while port has not emitted (cotizaciones-ui)', () => {
+    setup({ listar: () => NEVER });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('Cargando');
+    const status = el.querySelector('[role="status"]');
+    expect(status?.getAttribute('aria-live')).toBe('polite');
+  });
+
+  it('should show empty state when API returns no items (cotizaciones-ui)', () => {
+    setup({ listar: () => of([]) });
+    const el: HTMLElement = fixture.nativeElement;
+    expect(el.textContent).toContain('No hay cotizaciones');
   });
 });

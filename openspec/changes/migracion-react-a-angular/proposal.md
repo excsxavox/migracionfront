@@ -17,19 +17,19 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 
 | Legado (origen) | Destino (Angular) | Catálogo # | Estado |
 |-----------------|-------------------|------------|--------|
-| *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** (`shell`) | **Laguna** hasta inventario; **revisión destino 2026-04-22** en `design.md` § «Revisión shell destino» y fila **#1** de `migration-catalog.md` (sin afirmar equivalencia legado) |
-| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `src/styles.css`, `src/index.html` | **#2** (`shell`) | **Implementado en destino**; paridad tokens vs legado pendiente |
-| *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** (`feature`) | **Provisional** hasta cerrar path/DTO |
-| *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#4** (`feature`) | **Destino con paridad fina pendiente** |
-| *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** (`feature`) | **No iniciado** |
-| Resiliencia errores API (baseline tras inventario) | `mapHttpErrorToMessage`, mock dev opcional, UI de error en listado | **#6** (`feature`) | **Parcial en destino**; cierre y contraste con legado en `tasks.md` 3.x |
-| APIs HTTP ya consumidas por el legado | Mismos endpoints desde Angular | **#3–4** | **Paridad** asumida salvo brecha documentada |
+| *TBD: rutas SPA / shell React* | `MainLayoutComponent`, `app.routes.ts` | **#1** | **Laguna** hasta inventario |
+| *TBD: listado cotizaciones React* | `cotizaciones-list`, rutas lazy `/cotizaciones` | **#2** | **Destino con paridad fina pendiente** |
+| *TBD: cliente HTTP legado* | `CotizacionesHttpAdapter`, `CotizacionesPort` | **#3** | **Provisional** hasta cerrar path/DTO |
+| *TBD: env / proxy / estilos globales legado* | `environment*.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` (HTTP e interceptors globales); implementación del mock en **#6** | **#4** | **Destino implementado**; paridad tokens vs legado pendiente inventario |
+| *TBD: demás rutas SPA* | *TBD* `src/app/features/…` | **#5** | **No iniciado** |
+| *TBD: manejo de fallos API en legado* | `http-error.mapper`, estados error en listado; mock dev `useCotizacionesMock` + interceptor (documentado con **#4** en `design.md`) | **#6** | **Parcial en destino** — `tasks.md` 2.5 hecho; paridad fina y baseline legado pendientes (**Ola 1**) |
+| APIs HTTP ya consumidas por el legado | Mismos endpoints desde Angular | **#2–3** | **Paridad** asumida salvo brecha documentada |
 
 ## Plan vs hecho (OpenSpec)
 
 | Artefacto | Plan | Hecho |
 |-----------|------|-------|
-| `migration-catalog.md` | Tabla completa: **#**, **Tipo** (`shell` / `feature`), nombre, rutas legado, paths legado, APIs, depende de, destino, paridad diseño, riesgos API/diseño, estado, DoD funcional + visual, olas; lista plana Foreach | [migration-catalog.md](./migration-catalog.md) — **6** filas; orden **shell** → **feature**; columnas legado **TBD** hasta inventario (clone 404) |
+| `migration-catalog.md` | Tabla completa: **#**, **Tipo** (`shell` \| `feature`), nombre, rutas legado, paths legado (incl. tema/estilos globales), APIs, depende de, destino, paridad diseño, riesgos API/diseño, estado, DoD funcional + visual, olas; **lista plana** Foreach (**#4** → **#1** → **#3** → **#2** → **#6** → **#5**); cola [migration-files-queue.md](./migration-files-queue.md) | [migration-catalog.md](./migration-catalog.md) — **6** filas; **#1** = única fila `shell`; columnas legado `LEGACY_PATH_PENDING` hasta inventario; discrepancia clone 404 |
 | Dominios canónicos | `core`, `lineamientos`, `frontend-shell`, `cotizaciones-ui` | Creados bajo `openspec/specs/` |
 | `/opsx:sync` | Comando Cursor con pasos 1–11 | `.cursor/commands/opsx-sync.md` |
 | Reglas `.mdc` canónicas | Cinco ficheros alineados Angular | `.cursor/rules/*.mdc` |
@@ -39,8 +39,9 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 
 ## Catálogo y olas (resumen)
 
-- **Filas en catálogo:** 6 (**#1–#6**), descritas en [migration-catalog.md](./migration-catalog.md).
-- **Olas:** 0 (SDD), 1 (inventario legado + deltas), 2 (implementación destino y paridad sobre **#1–4** y **#6**; **#1–2** = shell + entorno global), 3 (extensiones **#5** y cierre / merge a canónicos).
+- **Filas en catálogo:** 6 (**#1–#6**), descritas en [migration-catalog.md](./migration-catalog.md). **Tipo:** exactamente una fila **shell** (**#1**); **#2–#6** son **feature** (incluye infra cliente y resiliencia).
+- **Foreach:** lista plana en *Lista plana para Foreach* (**#4** bootstrap global → **#1** shell app → **#3** → **#2** → **#6** → **#5**); duplicada en [migration-files-queue.md](./migration-files-queue.md); cada agente puede tomar un **#** por iteración.
+- **Olas:** 0 (SDD), 1 (inventario legado + deltas), 2 (implementación destino y paridad sobre **#1–4** y **#6**), 3 (extensiones **#5** y cierre / merge a canónicos).
 - **Criterios de éxito por ola:**
   - **Ola 0:** dominios canónicos, deltas, `/opsx:sync`, discrepancia de baseline si el legado no es clonable.
   - **Ola 1:** catálogo con rutas y paths del legado rellenos; equivalencias en `design.md` alineadas a **#**; deltas con escenarios contrastables.
