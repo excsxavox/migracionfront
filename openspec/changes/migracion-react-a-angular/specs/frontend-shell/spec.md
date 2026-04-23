@@ -37,3 +37,25 @@ El bootstrap del SPA (catálogo **#4**) SHALL incluir `src/index.html` con metad
 - GIVEN los estilos globales están cargados
 - WHEN un componente del shell o de una vista usa variables `--app-*` definidas en `src/styles.css`
 - THEN los valores son consistentes en toda la SPA salvo override documentado en `design.md`
+
+### Requirement: Coherencia comprobable del bootstrap (**#4**)
+
+Los artefactos de arranque SHALL permanecer alineados entre sí: `environment.ts` y `environment.prod.ts` (flags `production`, `apiUrl`, `useCotizacionesMock`), `proxy.conf.json` (prefijo `/api` y reescritura acordada), `angular.json` (sustitución de entorno en build de producción, `proxyConfig` en `ng serve` development, estilos y assets `public/` en test), y `app.config.ts` (inyección de `API_BASE_URL` coherente con `environment.apiUrl`). La verificación automatizada SHALL enlazar a este requisito (véase `design.md` § QA).
+
+#### Scenario: Entorno de desarrollo vs producción
+
+- GIVEN el código fuente del destino
+- WHEN se inspeccionan `environment.ts` y `environment.prod.ts`
+- THEN el desarrollo SHALL tener `useCotizacionesMock` habilitado por defecto y la producción SHALL tenerlo deshabilitado, sin secretos en cliente
+
+#### Scenario: Proxy y build
+
+- GIVEN `proxy.conf.json` y `angular.json`
+- WHEN se valida la configuración de desarrollo
+- THEN `ng serve` (development) SHALL referenciar el proxy y el build de producción SHALL aplicar `fileReplacements` a `environment.prod.ts`
+
+#### Scenario: HTML y CSS globales en disco
+
+- GIVEN el repositorio en CI o máquina de desarrollo
+- WHEN se ejecuta el script documentado de verificación estática
+- THEN `src/index.html` SHALL declarar `lang` explícito y `src/styles.css` SHALL definir tokens `--app-*` y reglas de foco accesible según escenarios anteriores

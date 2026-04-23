@@ -92,20 +92,24 @@ Cuando exista baseline React:
 
 | Requisito OpenSpec (resumen) | Catálogo | Fichero(s) de prueba |
 |-----------------------------|----------|----------------------|
+| `frontend-shell` (delta) — coherencia bootstrap: entornos, proxy, `angular.json`, `API_BASE_URL` | **#4** | `src/bootstrap.spec.ts` |
+| `frontend-shell` (delta) — HTML `lang`, tokens `--app-*`, `:focus-visible`, carpeta `public/` | **#4** | `npm run verify:bootstrap` → `scripts/verify-bootstrap.mjs` |
 | `frontend-shell` — shell accesible, regiones, navegación a cotizaciones | **#1** | `main-layout.component.spec.ts` |
 | `frontend-shell` — raíz redirige a `/cotizaciones`, wildcard coherente | **#1** | `app.routes.integration.spec.ts` |
 | `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos | **#2** | `cotizaciones-list.component.spec.ts` |
 | `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts` |
 
-**Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para shell (**#1**), listado (**#2**) y saneo de errores (**#6**). Tras Ola 1, añadir pruebas de contrato HTTP alineadas al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
+**Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para bootstrap (**#4**), shell (**#1**), listado (**#2**) y saneo de errores (**#6**). En CI, ejecutar `npm run verify:bootstrap` además de `ng test` para cubrir ficheros estáticos que Karma no lee del disco. Tras Ola 1, añadir pruebas de contrato HTTP alineadas al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
 
 **Manual (no automatizable sin baseline o sin e2e):** tarea **2.6** — comparación visual desktop y ≤768px legado vs destino; orden y copy exactos del menú legado; capturas en `design.md` o discrepancias. Sin clon del legado, registrar como **laguna** y no afirmar paridad visual.
+
+**Criterios de aceptación comprobables (#4):** (1) `npx ng test --no-watch --browsers=ChromeHeadless` incluye la suite `bootstrap (#4)` en verde; (2) `npm run verify:bootstrap` termina con código 0; (3) `npm run build` compila sin errores. **Regresión:** si se cambia `pathRewrite` del proxy o `apiUrl`, los tests **#4** y la documentación en `design.md` § HTTP SHALL actualizarse en el mismo cambio.
 
 **Hallazgos bloqueantes vs mejoras:** bloqueante para “paridad migración completa”: inventario legado y cierre de **2.6**/**3.2**. No bloqueante: refinar tokens o añadir e2e cuando exista harness.
 
 ## Estado integración
 
-- **Pull request:** https://github.com/excsxavox/migracionfront/pull/17  
+- **Pull request:** https://github.com/excsxavox/migracionfront/pull/19  
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.
