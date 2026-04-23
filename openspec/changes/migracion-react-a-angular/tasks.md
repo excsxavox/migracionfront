@@ -24,7 +24,7 @@ Checklist maestro alineado a [migration-catalog.md](./migration-catalog.md). Cad
 ## Ola 2 — Destino Angular (implementación vs catálogo **#1–4**, **#6** parcial)
 
 - [x] 2.1 **[#1]** Proyecto Angular en raíz (`angular.json`, `package.json`).
-- [x] 2.2 **[#4]** `environment.ts` / `environment.prod.ts`, `proxy.conf.json` y estilos globales mínimos (`src/styles.css`, `src/index.html`, `public/`).
+- [x] 2.2 **[#4]** `environment.ts` / `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/app/app.config.ts`, estilos globales mínimos (`src/styles.css`, `src/index.html`, `public/`).
 - [x] 2.3 **[#1]** Routing y shell: `app.routes.ts`, `MainLayoutComponent`, redirección `/` → `/cotizaciones`.
 - [x] 2.4 **[#2][#3]** Ruta lazy `/cotizaciones`, listado con loading / error / empty / retry, adaptador HTTP y puerto.
 - [x] 2.5 **[#4][#6]** Mensajes HTTP saneados (sin HTML crudo en UI) vía `mapHttpErrorToMessage`; mock dev opcional `useCotizacionesMock` + `cotizacionesMockInterceptor` para `GET …/cotizaciones`; documentado en `design.md` y delta/spec canónico.
