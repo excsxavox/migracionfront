@@ -11,17 +11,17 @@ Cada fila enlaza al catálogo por **#** (ver [migration-catalog.md](./migration-
 | # | Legado (origen) | Destino (Angular) | Notas |
 |---|-----------------|-------------------|--------|
 | **#1** | *TBD: layout raíz y rutas del SPA React (tras inventario)* | `src/app/shell/layout/main-layout.component.ts`, `src/app/app.routes.ts` | Raíz redirige a `/cotizaciones`. Paridad de copy/enlaces cuando exista clon del legado. |
-| **#2** | *TBD: pantalla de listado y estilos de módulo en legado* | `src/app/features/cotizaciones/pages/cotizaciones-list/`, rutas lazy `cotizaciones.routes.ts` | Estados loading / error / empty; consume `CotizacionesPort` (**#3**). Paridad densa vs legado pendiente inventario. |
-| **#3** | *TBD: cliente HTTP / hooks que obtengan cotizaciones* | `cotizaciones.http-adapter.ts` implementando `CotizacionesPort`; tokens `API_BASE_URL`, `COTIZACIONES_LIST_RELATIVE_PATH`; registro en `app.config.ts` (coordinado con bootstrap **#4**) | `GET` bajo `join(apiUrl, cotizacionesListRelativePath)` (por defecto `/cotizaciones`; **hipótesis**). Normaliza array plano o envolturas comunes. Errores HTTP como `Error` con mensaje vía **#6** (`mapHttpErrorToMessage`). Ajustar path y campos al contrastar con el legado. |
-| **#4** | *TBD: variables de entorno, proxy y estilos globales del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` con `pathRewrite` de `/api` a raíz del backend (ajustar al backend real). Mock opcional en dev (**#6**): `useCotizacionesMock` + `cotizacionesMockInterceptor` registrados vía `provideHttpClient` en `app.config.ts`; desactivar con API real. |
+| **#2** | *TBD: variables de entorno, proxy y estilos globales del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `cotizaciones-mock.interceptor.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` (ajustar al backend real). Mock opcional en dev: `useCotizacionesMock` + interceptor para `GET …/cotizaciones`; desactivar con API real. |
+| **#3** | *TBD: cliente HTTP / hooks que obtengan cotizaciones* | `src/app/infrastructure/adapters/cotizaciones.http-adapter.ts` implementando `CotizacionesPort` | `GET` relativo a `environment.apiUrl` + `/cotizaciones`. Normaliza array plano o `{ data: [] }`. Ajustar path y mapeo al contrastar con el legado. |
+| **#4** | *TBD: variables de entorno del legado* | `src/environments/environment.ts`, `environment.prod.ts`, `proxy.conf.json`, `angular.json`, `src/styles.css`, `src/index.html`, `public/`, `src/app/app.config.ts` | Sin secretos en cliente. Proxy: prefijo `/api` → `http://localhost:3000` con `pathRewrite` de `/api` a raíz del backend (ajustar al backend real). Mock opcional en dev (**#6**): `useCotizacionesMock` + `cotizacionesMockInterceptor` registrados vía `provideHttpClient` en `app.config.ts`; desactivar con API real. |
 | **#5** | *TBD: demás rutas del SPA legado* | *Por definir* bajo `src/app/features/…` | Añadir fila por pantalla al inventariar. |
-| **#6** | *TBD: manejo de fallos API en legado* | `mapHttpErrorToMessage` + UI de error en listado (**#2**); `cotizacionesMockInterceptor` (dev, bandera `useCotizacionesMock`) | Mensajes controlados: no HTML del servidor como contenido principal; mock dev documentado para API ausente (**#4** / **#6**). |
+| **#6** | *TBD: manejo de fallos API en legado* | `mapHttpErrorToMessage` + UI de error en listado; `cotizacionesMockInterceptor` (dev, bandera `useCotizacionesMock`) | Mensajes controlados: no HTML del servidor como contenido principal; mock dev documentado para API ausente (**#2**). |
 
 **Catálogo maestro (DoD, dependencias, olas, riesgos):** [migration-catalog.md](./migration-catalog.md) — filas **#1–#6**; ampliar **#5** al completar inventario del legado.
 
 **Riesgo API (resumen):** el adaptador asume `GET` bajo `{apiUrl}{cotizacionesListRelativePath}` (por defecto `/cotizaciones`) hasta contrastar con el legado (**hipótesis**); si el backend devuelve HTML en errores, la política de mensajes (**#6**, `http-error.mapper` y spec canónico) SHALL evitar mostrar ese HTML crudo en la UI.
 
-**Riesgo diseño:** el destino no declara Material ni otro DS en dependencias; la paridad visual con el legado depende de inventario de tokens y componentes React (**inferencia:** sin ese inventario, **#1**, **#2**, **#4** y **#5** tienen riesgo de deriva visual). **#3** no tiene UI; el riesgo ahí es de contrato HTTP y envolturas de respuesta.
+**Riesgo diseño:** el destino no declara Material ni otro DS en dependencias; la paridad visual con el legado depende de inventario de tokens y componentes React (**inferencia:** sin ese inventario, **#1**, **#2**, **#4** y **#5** tienen riesgo de deriva visual).
 
 **Plan vs hecho:** la estructura SDD (dominios `lineamientos`, `frontend-shell`, `cotizaciones-ui`) y el comando `/opsx:sync` están **hechos** en el repo destino; las filas concretas de rutas/componentes siguen **plan — pendiente** por acceso al legado (véase discrepancia `LEGACY_REPO_UNAVAILABLE`). El catálogo incorpora columna **Tipo** y orden **shell** primero (**hecho** en OpenSpec).
 
@@ -44,16 +44,15 @@ Mientras el baseline React no sea contrastable, la revisión se limita a `opensp
 | Ruta comodín no deja pantalla huérfana | Cumple: `**` → `''` (reentra al layout y redirección a cotizaciones). |
 | Cabecera, marca y enlace al dominio cotizaciones | Cumple: cabecera con marca y nav a `/cotizaciones`; marca e «Inicio» marcan activo en ruta cotizaciones (`routerLinkActive`). |
 | Accesibilidad: skip link, foco visible, regiones semánticas | Cumple: skip link a `#main-content`; `role="banner"`; `aria-label` en nav; estilos `:focus-visible` / skip-link enfocable. |
-| Título de documento coherente con el producto | Ajustado: `index.html` `lang="es-MX"` (o locale acordado), `<title>Cotizaciones</title>`; rutas con `title` para pestaña del navegador. |
+| Título de documento coherente con el producto | Ajustado: `index.html` `lang="es"`, `<title>Cotizaciones</title>`; rutas con `title` para pestaña del navegador. |
 | Paridad rutas/copy/layout vs legado | **No contrastable** hasta inventario (catálogo **#1** columnas legado TBD; discrepancia `LEGACY_REPO_UNAVAILABLE`). |
 
 ## Strangler y orden de sustitución (módulo a módulo)
 
 1. **Shell y routing** del legado → `frontend-shell` en Angular (layout, outlet, guards visibles) — catálogo **#1**.
-2. **Entorno, proxy y tema global** — catálogo **#4** (base para paridad visual y llamadas HTTP).
-3. **Cliente HTTP del dominio** — catálogo **#3** (adaptador + puerto, alineable al contrato legado).
-4. **Módulo cotizaciones** (o el primero confirmado en el árbol React) → ruta lazy y pantalla lista — **#2**; resiliencia y mock dev — **#6** (coordinado con **#4**).
-5. **Módulos satélite** en el orden de dependencia detectada en el legado (menos acoplados primero), documentando cada paso en la tabla de equivalencias — **#5**.
+2. **Entorno, proxy y tema global** — catálogo **#2** (base para paridad visual y llamadas HTTP).
+3. **Módulo cotizaciones** (o el primero confirmado en el árbol React) → ruta lazy `cotizaciones-ui` con paridad de flujos — **#3**, **#4**, **#6**.
+4. **Módulos satélite** en el orden de dependencia detectada en el legado (menos acoplados primero), documentando cada paso en la tabla de equivalencias — **#5**.
 
 **Feature flags:** SHOULD usarse solo para coexistencia temporal o despliegue progresivo; cada flag MUST tener dueño, criterio de retirada y mención en `proposal.md` o aquí.
 
@@ -69,10 +68,10 @@ Hasta el inventario (**#1**, **#4**), el destino usa layout propio (cabecera cla
 Cuando exista baseline React:
 
 - **Tokens / color:** contrastar con paleta del legado; si el destino adopta design system distinto, registrar **discrepancia intencional** en esta sección y en `proposal.md` (columna *Paridad diseño* del catálogo).
-- **Grid y densidad:** alinear breakpoints y espaciado a componentes legados equivalentes (**#1**, **#2**, **#4**).
+- **Grid y densidad:** alinear breakpoints y espaciado a componentes legados equivalentes (**#1**, **#4**).
 - **Componentes UI:** seguir `.cursor/rules/use-custom-ui-components.mdc` y `use-global-color-palette.mdc` al sustituir estilos inline del legado por patrones Angular reutilizables.
 
-## HTTP en desarrollo y ausencia de API (**#3**, **#4**, **#6**)
+## HTTP en desarrollo y ausencia de API (**#2**, **#6**)
 
 - **`environment.apiUrl`** y **`environment.cotizacionesListRelativePath`:** el adaptador (**#3**) construye `GET` como `apiUrl` + path relativo (por defecto `/cotizaciones`). En `ng serve`, `/api` pasa por `proxy.conf.json` al backend local (`http://localhost:3000` por defecto), con reescritura para que `/api/...` llegue al backend sin el prefijo `/api` salvo que el despliegue use otro contrato (documentar discrepancia).
 - **`provideHttpClient(withInterceptors([cotizacionesMockInterceptor]))`** en `app.config.ts` (**#4**): si `useCotizacionesMock` es verdadero y no es producción, el interceptor responde al mismo URL que el adaptador con datos de demostración; en caso contrario la petición sigue al backend y los fallos se muestran vía `mapHttpErrorToMessage` (**#6**, sin HTML crudo).

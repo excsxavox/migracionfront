@@ -6,11 +6,11 @@
 
 Cada **#** es una unidad de trazabilidad (feature o pantalla coherente). La columna **Tipo** (`shell` \| `feature`) alimenta el **Foreach** del flujo de migración (véase **Lista plana para Foreach**: bootstrap **#4** antes del shell **#1**). Las columnas **Ruta(s) legado** y **Paths componentes legado** (incl. estilos globales, variables de tema, assets) SHALL completarse tras clon e inventario; mientras el legado no sea clonable, SHALL usarse el marcador **`LEGACY_PATH_PENDING`** (véase discrepancia `LEGACY_REPO_UNAVAILABLE`).
 
-**Regla de oro:** la única fila **Tipo = `shell`** (**#1**) cubre el marco de aplicación (layout, router, nav); **#4** (bootstrap global: env, proxy, `index`, CSS) es **feature** pero SHALL ejecutarse antes de **#1** en la **Lista plana para Foreach** (véase más abajo). Sin shell + bootstrap documentados, la paridad «producto real» frente al legado no es contrastable.
+**Regla de oro:** las primeras filas del catálogo (**#1**, **#2**, … en orden) con **Tipo = `shell`** cubren el **marco global** del legado (layout raíz, router-outlet, cabecera/marca, navegación principal, tokens/tema/responsive base, proxy/env). Sin ellas, paridad «producto real» vs una pantalla suelta no es contrastable.
 
 **Dato:** mientras el remoto del legado responda *repository not found* (`git ls-remote` / clon en este entorno), el estado refleja **laguna de baseline** en `openspec/sync/discrepancies/2026-04-22-legacy-repo-unavailable.md`. **Dato (verificación en este clone, 2026-04-22):** `git ls-remote https://github.com/Fer-Nexti/Designcotizacionesmodule.git` → *repository not found*; no hay árbol legado local en el workspace.
 
-**Hipótesis:** al desbloquear el acceso, las rutas React reales sustituirán los marcadores `LEGACY_PATH_PENDING` sin reinterpretar convenciones OpenSpec del repo.
+**Hipótesis:** al desbloquear el acceso, las rutas React reales sustituirán los marcadores `BLOQUEADO: …` sin reinterpretar convenciones OpenSpec del repo.
 
 **Inferencia:** el destino Angular **no** declara Material ni otro design system en `package.json`; la **paridad visual** frente al legado depende de inventario de tokens y componentes React (**#1**, **#2**, **#4**, **#5**).
 
@@ -55,4 +55,4 @@ Las tareas en `tasks.md` SHALL referenciar el **#** de fila de esta tabla. Los r
 
 ### Referencias históricas (IDs antiguos)
 
-**2026-04-22:** se añadió la columna **Tipo** (una sola fila `shell`: **#1**; **#2–#6** = `feature`) y la **Lista plana para Foreach** (**#4** → **#1** → **#3** → **#2** → **#6** → **#5**) para ejecutar bootstrap global antes del layout de aplicación. Los identificadores **CAT-001…CAT-005** del primer borrador quedan **obsoletos**; usar solo **#** de esta tabla.
+Renumeración **2026-04-22:** se añadió la columna **Tipo** y se reordenó para cumplir la regla **shell primero** (entorno global pasa a **#2**; listado pasa a **#4**). Mapa breve **antes → después**: antigua **#4** (env) → **#2**; antigua **#3** (HTTP) → **#3**; antigua **#2** (lista) → **#4**; **#1**, **#5**, **#6** sin cambio de significado. Los identificadores **CAT-001…CAT-005** del primer borrador quedan **obsoletos**; usar solo **#** de esta tabla.

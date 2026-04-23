@@ -51,7 +51,7 @@ Estado **2026-04-22:** el remoto del legado responde *repository not found* (`gi
 ## Riesgos
 
 - **Regresión de paridad:** sin inventario del legado, el destino puede divergir sin detección; mitigación: **Ola 1** y `/opsx:sync`.
-- **Brecha API:** backend inexistente o `5xx` sin manejo → fallos visibles o HTML crudo; mitigación: fila **#6**, `tasks.md` 2.5 (ref. **#2**, **#4**, **#6**), discrepancias si el contrato difiere del legado.
+- **Brecha API:** backend inexistente o `5xx` sin manejo → fallos visibles o HTML crudo; mitigación: fila **#6**, `tasks.md` 2.5 (ref. **#2**, **#6**), discrepancias si el contrato difiere del legado.
 
 ## Scope
 
