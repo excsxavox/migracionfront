@@ -20,7 +20,7 @@ El destino SHALL cargar la ruta `/cotizaciones` de forma diferida (`loadChildren
 
 - GIVEN el endpoint exacto del legado no está cerrado en el inventario
 - WHEN se implementa el adaptador
-- THEN la URL base y la ruta relativa (`/cotizaciones` sobre `apiUrl`) están centralizadas en configuración (`environment`, proxy; **#4**) y son ajustables sin cambiar la vista
+- THEN la URL base y la ruta relativa del recurso de listado están centralizadas en configuración (`environment.apiUrl`, `environment.cotizacionesListRelativePath`, proxy; **#4**) y son ajustables sin cambiar la vista
 
 ### Requirement: Errores de API sin respuesta cruda al usuario (**#6**)
 
@@ -38,7 +38,7 @@ Ante fallos HTTP o de red en el listado (**#2**), la aplicación SHALL cumplir e
 - WHEN el usuario intenta cargar el listado
 - THEN aparece un estado de error coherente con **#6** (mensaje controlado)
 
-#### Scenario: Mock activo en desarrollo (**#6**, bandera **#4**)
+#### Scenario: Mock activo en desarrollo (**#4** / **#6**)
 
 - GIVEN `environment.useCotizacionesMock` es verdadero y el build no es de producción
 - WHEN la aplicación solicita el listado
