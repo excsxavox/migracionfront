@@ -55,4 +55,4 @@ Las tareas en `tasks.md` SHALL referenciar el **#** de fila de esta tabla. Los r
 
 ### Referencias históricas (IDs antiguos)
 
-Renumeración **2026-04-22:** se añadió la columna **Tipo** y se reordenó para cumplir la regla **shell primero** (entorno global pasa a **#2**; listado pasa a **#4**). Mapa breve **antes → después**: antigua **#4** (env) → **#2**; antigua **#3** (HTTP) → **#3**; antigua **#2** (lista) → **#4**; **#1**, **#5**, **#6** sin cambio de significado. Los identificadores **CAT-001…CAT-005** del primer borrador quedan **obsoletos**; usar solo **#** de esta tabla.
+Solo la tabla **#** de esta página y la **Lista plana para Foreach** son autoritativas para trazabilidad (tests, tareas, deltas). Los identificadores **CAT-001…CAT-005** del primer borrador quedan **obsoletos**. Borradores intermedios de renumeración no deben usarse para enlazar requisitos.
