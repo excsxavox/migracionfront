@@ -142,7 +142,7 @@ Cuando exista baseline React:
 
 ## Estado integración
 
-- **Pull request:** https://github.com/excsxavox/migracionfront/pull/21  
+- **Pull request:** https://github.com/excsxavox/migracionfront/pull/22  
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.
