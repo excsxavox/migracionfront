@@ -28,4 +28,9 @@ describe('mapHttpErrorToMessage', () => {
     const err = new HttpErrorResponse({ status: 0, error: null });
     expect(mapHttpErrorToMessage(err)).toContain('conectar');
   });
+
+  it('returns generic message for non-Error unknown values', () => {
+    expect(mapHttpErrorToMessage('raw-string')).toBe('Ha ocurrido un error inesperado.');
+    expect(mapHttpErrorToMessage(null)).toBe('Ha ocurrido un error inesperado.');
+  });
 });

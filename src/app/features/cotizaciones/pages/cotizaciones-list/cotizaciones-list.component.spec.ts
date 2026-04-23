@@ -7,9 +7,9 @@ import { CotizacionesListComponent } from './cotizaciones-list.component';
 
 /**
  * Trazabilidad OpenSpec:
- * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos (Scenario: Carga inicial, Error de red o HTTP, Lista vacía, Datos mostrados)
- * - openspec/changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md — Listado bajo ruta lazy (**#2**)
- * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado), **#6** (mensaje de error saneado)
+ * - openspec/specs/cotizaciones-ui/spec.md — Requirement: Listado con estados explícitos; Errores de API sin presentación cruda
+ * - openspec/changes/migracion-react-a-angular/specs/cotizaciones-ui/spec.md — Listado bajo ruta lazy (**#2**); errores sin respuesta cruda (**#6**)
+ * - openspec/changes/migracion-react-a-angular/migration-catalog.md — **#2** (listado), **#6** (mensaje de error saneado / mapeo en vista)
  */
 describe('CotizacionesListComponent', () => {
   let fixture: ComponentFixture<CotizacionesListComponent>;

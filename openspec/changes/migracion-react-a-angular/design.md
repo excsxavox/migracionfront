@@ -129,13 +129,14 @@ Cuando exista baseline React:
 
 ## Revisión errores HTTP y mock **#6** (solo destino; baseline legado bloqueado)
 
-**Fecha:** 2026-04-23. **Fuentes destino:** `http-error.mapper.ts` + `http-error.mapper.spec.ts`; `cotizaciones-mock.interceptor.ts` (misma composición de URL que adaptador **#3**); `cotizaciones-list.component.ts` (handler `error` con `mapHttpErrorToMessage` para cualquier fallo del observable); pruebas en `cotizaciones-list.component.spec.ts` (errores no-`Error` y `Error` con cuerpo tipo HTML document). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`).
+**Fecha:** 2026-04-23. **Fuentes destino:** `src/app/infrastructure/http/http-error.mapper.ts` + `http-error.mapper.spec.ts`; `src/app/infrastructure/interceptors/cotizaciones-mock.interceptor.ts` (misma composición de URL que adaptador **#3**); `src/app/features/cotizaciones/pages/cotizaciones-list/cotizaciones-list.component.ts` (handler `error` con `mapHttpErrorToMessage` para cualquier fallo del observable); pruebas en `cotizaciones-list.component.spec.ts` (errores no-`Error`, `Error` con cuerpo tipo documento HTML, `role="alert"` y segundo `listar` al reintentar). **Legado:** no contrastable (`LEGACY_REPO_UNAVAILABLE`).
 
-| Criterio (destino / **#6**) | Hallazgo breve |
-|----------------------------|----------------|
-| Sin HTML crudo en UI ante fallo | Adaptador envuelve `HttpErrorResponse` en `Error(mapHttpErrorToMessage(err))`; la vista aplica de nuevo `mapHttpErrorToMessage` en el subscribe (defensa si el puerto emite otro tipo de fallo). |
-| Mock dev | `useCotizacionesMock` + interceptor solo fuera de producción; URL alineada a `environment.apiUrl` + `cotizacionesListRelativePath`. |
-| Pendiente Ola 1 | Mensajes y política de reintentos vs comportamiento exacto del legado React. |
+| Criterio (destino / `cotizaciones-ui` + catálogo **#6**) | Hallazgo breve |
+|--------------------------------------------------------|----------------|
+| Sin HTML crudo en UI ante fallo | Adaptador envuelve `HttpErrorResponse` en `Error(mapHttpErrorToMessage(err))`; la vista aplica de nuevo `mapHttpErrorToMessage` en el `subscribe` (defensa si el puerto emite otro tipo de fallo o mensaje inseguro). |
+| Mensajes acotados | `mapHttpErrorToMessage` recorta y detecta documentos HTML; casos adicionales en `http-error.mapper.spec.ts`. |
+| Mock dev | `useCotizacionesMock` + interceptor solo fuera de producción; URL alineada a `environment.apiUrl` + `cotizacionesListRelativePath`; cuerpo demo documentado en catálogo **#6** / **#4**. |
+| Paridad mensajes vs legado | **No contrastable** hasta inventario Ola 1 (política de reintentos y copy exactos del legado React). |
 
 ## Riesgos
 
@@ -159,7 +160,7 @@ Cuando exista baseline React:
 | `cotizaciones-ui` — listado: carga, error+reintentar, vacío, datos; error saneado (**#6**) | **#2**, **#6** | `cotizaciones-list.component.spec.ts` |
 | `cotizaciones-ui` — ruta lazy `/cotizaciones` + stack HTTP real + mock dev (datos visibles) | **#2**, **#4**, **#6** | `cotizaciones.routes.integration.spec.ts` |
 | `cotizaciones-ui` — adaptador: normalización de payload y URL | **#3** | `cotizaciones.http-adapter.spec.ts` |
-| `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts` |
+| `cotizaciones-ui` — mensajes HTTP sin HTML crudo | **#6** | `http-error.mapper.spec.ts`, `cotizaciones-list.component.spec.ts` (mapeo defensivo en vista) |
 
 **Cobertura deseada (orientación, no umbral duro hasta baseline):** mantener al menos un caso por escenario **MUST/SHALL** en specs anteriores para bootstrap (**#4**), shell (**#1**), listado (**#2**), adaptador HTTP (**#3**) y saneo de errores (**#6**). En CI, ejecutar `npm run verify:bootstrap` además de `ng test` para cubrir ficheros estáticos que Karma no lee del disco. Tras Ola 1, refinar pruebas de contrato HTTP al contrato legado y, si el equipo lo adopta, e2e (Playwright/Cypress) para la **Lista plana para Foreach** por pantalla crítica.
 
@@ -175,7 +176,7 @@ Cuando exista baseline React:
 
 ## Estado integración
 
-- **Pull request:** https://github.com/excsxavox/migracionfront/pull/23  
+- **Pull request:** actualizar al PR abierto desde la rama de trabajo (véase último push en `origin/cursor/wf-2d3be0b19b3e4c`).  
 - **Rama de trabajo:** `cursor/wf-2d3be0b19b3e4c` → remoto `origin/cursor/wf-2d3be0b19b3e4c`.
 
 Si el PR queda **cerrado sin merge**, el trabajo permanece en los commits de esa rama: **reabrir el mismo PR**, **abrir un PR nuevo** desde `cursor/wf-2d3be0b19b3e4c`, o **cherry-pick** los commits a la rama objetivo acordada con el equipo. Tras merge a `main`, ejecutar `/opsx:sync` o el flujo de merge de deltas OpenSpec definido en el repo.
